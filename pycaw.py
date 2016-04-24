@@ -28,6 +28,20 @@ CLSID_MMDeviceEnumerator = GUID(
     '{BCDE0395-E52F-467C-8E3D-C4579291692E}')
 
 
+class ERole(Enum):
+    eConsole = 0
+    eMultimedia = 1
+    eCommunications = 2
+    ERole_enum_count = 3
+
+
+class EDataFlow(Enum):
+    eRender = 0
+    eCapture = 1
+    eAll = 2
+    EDataFlow_enum_count = 3
+
+
 class IAudioEndpointVolume(comtypes.IUnknown):
     _iid_ = IID_IAudioEndpointVolume
     _methods_ = (
@@ -114,3 +128,12 @@ class IAudioEndpointVolume(comtypes.IUnknown):
                   (['out'], POINTER(c_float), 'pfMin'),
                   (['out'], POINTER(c_float), 'pfMax'),
                   (['out'], POINTER(c_float), 'pfIncr')))
+
+
+class IMMDeviceCollection(comtypes.IUnknown):
+    _iid_ = IID_IMMDeviceCollection
+    _methods_ = (
+        # HRESULT GetCount([out] UINT *pcDevices);
+        COMMETHOD([], HRESULT, 'NotImpl1'),
+        # HRESULT Item([in] UINT nDevice, [out] IMMDevice **ppDevice);
+        COMMETHOD([], HRESULT, 'NotImpl2'))
