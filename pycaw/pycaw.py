@@ -261,3 +261,25 @@ class IMMDevice(comtypes.IUnknown):
         COMMETHOD([], HRESULT, 'NotImpl2'),
         # HRESULT GetState([out] DWORD *pdwState);
         COMMETHOD([], HRESULT, 'NotImpl3'))
+
+
+class IMMDeviceEnumerator(comtypes.IUnknown):
+    _iid_ = IID_IMMDeviceEnumerator
+    _methods_ = (
+        # HRESULT EnumAudioEndpoints(
+        # [in] EDataFlow dataFlow,
+        # [in] DWORD dwStateMask,
+        # [out] IMMDeviceCollection **ppDevices);
+        COMMETHOD([], HRESULT, 'EnumAudioEndpoints',
+                  (['in'], DWORD, 'dataFlow'),
+                  (['in'], DWORD, 'dwStateMask'),
+                  (['out'],
+                  POINTER(POINTER(IMMDeviceCollection)), 'ppDevices')),
+        # HRESULT GetDefaultAudioEndpoint(
+        # [in] EDataFlow dataFlow,
+        # [in] ERole role,
+        # [out] IMMDevice **ppDevice);
+        COMMETHOD([], HRESULT, 'GetDefaultAudioEndpoint',
+                  (['in'], DWORD, 'dataFlow'),
+                  (['in'], DWORD, 'role'),
+                  (['out'], POINTER(POINTER(IMMDevice)), 'ppDevices')))
