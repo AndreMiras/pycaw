@@ -168,5 +168,18 @@ class IAudioSessionControl(comtypes.IUnknown):
         COMMETHOD([], HRESULT, 'NotImpl7'),
         # HRESULT UnregisterAudioSessionNotification(
         # [in] IAudioSessionEvents *NewNotifications);
-        COMMETHOD([], HRESULT, 'NotImpl8'),
-        )
+        COMMETHOD([], HRESULT, 'NotImpl8'))
+
+
+class IAudioSessionControl2(IAudioSessionControl):
+    _iid_ = IID_IAudioSessionControl2
+    _methods_ = (
+        # HRESULT GetSessionIdentifier([out] LPWSTR *pRetVal);
+        COMMETHOD([], HRESULT, 'NotImpl1'),
+        # HRESULT GetSessionInstanceIdentifier([out] LPWSTR *pRetVal);
+        COMMETHOD([], HRESULT, 'NotImpl2'),
+        # HRESULT GetProcessId([out] DWORD *pRetVal);
+        COMMETHOD([], HRESULT, 'GetProcessId',
+                  (['out'], POINTER((DWORD)), 'pRetVal')),
+        # HRESULT IsSystemSoundsSession();
+        COMMETHOD([], HRESULT, 'IsSystemSoundsSession'))
