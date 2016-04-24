@@ -215,3 +215,26 @@ class IAudioSessionManager(comtypes.IUnknown):
         # [in] DWORD CrossProcessSession,
         # [out] ISimpleAudioVolume **AudioVolume);
         COMMETHOD([], HRESULT, 'NotImpl2'))
+
+
+class IAudioSessionManager2(IAudioSessionManager):
+    _iid_ = IID_IAudioSessionManager2
+    _methods_ = (
+        # HRESULT GetSessionEnumerator(
+        # [out] IAudioSessionEnumerator **SessionList);
+        COMMETHOD([], HRESULT, 'GetSessionEnumerator',
+                  (['out'],
+                  POINTER(POINTER(IAudioSessionEnumerator)), 'SessionList')),
+        # HRESULT RegisterSessionNotification(
+        # IAudioSessionNotification *SessionNotification);
+        COMMETHOD([], HRESULT, 'NotImpl1'),
+        # HRESULT UnregisterSessionNotification(
+        # IAudioSessionNotification *SessionNotification);
+        COMMETHOD([], HRESULT, 'NotImpl2'),
+        # HRESULT RegisterDuckNotification(
+        # LPCWSTR SessionID,
+        # IAudioVolumeDuckNotification *duckNotification);
+        COMMETHOD([], HRESULT, 'NotImpl1'),
+        # HRESULT UnregisterDuckNotification(
+        # IAudioVolumeDuckNotification *duckNotification);
+        COMMETHOD([], HRESULT, 'NotImpl2'))
