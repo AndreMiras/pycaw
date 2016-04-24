@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='pycaw',
-      version='1.0',
+      version='20160424',
       description='Python Core Audio Windows Library',
       author='Andre Miras',
       url='https://github.com/AndreMiras/pycaw',
