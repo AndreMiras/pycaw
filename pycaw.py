@@ -17,6 +17,8 @@ IID_IMMDeviceEnumerator = GUID(
     '{A95664D2-9614-4F35-A746-DE8DB63617E6}')
 IID_IAudioSessionEnumerator = GUID(
     '{E2F5BB11-0570-40CA-ACDD-3AA01277DEE8}')
+IID_IAudioSessionManager = GUID(
+    '{BFA971F1-4d5e-40bb-935e-967039bfbee4}')
 IID_IAudioSessionManager2 = GUID(
     '{77aa99a0-1bd6-484f-8bc7-2c654c9a9b6f}')
 IID_IAudioSessionControl = GUID(
@@ -198,3 +200,18 @@ class IAudioSessionEnumerator(comtypes.IUnknown):
                   (['in'], INT, 'SessionCount'),
                   (['out'],
                    POINTER(POINTER(IAudioSessionControl)), 'Session')))
+
+
+class IAudioSessionManager(comtypes.IUnknown):
+    _iid_ = IID_IAudioSessionManager
+    _methods_ = (
+        # HRESULT GetAudioSessionControl(
+        # [in] LPCGUID AudioSessionGuid,
+        # [in] DWORD StreamFlags,
+        # [out] IAudioSessionControl **SessionControl);
+        COMMETHOD([], HRESULT, 'NotImpl1'),
+        # HRESULT GetSimpleAudioVolume(
+        # [in] LPCGUID AudioSessionGuid,
+        # [in] DWORD CrossProcessSession,
+        # [out] ISimpleAudioVolume **AudioVolume);
+        COMMETHOD([], HRESULT, 'NotImpl2'))
