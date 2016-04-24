@@ -7,4 +7,5 @@ setup(name='pycaw',
       description='Python Core Audio Windows Library',
       author='Andre Miras',
       url='https://github.com/AndreMiras/pycaw',
-      packages=['pycaw'])
+      packages=['pycaw'],
+      install_requires=['comtypes', 'enum', 'psutil'])
