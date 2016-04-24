@@ -238,3 +238,26 @@ class IAudioSessionManager2(IAudioSessionManager):
         # HRESULT UnregisterDuckNotification(
         # IAudioVolumeDuckNotification *duckNotification);
         COMMETHOD([], HRESULT, 'NotImpl2'))
+
+
+class IMMDevice(comtypes.IUnknown):
+    _iid_ = IID_IMMDevice
+    _methods_ = (
+        # HRESULT Activate(
+        # [in] REFIID iid,
+        # [in] DWORD dwClsCtx,
+        # [in] PROPVARIANT *pActivationParams,
+        # [out] void **ppInterface);
+        COMMETHOD([], HRESULT, 'Activate',
+                  (['in'], POINTER(GUID), 'iid'),
+                  (['in'], DWORD, 'dwClsCtx'),
+                  (['in'], POINTER(DWORD), 'pActivationParams'),
+                  (['out'], POINTER(c_void_p), 'ppInterface')),
+        # HRESULT OpenPropertyStore(
+        # [in] DWORD stgmAccess,
+        # [out] IPropertyStore **ppProperties);
+        COMMETHOD([], HRESULT, 'NotImpl1'),
+        # HRESULT GetId([out] LPWSTR *ppstrId);
+        COMMETHOD([], HRESULT, 'NotImpl2'),
+        # HRESULT GetState([out] DWORD *pdwState);
+        COMMETHOD([], HRESULT, 'NotImpl3'))
