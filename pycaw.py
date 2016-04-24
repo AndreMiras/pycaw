@@ -137,3 +137,36 @@ class IMMDeviceCollection(comtypes.IUnknown):
         COMMETHOD([], HRESULT, 'NotImpl1'),
         # HRESULT Item([in] UINT nDevice, [out] IMMDevice **ppDevice);
         COMMETHOD([], HRESULT, 'NotImpl2'))
+
+
+class IAudioSessionControl(comtypes.IUnknown):
+    _iid_ = IID_IAudioSessionControl
+    _methods_ = (
+        # HRESULT GetState ([out] AudioSessionState *pRetVal);
+        COMMETHOD([], HRESULT, 'NotImpl1'),
+        # HRESULT GetDisplayName([out] LPWSTR *pRetVal);
+        COMMETHOD([], HRESULT, 'GetDisplayName',
+                  (['out'], POINTER(LPWSTR), 'pRetVal')),
+        # HRESULT SetDisplayName(
+        # [in] LPCWSTR Value,
+        # [in] LPCGUID EventContext);
+        COMMETHOD([], HRESULT, 'NotImpl2'),
+        # HRESULT GetIconPath([out] LPWSTR *pRetVal);
+        COMMETHOD([], HRESULT, 'NotImpl3'),
+        # HRESULT SetIconPath(
+        # [in] LPCWSTR Value,
+        # [in] LPCGUID EventContext);
+        COMMETHOD([], HRESULT, 'NotImpl4'),
+        # HRESULT GetGroupingParam([out] GUID *pRetVal);
+        COMMETHOD([], HRESULT, 'NotImpl5'),
+        # HRESULT SetGroupingParam(
+        # [in] LPCGUID Grouping,
+        # [in] LPCGUID EventContext);
+        COMMETHOD([], HRESULT, 'NotImpl6'),
+        # HRESULT RegisterAudioSessionNotification(
+        # [in] IAudioSessionEvents *NewNotifications);
+        COMMETHOD([], HRESULT, 'NotImpl7'),
+        # HRESULT UnregisterAudioSessionNotification(
+        # [in] IAudioSessionEvents *NewNotifications);
+        COMMETHOD([], HRESULT, 'NotImpl8'),
+        )
