@@ -183,3 +183,18 @@ class IAudioSessionControl2(IAudioSessionControl):
                   (['out'], POINTER((DWORD)), 'pRetVal')),
         # HRESULT IsSystemSoundsSession();
         COMMETHOD([], HRESULT, 'IsSystemSoundsSession'))
+
+
+class IAudioSessionEnumerator(comtypes.IUnknown):
+    _iid_ = IID_IAudioSessionEnumerator
+    _methods_ = (
+        # HRESULT GetCount([out] int *SessionCount);
+        COMMETHOD([], HRESULT, 'GetCount',
+                  (['out'], POINTER(INT), 'SessionCount')),
+        # HRESULT GetSession(
+        # [in] int SessionCount,
+        # [out] IAudioSessionControl **Session);
+        COMMETHOD([], HRESULT, 'GetSession',
+                  (['in'], INT, 'SessionCount'),
+                  (['out'],
+                   POINTER(POINTER(IAudioSessionControl)), 'Session')))
