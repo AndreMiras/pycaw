@@ -330,3 +330,174 @@ class IMMDeviceEnumerator(comtypes.IUnknown):
                   (['in'], DWORD, 'role'),
                   (['out'], POINTER(POINTER(IMMDevice)), 'ppDevices')))
 
+
+class AudioDevice(object):
+    """
+    http://stackoverflow.com/a/20982715/185510
+    """
+    def __init__(self, id, state, properties):
+        self.id = id
+        self.state = state
+        self.properties = properties
+
+    def FriendlyName(self):
+        DEVPKEY_Device_FriendlyName = \
+            "{a45c254e-df1c-4efd-8020-67d146a850e0} 14"
+        value = self.properties.TryGetValue(DEVPKEY_Device_FriendlyName)
+        return value
+
+
+class AudioSession(object):
+    """
+    http://stackoverflow.com/a/20982715/185510
+    """
+
+    def __init__(self, audio_session_control2):
+        self._ctl = audio_session_control2
+        self._process = None
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self._ctl is not None:
+            # Marshal.ReleaseComObject(_ctl);
+            self._ctl = None
+
+    def __str__(self):
+        return unicode(self).encode('utf-8')
+
+    def __unicode__(self):
+        s = self.DisplayName
+        if s:
+            return "DisplayName: " + s
+        if self.Process is not None:
+            return "Process: " + self.Process.ProcessName
+        return "Pid: " + self.ProcessId
+
+    @property
+    def Process(self):
+        if self._process is None and self.ProcessId != 0:
+            self._process = psutil.Process(self.ProcessId)
+        return self._process
+
+    @property
+    def ProcessId(self):
+        self.CheckDisposed()
+        i = self._ctl.GetProcessId()
+        return i
+
+    @property
+    def Identifier(self):
+        self.CheckDisposed()
+        s = self._ctl.GetSessionIdentifier()
+        return s
+
+    @property
+    def InstanceIdentifier(self):
+        self.CheckDisposed()
+        s = self._ctl.GetSessionInstanceIdentifier()
+        return s
+
+    @property
+    def State(self):
+        self.CheckDisposed()
+        s = self._ctl.GetState()
+        return s
+
+    @property
+    def GroupingParam(self):
+        self.CheckDisposed()
+        g = self._ctl.GetGroupingParam()
+        return g
+
+    @GroupingParam.setter
+    def GroupingParam(self, value):
+        self.CheckDisposed()
+        self._ctl.SetGroupingParam(value, IID_Empty)
+
+    @property
+    def DisplayName(self):
+        self.CheckDisposed()
+        s = self._ctl.GetDisplayName()
+        return s
+
+    @DisplayName.setter
+    def DisplayName(self, value):
+        self.CheckDisposed()
+        s = self._ctl.GetDisplayName()
+        if s != value:
+            self._ctl.SetDisplayName(value, IID_Empty)
+
+    @property
+    def IconPath(self):
+        self.CheckDisposed()
+        s = self._ctl.GetIconPath()
+        return s
+
+    @IconPath.setter
+    def IconPath(self, value):
+        self.CheckDisposed()
+        s = self._ctl.GetIconPath()
+        if s != value:
+            self._ctl.SetIconPath(value, IID_Empty)
+
+    def CheckDisposed(self):
+        if self._ctl is None:
+            raise Exception("ObjectDisposedException()")
+
+
+class AudioUtilities(object):
+    """
+    http://stackoverflow.com/a/20982715/185510
+    """
+    @staticmethod
+    def GetSpeakers():
+        """
+        get the speakers (1st render + multimedia) device
+        """
+        deviceEnumerator = comtypes.CoCreateInstance(
+                    CLSID_MMDeviceEnumerator,
+                    IMMDeviceEnumerator,
+                    comtypes.CLSCTX_INPROC_SERVER)
+        speakers = deviceEnumerator.GetDefaultAudioEndpoint(
+                    EDataFlow.eRender, ERole.eMultimedia)
+        return speakers
+
+    @staticmethod
+    def GetAudioSessionManager():
+        speakers = AudioUtilities.GetSpeakers()
+        if speakers is None:
+            return None
+        # win7+ only
+        o = speakers.Activate(
+            IAudioSessionManager2._iid_, comtypes.CLSCTX_ALL, None)
+        mgr = cast(o, POINTER(IAudioSessionManager2))
+        return mgr
+
+    @staticmethod
+    def GetAllSessions():
+        audio_sessions = []
+        mgr = AudioUtilities.GetAudioSessionManager()
+        if mgr is None:
+            return audio_sessions
+        sessionEnumerator = mgr.GetSessionEnumerator()
+        count = sessionEnumerator.GetCount()
+        for i in range(count):
+            ctl = sessionEnumerator.GetSession(i)
+            if ctl is None:
+                continue
+            ctl2 = cast(ctl, POINTER(IAudioSessionControl2))
+            if ctl2 is not None:
+                audio_sessions.append(AudioSession(ctl2))
+        # Marshal.ReleaseComObject(sessionEnumerator);
+        # Marshal.ReleaseComObject(mgr);
+        return audio_sessions
+
+    @staticmethod
+    def GetProcessSession(id):
+        for session in AudioUtilities.GetAllSessions():
+            if session.ProcessId == id:
+                return session
+            # session.Dispose()
+        return None
