@@ -1,14 +1,19 @@
 ﻿"""
 Python wrapper around the Core Audio Windows API.
 """
+import psutil
 import comtypes
 from enum import Enum
-from ctypes import HRESULT, POINTER, c_float, c_void_p
+from ctypes import cast, HRESULT, POINTER, Structure, c_float, c_void_p
 from ctypes.wintypes import BOOL, DWORD, UINT, INT, LPWSTR
 from comtypes import GUID, COMMETHOD
 
+IID_Empty = GUID(
+    '{00000000-0000-0000-0000-000000000000}')
 IID_IAudioEndpointVolume = GUID(
     '{5CDF2C82-841E-4546-9722-0CF74078229A}')
+IID_IPropertyStore = GUID(
+    '{886d8eeb-8cf2-4446-8d02-cdba1dbdcf99}')
 IID_IMMDevice = GUID(
     '{D666063F-1587-4E43-81F1-B948E807363F}')
 IID_IMMDeviceCollection = GUID(
@@ -28,6 +33,10 @@ IID_IAudioSessionControl2 = GUID(
 
 CLSID_MMDeviceEnumerator = GUID(
     '{BCDE0395-E52F-467C-8E3D-C4579291692E}')
+
+
+class PROPVARIANT(DWORD):
+    pass
 
 
 class ERole(Enum):
@@ -240,6 +249,40 @@ class IAudioSessionManager2(IAudioSessionManager):
         COMMETHOD([], HRESULT, 'NotImpl2'))
 
 
+class PROPERTYKEY(Structure):
+    _fields_ = [
+        ('fmtid', GUID),
+        ('pid', DWORD),
+    ]
+
+
+class IPropertyStore(comtypes.IUnknown):
+    _iid_ = IID_IPropertyStore
+    _methods_ = (
+        # HRESULT GetCount([out] DWORD *cProps);
+        COMMETHOD([], HRESULT, 'GetAt',
+                  (['out'], POINTER(DWORD), 'cProps')),
+        # HRESULT GetAt(
+        # [in] DWORD iProp,
+        # [out] PROPERTYKEY *pkey);
+        COMMETHOD([], HRESULT, 'GetAt',
+                  (['in'], DWORD, 'iProp'),
+                  (['out'], POINTER(PROPERTYKEY), 'pkey')),
+        # HRESULT GetValue(
+        # [in] REFPROPERTYKEY key,
+        # [out] PROPVARIANT *pv);
+        COMMETHOD([], HRESULT, 'GetValue',
+                  # (['in'], REFPROPERTYKEY, 'key'),
+                  (['in'], POINTER(PROPERTYKEY), 'key'),
+                  (['out'], POINTER(PROPVARIANT), 'pv')),
+        # HRESULT SetValue([out] LPWSTR *ppstrId);
+        COMMETHOD([], HRESULT, 'SetValue',
+                  (['out'], POINTER(LPWSTR), 'ppstrId')),
+        # HRESULT Commit([out] DWORD *pdwState);
+        COMMETHOD([], HRESULT, 'Commit',
+                  (['out'], POINTER(DWORD), 'pdwState')))
+
+
 class IMMDevice(comtypes.IUnknown):
     _iid_ = IID_IMMDevice
     _methods_ = (
@@ -251,12 +294,15 @@ class IMMDevice(comtypes.IUnknown):
         COMMETHOD([], HRESULT, 'Activate',
                   (['in'], POINTER(GUID), 'iid'),
                   (['in'], DWORD, 'dwClsCtx'),
-                  (['in'], POINTER(DWORD), 'pActivationParams'),
+                  (['in'], POINTER(PROPVARIANT), 'pActivationParams'),
                   (['out'], POINTER(c_void_p), 'ppInterface')),
         # HRESULT OpenPropertyStore(
         # [in] DWORD stgmAccess,
         # [out] IPropertyStore **ppProperties);
-        COMMETHOD([], HRESULT, 'NotImpl1'),
+        COMMETHOD([], HRESULT, 'OpenPropertyStore',
+                  (['in'], DWORD, 'stgmAccess'),
+                  (['out'],
+                  POINTER(POINTER(IPropertyStore)), 'ppProperties')),
         # HRESULT GetId([out] LPWSTR *ppstrId);
         COMMETHOD([], HRESULT, 'NotImpl2'),
         # HRESULT GetState([out] DWORD *pdwState);
@@ -283,3 +329,4 @@ class IMMDeviceEnumerator(comtypes.IUnknown):
                   (['in'], DWORD, 'dataFlow'),
                   (['in'], DWORD, 'role'),
                   (['out'], POINTER(POINTER(IMMDevice)), 'ppDevices')))
+
