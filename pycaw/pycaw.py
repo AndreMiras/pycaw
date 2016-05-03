@@ -573,3 +573,44 @@ class AudioUtilities(object):
             # session.Dispose()
         return None
 
+    @staticmethod
+    def CreateDevice(dev):
+        if dev is None:
+            return None
+        id = dev.GetId()
+        state = dev.GetState()
+        properties = {}
+        store = dev.OpenPropertyStore(STGM.STGM_READ.value)
+        if store is not None:
+            propCount = store.GetCount()
+            for j in range(propCount):
+                pk = store.GetAt(j)
+                value = store.GetValue(pk)
+                v = value.GetValue()
+                # PropVariantClear(byref(value)) # TODO
+                name = unicode(pk)
+                properties[name] = v
+        audioState = AudioDeviceState(state)
+        return AudioDevice(id, audioState, properties)
+
+    @staticmethod
+    def GetAllDevices():
+        devices = []
+        deviceEnumerator = comtypes.CoCreateInstance(
+            CLSID_MMDeviceEnumerator,
+            IMMDeviceEnumerator,
+            comtypes.CLSCTX_INPROC_SERVER)
+        if deviceEnumerator is None:
+            return devices
+
+        collection = deviceEnumerator.EnumAudioEndpoints(
+            EDataFlow.eAll.value, DEVICE_STATE.MASK_ALL.value)
+        if collection is None:
+            return devices
+
+        count = collection.GetCount()
+        for i in range(count):
+            dev = collection.Item(i)
+            if dev is not None:
+                devices.append(AudioUtilities.CreateDevice(dev))
+        return devices
