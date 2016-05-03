@@ -4,9 +4,11 @@ Python wrapper around the Core Audio Windows API.
 import psutil
 import comtypes
 from enum import Enum
-from ctypes import cast, HRESULT, POINTER, Structure, c_float, c_void_p
-from ctypes.wintypes import BOOL, DWORD, UINT, INT, LPWSTR
+from ctypes import cast, HRESULT, POINTER, Structure, Union, c_float, c_void_p
+from ctypes.wintypes import BOOL, VARIANT_BOOL, WORD, DWORD, UINT, INT, LONG, \
+    ULARGE_INTEGER, LPWSTR
 from comtypes import GUID, COMMETHOD
+from comtypes.automation import VARTYPE, VT_BOOL, VT_LPWSTR, VT_UI4, VT_CLSID
 
 IID_Empty = GUID(
     '{00000000-0000-0000-0000-000000000000}')
@@ -35,8 +37,40 @@ CLSID_MMDeviceEnumerator = GUID(
     '{BCDE0395-E52F-467C-8E3D-C4579291692E}')
 
 
-class PROPVARIANT(DWORD):
-    pass
+class PROPVARIANT_UNION(Union):
+        _fields_ = [
+            ('lVal', LONG),
+            ('uhVal', ULARGE_INTEGER),
+            ('boolVal', VARIANT_BOOL),
+            ('pwszVal', LPWSTR),
+            ('puuid', GUID),
+        ]
+
+
+class PROPVARIANT(Structure):
+    _fields_ = [
+        ('vt', VARTYPE),
+        ('reserved1', WORD),
+        ('reserved2', WORD),
+        ('reserved3', WORD),
+        ('union', PROPVARIANT_UNION),
+    ]
+
+    def GetValue(self):
+        vt = self.vt
+        if vt == VT_BOOL:
+            return self.union.boolVal != 0
+        elif vt == VT_LPWSTR:
+            # return Marshal.PtrToStringUni(union.pwszVal)
+            return self.union.pwszVal
+        elif vt == VT_UI4:
+            return self.union.lVal
+        elif vt == VT_CLSID:
+            # TODO
+            # return (Guid)Marshal.PtrToStructure(union.puuid, typeof(Guid))
+            return
+        else:
+            return unicode(vt) + u":?"
 
 
 class ERole(Enum):
@@ -51,6 +85,25 @@ class EDataFlow(Enum):
     eCapture = 1
     eAll = 2
     EDataFlow_enum_count = 3
+
+
+class DEVICE_STATE(Enum):
+    ACTIVE = 0x00000001
+    DISABLED = 0x00000002
+    NOTPRESENT = 0x00000004
+    UNPLUGGED = 0x00000008
+    MASK_ALL = 0x0000000F
+
+
+class AudioDeviceState(Enum):
+    Active = 0x1
+    Disabled = 0x2
+    NotPresent = 0x4
+    Unplugged = 0x8
+
+
+class STGM(Enum):
+    STGM_READ = 0x00000000
 
 
 class IAudioEndpointVolume(comtypes.IUnknown):
@@ -139,15 +192,6 @@ class IAudioEndpointVolume(comtypes.IUnknown):
                   (['out'], POINTER(c_float), 'pfMin'),
                   (['out'], POINTER(c_float), 'pfMax'),
                   (['out'], POINTER(c_float), 'pfIncr')))
-
-
-class IMMDeviceCollection(comtypes.IUnknown):
-    _iid_ = IID_IMMDeviceCollection
-    _methods_ = (
-        # HRESULT GetCount([out] UINT *pcDevices);
-        COMMETHOD([], HRESULT, 'NotImpl1'),
-        # HRESULT Item([in] UINT nDevice, [out] IMMDevice **ppDevice);
-        COMMETHOD([], HRESULT, 'NotImpl2'))
 
 
 class IAudioSessionControl(comtypes.IUnknown):
@@ -255,12 +299,18 @@ class PROPERTYKEY(Structure):
         ('pid', DWORD),
     ]
 
+    def __unicode__(self):
+        return unicode(self.fmtid) + u" " + unicode(self.pid)
+
+    def __str__(self):
+        return unicode(self).encode('utf-8')
+
 
 class IPropertyStore(comtypes.IUnknown):
     _iid_ = IID_IPropertyStore
     _methods_ = (
         # HRESULT GetCount([out] DWORD *cProps);
-        COMMETHOD([], HRESULT, 'GetAt',
+        COMMETHOD([], HRESULT, 'GetCount',
                   (['out'], POINTER(DWORD), 'cProps')),
         # HRESULT GetAt(
         # [in] DWORD iProp,
@@ -272,15 +322,13 @@ class IPropertyStore(comtypes.IUnknown):
         # [in] REFPROPERTYKEY key,
         # [out] PROPVARIANT *pv);
         COMMETHOD([], HRESULT, 'GetValue',
-                  # (['in'], REFPROPERTYKEY, 'key'),
                   (['in'], POINTER(PROPERTYKEY), 'key'),
                   (['out'], POINTER(PROPVARIANT), 'pv')),
         # HRESULT SetValue([out] LPWSTR *ppstrId);
         COMMETHOD([], HRESULT, 'SetValue',
                   (['out'], POINTER(LPWSTR), 'ppstrId')),
-        # HRESULT Commit([out] DWORD *pdwState);
-        COMMETHOD([], HRESULT, 'Commit',
-                  (['out'], POINTER(DWORD), 'pdwState')))
+        # HRESULT Commit();
+        COMMETHOD([], HRESULT, 'Commit'))
 
 
 class IMMDevice(comtypes.IUnknown):
@@ -304,9 +352,23 @@ class IMMDevice(comtypes.IUnknown):
                   (['out'],
                   POINTER(POINTER(IPropertyStore)), 'ppProperties')),
         # HRESULT GetId([out] LPWSTR *ppstrId);
-        COMMETHOD([], HRESULT, 'NotImpl2'),
+        COMMETHOD([], HRESULT, 'GetId',
+                  (['out'], POINTER(LPWSTR), 'ppstrId')),
         # HRESULT GetState([out] DWORD *pdwState);
-        COMMETHOD([], HRESULT, 'NotImpl3'))
+        COMMETHOD([], HRESULT, 'GetState',
+                  (['out'], POINTER(DWORD), 'pdwState')))
+
+
+class IMMDeviceCollection(comtypes.IUnknown):
+    _iid_ = IID_IMMDeviceCollection
+    _methods_ = (
+        # HRESULT GetCount([out] UINT *pcDevices);
+        COMMETHOD([], HRESULT, 'GetCount',
+                  (['out'], POINTER(UINT), 'pcDevices')),
+        # HRESULT Item([in] UINT nDevice, [out] IMMDevice **ppDevice);
+        COMMETHOD([], HRESULT, 'Item',
+                  (['in'], UINT, 'nDevice'),
+                  (['out'], POINTER(POINTER(IMMDevice)), 'ppDevice')))
 
 
 class IMMDeviceEnumerator(comtypes.IUnknown):
@@ -326,7 +388,9 @@ class IMMDeviceEnumerator(comtypes.IUnknown):
         # [in] ERole role,
         # [out] IMMDevice **ppDevice);
         COMMETHOD([], HRESULT, 'GetDefaultAudioEndpoint',
+                  # (['in'], EDataFlow, 'dataFlow'),
                   (['in'], DWORD, 'dataFlow'),
+                  # (['in'], ERole, 'role'),
                   (['in'], DWORD, 'role'),
                   (['out'], POINTER(POINTER(IMMDevice)), 'ppDevices')))
 
@@ -340,10 +404,17 @@ class AudioDevice(object):
         self.state = state
         self.properties = properties
 
+    def __str__(self):
+        return unicode(self).encode('utf-8')
+
+    def __unicode__(self):
+        return u"AudioDevice: " + unicode(self.FriendlyName)
+
+    @property
     def FriendlyName(self):
         DEVPKEY_Device_FriendlyName = \
-            "{a45c254e-df1c-4efd-8020-67d146a850e0} 14"
-        value = self.properties.TryGetValue(DEVPKEY_Device_FriendlyName)
+            u"{a45c254e-df1c-4efd-8020-67d146a850e0} 14".upper()
+        value = self.properties.get(DEVPKEY_Device_FriendlyName)
         return value
 
 
@@ -372,7 +443,7 @@ class AudioSession(object):
         if s:
             return "DisplayName: " + s
         if self.Process is not None:
-            return "Process: " + self.Process.ProcessName
+            return "Process: " + self.Process.name()
         return "Pid: " + self.ProcessId
 
     @property
@@ -457,11 +528,11 @@ class AudioUtilities(object):
         get the speakers (1st render + multimedia) device
         """
         deviceEnumerator = comtypes.CoCreateInstance(
-                    CLSID_MMDeviceEnumerator,
-                    IMMDeviceEnumerator,
-                    comtypes.CLSCTX_INPROC_SERVER)
+            CLSID_MMDeviceEnumerator,
+            IMMDeviceEnumerator,
+            comtypes.CLSCTX_INPROC_SERVER)
         speakers = deviceEnumerator.GetDefaultAudioEndpoint(
-                    EDataFlow.eRender, ERole.eMultimedia)
+                    EDataFlow.eRender.value, ERole.eMultimedia.value)
         return speakers
 
     @staticmethod
@@ -501,3 +572,4 @@ class AudioUtilities(object):
                 return session
             # session.Dispose()
         return None
+
