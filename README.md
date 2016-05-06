@@ -25,3 +25,5 @@ volume.GetMasterVolumeLevel()
 volume.GetVolumeRange()
 volume.SetMasterVolumeLevel(-20.0, None)
 ```
+
+See more in the [examples](examples/) directory.
