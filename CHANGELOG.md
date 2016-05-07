@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [20160507]
     - Implemented new interfaces:
         - PROPVARIANT
         - IPropertyStore
