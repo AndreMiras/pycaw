@@ -528,6 +528,7 @@ class AudioSession(object):
     def __init__(self, audio_session_control2):
         self._ctl = audio_session_control2
         self._process = None
+        self._volume = None
 
     def __str__(self):
         return unicode(self).encode('utf-8')
@@ -599,6 +600,12 @@ class AudioSession(object):
         s = self._ctl.GetIconPath()
         if s != value:
             self._ctl.SetIconPath(value, IID_Empty)
+
+    @property
+    def SimpleAudioVolume(self):
+        if self._volume is None:
+            self._volume = self._ctl.QueryInterface(ISimpleAudioVolume)
+        return self._volume
 
 
 class AudioUtilities(object):
