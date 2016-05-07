@@ -3,9 +3,9 @@
 from distutils.core import setup
 
 setup(name='pycaw',
-      version='20160424',
+      version='20160507',
       description='Python Core Audio Windows Library',
       author='Andre Miras',
       url='https://github.com/AndreMiras/pycaw',
-      packages=['pycaw', 'examples'],
+      packages=['pycaw'],
       install_requires=['comtypes', 'enum', 'psutil'])
