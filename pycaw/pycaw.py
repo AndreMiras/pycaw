@@ -4,37 +4,22 @@ Python wrapper around the Core Audio Windows API.
 import psutil
 import comtypes
 from enum import Enum
-from ctypes import cast, HRESULT, POINTER, Structure, Union, c_float, c_void_p
-from ctypes.wintypes import BOOL, VARIANT_BOOL, WORD, DWORD, UINT, INT, LONG, \
-    ULARGE_INTEGER, LPWSTR
-from comtypes import GUID, COMMETHOD
+from ctypes import cast, HRESULT, POINTER, Structure, Union, \
+    c_uint32, c_longlong, c_float
+from ctypes.wintypes import BOOL, VARIANT_BOOL, WORD, DWORD, \
+    UINT, INT, LONG, ULARGE_INTEGER, LPWSTR, LPCWSTR
+from comtypes import IUnknown, GUID, COMMETHOD
 from comtypes.automation import VARTYPE, VT_BOOL, VT_LPWSTR, VT_UI4, VT_CLSID
 
 IID_Empty = GUID(
     '{00000000-0000-0000-0000-000000000000}')
-IID_IAudioEndpointVolume = GUID(
-    '{5CDF2C82-841E-4546-9722-0CF74078229A}')
-IID_IPropertyStore = GUID(
-    '{886d8eeb-8cf2-4446-8d02-cdba1dbdcf99}')
-IID_IMMDevice = GUID(
-    '{D666063F-1587-4E43-81F1-B948E807363F}')
-IID_IMMDeviceCollection = GUID(
-    '{0BD7A1BE-7A1A-44DB-8397-CC5392387B5E}')
-IID_IMMDeviceEnumerator = GUID(
-    '{A95664D2-9614-4F35-A746-DE8DB63617E6}')
-IID_IAudioSessionEnumerator = GUID(
-    '{E2F5BB11-0570-40CA-ACDD-3AA01277DEE8}')
-IID_IAudioSessionManager = GUID(
-    '{BFA971F1-4d5e-40bb-935e-967039bfbee4}')
-IID_IAudioSessionManager2 = GUID(
-    '{77aa99a0-1bd6-484f-8bc7-2c654c9a9b6f}')
-IID_IAudioSessionControl = GUID(
-    '{F4B1A599-7266-4319-A8CA-E70ACB11E8CD}')
-IID_IAudioSessionControl2 = GUID(
-    '{BFB7FF88-7239-4FC9-8FA2-07C950BE9C6D}')
 
 CLSID_MMDeviceEnumerator = GUID(
     '{BCDE0395-E52F-467C-8E3D-C4579291692E}')
+
+
+UINT32 = c_uint32
+REFERENCE_TIME = c_longlong
 
 
 class PROPVARIANT_UNION(Union):
@@ -73,6 +58,18 @@ class PROPVARIANT(Structure):
             return unicode(vt) + u":?"
 
 
+class WAVEFORMATEX(Structure):
+    _fields_ = [
+        ('wFormatTag', WORD),
+        ('nChannels', WORD),
+        ('nSamplesPerSec', WORD),
+        ('nAvgBytesPerSec', WORD),
+        ('nBlockAlign', WORD),
+        ('wBitsPerSample', WORD),
+        ('cbSize', WORD),
+    ]
+
+
 class ERole(Enum):
     eConsole = 0
     eMultimedia = 1
@@ -106,8 +103,13 @@ class STGM(Enum):
     STGM_READ = 0x00000000
 
 
-class IAudioEndpointVolume(comtypes.IUnknown):
-    _iid_ = IID_IAudioEndpointVolume
+class AUDCLNT_SHAREMODE(Enum):
+    AUDCLNT_SHAREMODE_SHARED = 0x00000001
+    AUDCLNT_SHAREMODE_EXCLUSIVE = 0x00000002
+
+
+class IAudioEndpointVolume(IUnknown):
+    _iid_ = GUID('{5CDF2C82-841E-4546-9722-0CF74078229A}')
     _methods_ = (
         # HRESULT RegisterControlChangeNotify(
         # [in] IAudioEndpointVolumeCallback *pNotify);
@@ -194,8 +196,8 @@ class IAudioEndpointVolume(comtypes.IUnknown):
                   (['out'], POINTER(c_float), 'pfIncr')))
 
 
-class IAudioSessionControl(comtypes.IUnknown):
-    _iid_ = IID_IAudioSessionControl
+class IAudioSessionControl(IUnknown):
+    _iid_ = GUID('{F4B1A599-7266-4319-A8CA-E70ACB11E8CD}')
     _methods_ = (
         # HRESULT GetState ([out] AudioSessionState *pRetVal);
         COMMETHOD([], HRESULT, 'NotImpl1'),
@@ -227,21 +229,47 @@ class IAudioSessionControl(comtypes.IUnknown):
 
 
 class IAudioSessionControl2(IAudioSessionControl):
-    _iid_ = IID_IAudioSessionControl2
+    _iid_ = GUID('{BFB7FF88-7239-4FC9-8FA2-07C950BE9C6D}')
     _methods_ = (
         # HRESULT GetSessionIdentifier([out] LPWSTR *pRetVal);
-        COMMETHOD([], HRESULT, 'NotImpl1'),
+        COMMETHOD([], HRESULT, 'GetSessionIdentifier',
+                  (['out'], POINTER(LPWSTR), 'pRetVal')),
         # HRESULT GetSessionInstanceIdentifier([out] LPWSTR *pRetVal);
-        COMMETHOD([], HRESULT, 'NotImpl2'),
+        COMMETHOD([], HRESULT, 'GetSessionInstanceIdentifier',
+                  (['out'], POINTER(LPWSTR), 'pRetVal')),
         # HRESULT GetProcessId([out] DWORD *pRetVal);
         COMMETHOD([], HRESULT, 'GetProcessId',
-                  (['out'], POINTER((DWORD)), 'pRetVal')),
+                  (['out'], POINTER(DWORD), 'pRetVal')),
         # HRESULT IsSystemSoundsSession();
-        COMMETHOD([], HRESULT, 'IsSystemSoundsSession'))
+        COMMETHOD([], HRESULT, 'IsSystemSoundsSession'),
+        COMMETHOD([], HRESULT, 'SetDuckingPreferences',
+                  (['in'], BOOL, 'optOut')))
 
 
-class IAudioSessionEnumerator(comtypes.IUnknown):
-    _iid_ = IID_IAudioSessionEnumerator
+class ISimpleAudioVolume(IUnknown):
+    _iid_ = GUID('{87CE5498-68D6-44E5-9215-6DA47EF883D8}')
+    _methods_ = (
+        # HRESULT SetMasterVolume(
+        # [in] float fLevel,
+        # [in] LPCGUID EventContext);
+        COMMETHOD([], HRESULT, 'SetMasterVolume',
+                  (['in'], c_float, 'fLevel'),
+                  (['in'], POINTER(GUID), 'EventContext')),
+        # HRESULT GetMasterVolume([out] float *pfLevel);
+        COMMETHOD([], HRESULT, 'GetMasterVolume',
+                  (['out'], POINTER(c_float), 'pfLevel')),
+        # HRESULT SetMute(
+        # [in] BOOL bMute,
+        # [in] LPCGUID EventContext);
+        COMMETHOD([], HRESULT, 'SetMute',
+                  (['in'], BOOL, 'bMute'),
+                  (['in'], POINTER(GUID), 'EventContext')),
+        # HRESULT GetMute([out] BOOL *pbMute);
+        COMMETHOD([], HRESULT, 'GetMute', (['out'], POINTER(BOOL), 'pbMute')))
+
+
+class IAudioSessionEnumerator(IUnknown):
+    _iid_ = GUID('{E2F5BB11-0570-40CA-ACDD-3AA01277DEE8}')
     _methods_ = (
         # HRESULT GetCount([out] int *SessionCount);
         COMMETHOD([], HRESULT, 'GetCount',
@@ -255,8 +283,8 @@ class IAudioSessionEnumerator(comtypes.IUnknown):
                    POINTER(POINTER(IAudioSessionControl)), 'Session')))
 
 
-class IAudioSessionManager(comtypes.IUnknown):
-    _iid_ = IID_IAudioSessionManager
+class IAudioSessionManager(IUnknown):
+    _iid_ = GUID('{BFA971F1-4d5e-40bb-935e-967039bfbee4}')
     _methods_ = (
         # HRESULT GetAudioSessionControl(
         # [in] LPCGUID AudioSessionGuid,
@@ -267,11 +295,15 @@ class IAudioSessionManager(comtypes.IUnknown):
         # [in] LPCGUID AudioSessionGuid,
         # [in] DWORD CrossProcessSession,
         # [out] ISimpleAudioVolume **AudioVolume);
-        COMMETHOD([], HRESULT, 'NotImpl2'))
+        COMMETHOD([], HRESULT, 'GetSimpleAudioVolume',
+                  (['in'], POINTER(GUID), 'AudioSessionGuid'),
+                  (['in'], DWORD, 'CrossProcessSession'),
+                  (['out'],
+                   POINTER(POINTER(ISimpleAudioVolume)), 'AudioVolume')))
 
 
 class IAudioSessionManager2(IAudioSessionManager):
-    _iid_ = IID_IAudioSessionManager2
+    _iid_ = GUID('{77aa99a0-1bd6-484f-8bc7-2c654c9a9b6f}')
     _methods_ = (
         # HRESULT GetSessionEnumerator(
         # [out] IAudioSessionEnumerator **SessionList);
@@ -293,6 +325,64 @@ class IAudioSessionManager2(IAudioSessionManager):
         COMMETHOD([], HRESULT, 'NotImpl2'))
 
 
+class IAudioClient(IUnknown):
+    _iid_ = GUID('{1cb9ad4c-dbfa-4c32-b178-c2f568a703b2}')
+    _methods_ = (
+        # HRESULT Initialize(
+        # [in] AUDCLNT_SHAREMODE ShareMode,
+        # [in] DWORD StreamFlags,
+        # [in] REFERENCE_TIME hnsBufferDuration,
+        # [in] REFERENCE_TIME hnsPeriodicity,
+        # [in] const WAVEFORMATEX *pFormat,
+        # [in] LPCGUID AudioSessionGuid);
+        COMMETHOD([], HRESULT, 'Initialize',
+                  (['in'], DWORD, 'ShareMode'),
+                  (['in'], DWORD, 'StreamFlags'),
+                  (['in'], REFERENCE_TIME, 'hnsBufferDuration'),
+                  (['in'], REFERENCE_TIME, 'hnsPeriodicity'),
+                  (['in'], POINTER(WAVEFORMATEX), 'pFormat'),
+                  (['in'], POINTER(GUID), 'AudioSessionGuid')),
+        # HRESULT GetBufferSize(
+        # [out] UINT32 *pNumBufferFrames);
+        COMMETHOD([], HRESULT, 'GetBufferSize',
+                  (['out'], POINTER(UINT32), 'pNumBufferFrames')),
+        # HRESULT GetStreamLatency(
+        # [out] REFERENCE_TIME *phnsLatency);
+        COMMETHOD([], HRESULT, 'NotImpl1'),
+        # HRESULT GetCurrentPadding(
+        # [out] UINT32 *pNumPaddingFrames);
+        COMMETHOD([], HRESULT, 'GetCurrentPadding',
+                  (['out'], POINTER(UINT32), 'pNumPaddingFrames')),
+        # HRESULT IsFormatSupported(
+        # [in] AUDCLNT_SHAREMODE ShareMode,
+        # [in] const WAVEFORMATEX *pFormat,
+        # [out,unique] WAVEFORMATEX **ppClosestMatch);
+        COMMETHOD([], HRESULT, 'NotImpl2'),
+        # HRESULT GetMixFormat(
+        # [out] WAVEFORMATEX **ppDeviceFormat
+        # );
+        COMMETHOD([], HRESULT, 'GetMixFormat',
+                  (['out'], POINTER(POINTER(WAVEFORMATEX)), 'ppDeviceFormat')),
+        # HRESULT GetDevicePeriod(
+        # [out] REFERENCE_TIME *phnsDefaultDevicePeriod,
+        # [out] REFERENCE_TIME *phnsMinimumDevicePeriod);
+        COMMETHOD([], HRESULT, 'NotImpl4'),
+        # HRESULT Start(void);
+        COMMETHOD([], HRESULT, 'Start'),
+        # HRESULT Stop(void);
+        COMMETHOD([], HRESULT, 'Stop'),
+        # HRESULT Reset(void);
+        COMMETHOD([], HRESULT, 'Reset'),
+        # HRESULT SetEventHandle([in] HANDLE eventHandle);
+        COMMETHOD([], HRESULT, 'NotImpl5'),
+        # HRESULT GetService(
+        # [in] REFIID riid,
+        # [out] void **ppv);
+        COMMETHOD([], HRESULT, 'GetService',
+                  (['in'], POINTER(GUID), 'iid'),
+                  (['out'], POINTER(POINTER(IUnknown)), 'ppv')))
+
+
 class PROPERTYKEY(Structure):
     _fields_ = [
         ('fmtid', GUID),
@@ -306,8 +396,8 @@ class PROPERTYKEY(Structure):
         return unicode(self).encode('utf-8')
 
 
-class IPropertyStore(comtypes.IUnknown):
-    _iid_ = IID_IPropertyStore
+class IPropertyStore(IUnknown):
+    _iid_ = GUID('{886d8eeb-8cf2-4446-8d02-cdba1dbdcf99}')
     _methods_ = (
         # HRESULT GetCount([out] DWORD *cProps);
         COMMETHOD([], HRESULT, 'GetCount',
@@ -331,8 +421,8 @@ class IPropertyStore(comtypes.IUnknown):
         COMMETHOD([], HRESULT, 'Commit'))
 
 
-class IMMDevice(comtypes.IUnknown):
-    _iid_ = IID_IMMDevice
+class IMMDevice(IUnknown):
+    _iid_ = GUID('{D666063F-1587-4E43-81F1-B948E807363F}')
     _methods_ = (
         # HRESULT Activate(
         # [in] REFIID iid,
@@ -342,8 +432,9 @@ class IMMDevice(comtypes.IUnknown):
         COMMETHOD([], HRESULT, 'Activate',
                   (['in'], POINTER(GUID), 'iid'),
                   (['in'], DWORD, 'dwClsCtx'),
-                  (['in'], POINTER(PROPVARIANT), 'pActivationParams'),
-                  (['out'], POINTER(c_void_p), 'ppInterface')),
+                  (['in'], POINTER(DWORD), 'pActivationParams'),
+                  (['out'],
+                   POINTER(POINTER(IUnknown)), 'ppInterface')),
         # HRESULT OpenPropertyStore(
         # [in] DWORD stgmAccess,
         # [out] IPropertyStore **ppProperties);
@@ -359,8 +450,8 @@ class IMMDevice(comtypes.IUnknown):
                   (['out'], POINTER(DWORD), 'pdwState')))
 
 
-class IMMDeviceCollection(comtypes.IUnknown):
-    _iid_ = IID_IMMDeviceCollection
+class IMMDeviceCollection(IUnknown):
+    _iid_ = GUID('{0BD7A1BE-7A1A-44DB-8397-CC5392387B5E}')
     _methods_ = (
         # HRESULT GetCount([out] UINT *pcDevices);
         COMMETHOD([], HRESULT, 'GetCount',
@@ -371,8 +462,8 @@ class IMMDeviceCollection(comtypes.IUnknown):
                   (['out'], POINTER(POINTER(IMMDevice)), 'ppDevice')))
 
 
-class IMMDeviceEnumerator(comtypes.IUnknown):
-    _iid_ = IID_IMMDeviceEnumerator
+class IMMDeviceEnumerator(IUnknown):
+    _iid_ = GUID('{A95664D2-9614-4F35-A746-DE8DB63617E6}')
     _methods_ = (
         # HRESULT EnumAudioEndpoints(
         # [in] EDataFlow dataFlow,
@@ -388,11 +479,22 @@ class IMMDeviceEnumerator(comtypes.IUnknown):
         # [in] ERole role,
         # [out] IMMDevice **ppDevice);
         COMMETHOD([], HRESULT, 'GetDefaultAudioEndpoint',
-                  # (['in'], EDataFlow, 'dataFlow'),
                   (['in'], DWORD, 'dataFlow'),
-                  # (['in'], ERole, 'role'),
                   (['in'], DWORD, 'role'),
-                  (['out'], POINTER(POINTER(IMMDevice)), 'ppDevices')))
+                  (['out'], POINTER(POINTER(IMMDevice)), 'ppDevices')),
+        # HRESULT GetDevice(
+        # [in] LPCWSTR pwstrId,
+        # [out] IMMDevice **ppDevice);
+        COMMETHOD([], HRESULT, 'GetDevice',
+                  (['in'], LPCWSTR, 'pwstrId'),
+                  (['out'],
+                  POINTER(POINTER(IMMDevice)), 'ppDevice')),
+        # HRESULT RegisterEndpointNotificationCallback(
+        # [in] IMMNotificationClient *pClient);
+        COMMETHOD([], HRESULT, 'NotImpl1'),
+        # HRESULT UnregisterEndpointNotificationCallback(
+        # [in] IMMNotificationClient *pClient);
+        COMMETHOD([], HRESULT, 'NotImpl2'))
 
 
 class AudioDevice(object):
@@ -427,14 +529,6 @@ class AudioSession(object):
         self._ctl = audio_session_control2
         self._process = None
 
-    def __enter__(self):
-        pass
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if self._ctl is not None:
-            # Marshal.ReleaseComObject(_ctl);
-            self._ctl = None
-
     def __str__(self):
         return unicode(self).encode('utf-8')
 
@@ -454,68 +548,54 @@ class AudioSession(object):
 
     @property
     def ProcessId(self):
-        self.CheckDisposed()
         i = self._ctl.GetProcessId()
         return i
 
     @property
     def Identifier(self):
-        self.CheckDisposed()
         s = self._ctl.GetSessionIdentifier()
         return s
 
     @property
     def InstanceIdentifier(self):
-        self.CheckDisposed()
         s = self._ctl.GetSessionInstanceIdentifier()
         return s
 
     @property
     def State(self):
-        self.CheckDisposed()
         s = self._ctl.GetState()
         return s
 
     @property
     def GroupingParam(self):
-        self.CheckDisposed()
         g = self._ctl.GetGroupingParam()
         return g
 
     @GroupingParam.setter
     def GroupingParam(self, value):
-        self.CheckDisposed()
         self._ctl.SetGroupingParam(value, IID_Empty)
 
     @property
     def DisplayName(self):
-        self.CheckDisposed()
         s = self._ctl.GetDisplayName()
         return s
 
     @DisplayName.setter
     def DisplayName(self, value):
-        self.CheckDisposed()
         s = self._ctl.GetDisplayName()
         if s != value:
             self._ctl.SetDisplayName(value, IID_Empty)
 
     @property
     def IconPath(self):
-        self.CheckDisposed()
         s = self._ctl.GetIconPath()
         return s
 
     @IconPath.setter
     def IconPath(self, value):
-        self.CheckDisposed()
         s = self._ctl.GetIconPath()
         if s != value:
             self._ctl.SetIconPath(value, IID_Empty)
-
-    def CheckDisposed(self):
-        if self._ctl is None:
-            raise Exception("ObjectDisposedException()")
 
 
 class AudioUtilities(object):
@@ -560,9 +640,8 @@ class AudioUtilities(object):
                 continue
             ctl2 = cast(ctl, POINTER(IAudioSessionControl2))
             if ctl2 is not None:
-                audio_sessions.append(AudioSession(ctl2))
-        # Marshal.ReleaseComObject(sessionEnumerator);
-        # Marshal.ReleaseComObject(mgr);
+                audio_session = AudioSession(ctl2)
+                audio_sessions.append(audio_session)
         return audio_sessions
 
     @staticmethod
@@ -587,7 +666,8 @@ class AudioUtilities(object):
                 pk = store.GetAt(j)
                 value = store.GetValue(pk)
                 v = value.GetValue()
-                # PropVariantClear(byref(value)) # TODO
+                # TODO
+                # PropVariantClear(byref(value))
                 name = unicode(pk)
                 properties[name] = v
         audioState = AudioDeviceState(state)
