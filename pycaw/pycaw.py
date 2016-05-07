@@ -543,13 +543,16 @@ class AudioSession(object):
     @property
     def Process(self):
         if self._process is None and self.ProcessId != 0:
-            self._process = psutil.Process(self.ProcessId)
+            try:
+                self._process = psutil.Process(self.ProcessId)
+            except psutil.NoSuchProcess:
+                # for some reason GetProcessId returned an non existing pid
+                return None
         return self._process
 
     @property
     def ProcessId(self):
-        i = self._ctl.GetProcessId()
-        return i
+        return self._ctl.GetProcessId()
 
     @property
     def Identifier(self):
