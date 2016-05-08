@@ -29,11 +29,16 @@ class TestExamples(unittest.TestCase):
             audio_endpoint_volume_example.main()
         output = out.getvalue()
         lines = output.split("\n")
-        self.assertEqual(lines[0], 'volume.GetMute(): 0')
-        self.assertEqual(lines[1], 'volume.GetMasterVolumeLevel(): -20.0')
-        self.assertEqual(lines[2], 'volume.GetVolumeRange(): (-95.25, 0.0, 0.75)')
-        self.assertEqual(lines[3], 'volume.SetMasterVolumeLevel()')
-        self.assertEqual(lines[4], 'volume.GetMasterVolumeLevel(): -20.0')
+        self.assertEqual(
+            lines[0], 'volume.GetMute(): 0')
+        self.assertEqual(
+            lines[1], 'volume.GetMasterVolumeLevel(): -20.0')
+        self.assertEqual(
+            lines[2], 'volume.GetVolumeRange(): (-95.25, 0.0, 0.75)')
+        self.assertEqual(
+            lines[3], 'volume.SetMasterVolumeLevel()')
+        self.assertEqual(
+            lines[4], 'volume.GetMasterVolumeLevel(): -20.0')
 
     def test_simple_audio_volume_example(self):
         with captured_output() as (out, err):
