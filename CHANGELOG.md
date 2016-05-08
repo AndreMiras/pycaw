@@ -1,5 +1,8 @@
 # Change Log
 
+## [Unreleased]
+    - Fixed enum requirement
+
 ## [20160507]
     - Implemented new interfaces:
         - PROPVARIANT
