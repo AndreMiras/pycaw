@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [20160508]
     - Fixed enum requirement
     - Unit tested examples:
         - audio_endpoint_volume_example
