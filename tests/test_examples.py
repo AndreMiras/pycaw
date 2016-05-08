@@ -8,6 +8,7 @@ from contextlib import contextmanager
 from pycaw.pycaw import AudioUtilities
 from examples import audio_endpoint_volume_example
 from examples import simple_audio_volume_example
+from examples import volume_by_process_example
 
 
 @contextmanager
@@ -43,9 +44,18 @@ class TestExamples(unittest.TestCase):
         self.assertEqual(len(lines), len(sessions))
         for line in lines:
             self.assertTrue(
-                'volume.GetMute(): 0' in line
-                or
+                'volume.GetMute(): 0' in line or
                 'volume.GetMute(): 1' in line)
+
+    def test_volume_by_process_example(self):
+        volume_by_process_example.main()
+        sessions = AudioUtilities.GetAllSessions()
+        for session in sessions:
+            volume = session.SimpleAudioVolume
+            if session.Process and session.Process.name() == "chrome.exe":
+                self.assertEqual(volume.GetMute(), 0)
+            else:
+                self.assertEqual(volume.GetMute(), 1)
 
 
 if __name__ == '__main__':
