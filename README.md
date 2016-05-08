@@ -1,5 +1,5 @@
 # pycaw
-Python Core Audio Windows Library
+Python Core Audio Windows Library, working for both Python2 and Python3.
 
 ## Install
 
@@ -12,6 +12,7 @@ Development branch:
     pip install https://github.com/AndreMiras/pycaw/archive/develop.zip
 
 ## Usage
+
 ```Python
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
@@ -27,3 +28,7 @@ volume.SetMasterVolumeLevel(-20.0, None)
 ```
 
 See more in the [examples](examples/) directory.
+
+## Tests
+
+See in the [tests](tests/) directory.
