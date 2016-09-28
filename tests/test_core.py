@@ -46,6 +46,15 @@ class TestCore(unittest.TestCase):
             for device in devices:
                 print("device: %s" % device)
 
+    def test_getallsessions_reliability(self):
+        """
+        Verifies AudioUtilities.GetAllSessions() is reliable
+        even calling it multiple times, refs:
+        https://github.com/AndreMiras/pycaw/issues/1
+        """
+        for _ in range(100):
+            sessions = AudioUtilities.GetAllSessions()
+            self.assertTrue(len(sessions) > 0)
 
 if __name__ == '__main__':
     unittest.main()

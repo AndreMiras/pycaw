@@ -5,12 +5,13 @@ from future.utils import python_2_unicode_compatible
 import psutil
 import comtypes
 from enum import Enum
-from ctypes import cast, HRESULT, POINTER, Structure, Union, \
+from ctypes import HRESULT, POINTER, Structure, Union, \
     c_uint32, c_longlong, c_float
 from ctypes.wintypes import BOOL, VARIANT_BOOL, WORD, DWORD, \
     UINT, INT, LONG, ULARGE_INTEGER, LPWSTR, LPCWSTR
 from comtypes import IUnknown, GUID, COMMETHOD
 from comtypes.automation import VARTYPE, VT_BOOL, VT_LPWSTR, VT_UI4, VT_CLSID
+
 
 IID_Empty = GUID(
     '{00000000-0000-0000-0000-000000000000}')
@@ -628,7 +629,7 @@ class AudioUtilities(object):
         # win7+ only
         o = speakers.Activate(
             IAudioSessionManager2._iid_, comtypes.CLSCTX_ALL, None)
-        mgr = cast(o, POINTER(IAudioSessionManager2))
+        mgr = o.QueryInterface(IAudioSessionManager2)
         return mgr
 
     @staticmethod
@@ -643,7 +644,7 @@ class AudioUtilities(object):
             ctl = sessionEnumerator.GetSession(i)
             if ctl is None:
                 continue
-            ctl2 = cast(ctl, POINTER(IAudioSessionControl2))
+            ctl2 = ctl.QueryInterface(IAudioSessionControl2)
             if ctl2 is not None:
                 audio_session = AudioSession(ctl2)
                 audio_sessions.append(audio_session)
