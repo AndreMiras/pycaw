@@ -8,4 +8,4 @@ setup(name='pycaw',
       author='Andre Miras',
       url='https://github.com/AndreMiras/pycaw',
       packages=['pycaw'],
-      install_requires=['comtypes', 'enum34', 'psutil'])
+      install_requires=['comtypes', 'enum34', 'psutil', 'future'])

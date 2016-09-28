@@ -1,6 +1,7 @@
 ﻿"""
 Python wrapper around the Core Audio Windows API.
 """
+from future.utils import python_2_unicode_compatible
 import psutil
 import comtypes
 from enum import Enum
@@ -55,7 +56,7 @@ class PROPVARIANT(Structure):
             # return (Guid)Marshal.PtrToStructure(union.puuid, typeof(Guid))
             return
         else:
-            return unicode(vt) + u":?"
+            return "%s:?" % (vt)
 
 
 class WAVEFORMATEX(Structure):
@@ -383,17 +384,15 @@ class IAudioClient(IUnknown):
                   (['out'], POINTER(POINTER(IUnknown)), 'ppv')))
 
 
+@python_2_unicode_compatible
 class PROPERTYKEY(Structure):
     _fields_ = [
         ('fmtid', GUID),
         ('pid', DWORD),
     ]
 
-    def __unicode__(self):
-        return unicode(self.fmtid) + u" " + unicode(self.pid)
-
     def __str__(self):
-        return unicode(self).encode('utf-8')
+        return "%s %s" % (self.fmtid, self.pid)
 
 
 class IPropertyStore(IUnknown):
@@ -497,6 +496,7 @@ class IMMDeviceEnumerator(IUnknown):
         COMMETHOD([], HRESULT, 'NotImpl2'))
 
 
+@python_2_unicode_compatible
 class AudioDevice(object):
     """
     http://stackoverflow.com/a/20982715/185510
@@ -507,10 +507,7 @@ class AudioDevice(object):
         self.properties = properties
 
     def __str__(self):
-        return unicode(self).encode('utf-8')
-
-    def __unicode__(self):
-        return u"AudioDevice: " + unicode(self.FriendlyName)
+        return "AudioDevice: %s" % (self.FriendlyName)
 
     @property
     def FriendlyName(self):
@@ -520,6 +517,7 @@ class AudioDevice(object):
         return value
 
 
+@python_2_unicode_compatible
 class AudioSession(object):
     """
     http://stackoverflow.com/a/20982715/185510
@@ -531,9 +529,6 @@ class AudioSession(object):
         self._volume = None
 
     def __str__(self):
-        return unicode(self).encode('utf-8')
-
-    def __unicode__(self):
         s = self.DisplayName
         if s:
             return "DisplayName: " + s
@@ -678,7 +673,7 @@ class AudioUtilities(object):
                 v = value.GetValue()
                 # TODO
                 # PropVariantClear(byref(value))
-                name = unicode(pk)
+                name = str(pk)
                 properties[name] = v
         audioState = AudioDeviceState(state)
         return AudioDevice(id, audioState, properties)
