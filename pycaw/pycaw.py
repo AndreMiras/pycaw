@@ -535,7 +535,7 @@ class AudioSession(object):
             return "DisplayName: " + s
         if self.Process is not None:
             return "Process: " + self.Process.name()
-        return "Pid: " + self.ProcessId
+        return "Pid: %s" % (self.ProcessId)
 
     @property
     def Process(self):
