@@ -1,15 +1,17 @@
 ﻿"""
 Python wrapper around the Core Audio Windows API.
 """
+from future.utils import python_2_unicode_compatible
 import psutil
 import comtypes
 from enum import Enum
-from ctypes import cast, HRESULT, POINTER, Structure, Union, \
+from ctypes import HRESULT, POINTER, Structure, Union, \
     c_uint32, c_longlong, c_float
 from ctypes.wintypes import BOOL, VARIANT_BOOL, WORD, DWORD, \
     UINT, INT, LONG, ULARGE_INTEGER, LPWSTR, LPCWSTR
 from comtypes import IUnknown, GUID, COMMETHOD
 from comtypes.automation import VARTYPE, VT_BOOL, VT_LPWSTR, VT_UI4, VT_CLSID
+
 
 IID_Empty = GUID(
     '{00000000-0000-0000-0000-000000000000}')
@@ -55,7 +57,7 @@ class PROPVARIANT(Structure):
             # return (Guid)Marshal.PtrToStructure(union.puuid, typeof(Guid))
             return
         else:
-            return unicode(vt) + u":?"
+            return "%s:?" % (vt)
 
 
 class WAVEFORMATEX(Structure):
@@ -383,17 +385,15 @@ class IAudioClient(IUnknown):
                   (['out'], POINTER(POINTER(IUnknown)), 'ppv')))
 
 
+@python_2_unicode_compatible
 class PROPERTYKEY(Structure):
     _fields_ = [
         ('fmtid', GUID),
         ('pid', DWORD),
     ]
 
-    def __unicode__(self):
-        return unicode(self.fmtid) + u" " + unicode(self.pid)
-
     def __str__(self):
-        return unicode(self).encode('utf-8')
+        return "%s %s" % (self.fmtid, self.pid)
 
 
 class IPropertyStore(IUnknown):
@@ -497,6 +497,7 @@ class IMMDeviceEnumerator(IUnknown):
         COMMETHOD([], HRESULT, 'NotImpl2'))
 
 
+@python_2_unicode_compatible
 class AudioDevice(object):
     """
     http://stackoverflow.com/a/20982715/185510
@@ -507,10 +508,7 @@ class AudioDevice(object):
         self.properties = properties
 
     def __str__(self):
-        return unicode(self).encode('utf-8')
-
-    def __unicode__(self):
-        return u"AudioDevice: " + unicode(self.FriendlyName)
+        return "AudioDevice: %s" % (self.FriendlyName)
 
     @property
     def FriendlyName(self):
@@ -520,6 +518,7 @@ class AudioDevice(object):
         return value
 
 
+@python_2_unicode_compatible
 class AudioSession(object):
     """
     http://stackoverflow.com/a/20982715/185510
@@ -531,15 +530,12 @@ class AudioSession(object):
         self._volume = None
 
     def __str__(self):
-        return unicode(self).encode('utf-8')
-
-    def __unicode__(self):
         s = self.DisplayName
         if s:
             return "DisplayName: " + s
         if self.Process is not None:
             return "Process: " + self.Process.name()
-        return "Pid: " + self.ProcessId
+        return "Pid: %s" % (self.ProcessId)
 
     @property
     def Process(self):
@@ -633,7 +629,7 @@ class AudioUtilities(object):
         # win7+ only
         o = speakers.Activate(
             IAudioSessionManager2._iid_, comtypes.CLSCTX_ALL, None)
-        mgr = cast(o, POINTER(IAudioSessionManager2))
+        mgr = o.QueryInterface(IAudioSessionManager2)
         return mgr
 
     @staticmethod
@@ -648,7 +644,7 @@ class AudioUtilities(object):
             ctl = sessionEnumerator.GetSession(i)
             if ctl is None:
                 continue
-            ctl2 = cast(ctl, POINTER(IAudioSessionControl2))
+            ctl2 = ctl.QueryInterface(IAudioSessionControl2)
             if ctl2 is not None:
                 audio_session = AudioSession(ctl2)
                 audio_sessions.append(audio_session)
@@ -678,7 +674,7 @@ class AudioUtilities(object):
                 v = value.GetValue()
                 # TODO
                 # PropVariantClear(byref(value))
-                name = unicode(pk)
+                name = str(pk)
                 properties[name] = v
         audioState = AudioDeviceState(state)
         return AudioDevice(id, audioState, properties)
