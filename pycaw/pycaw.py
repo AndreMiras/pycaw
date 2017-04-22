@@ -130,7 +130,7 @@ class IAudioEndpointVolume(IUnknown):
         # HRESULT SetMasterVolumeLevelScalar(
         # [in] float fLevel, [in] LPCGUID pguidEventContext);
         COMMETHOD([], HRESULT, 'SetMasterVolumeLevelScalar',
-                  (['in'], c_float, 'fLevelDB'),
+                  (['in'], c_float, 'fLevel'),
                   (['in'], POINTER(GUID), 'pguidEventContext')),
         # HRESULT GetMasterVolumeLevel([out] float *pfLevelDB);
         COMMETHOD([], HRESULT, 'GetMasterVolumeLevel',
@@ -177,8 +177,8 @@ class IAudioEndpointVolume(IUnknown):
         # [out] UINT *pnStep,
         # [out] UINT *pnStepCount);
         COMMETHOD([], HRESULT, 'GetVolumeStepInfo',
-                  (['out'], POINTER(c_float), 'pnStep'),
-                  (['out'], POINTER(c_float), 'pnStepCount')),
+                  (['out'], POINTER(DWORD), 'pnStep'),
+                  (['out'], POINTER(DWORD), 'pnStepCount')),
         # HRESULT VolumeStepUp([in] LPCGUID pguidEventContext);
         COMMETHOD([], HRESULT, 'VolumeStepUp',
                   (['in'], POINTER(GUID), 'pguidEventContext')),
