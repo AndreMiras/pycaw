@@ -109,16 +109,40 @@ class AUDCLNT_SHAREMODE(Enum):
     AUDCLNT_SHAREMODE_SHARED = 0x00000001
     AUDCLNT_SHAREMODE_EXCLUSIVE = 0x00000002
 
+class PAUDIO_VOLUME_NOTIFICATION_DATA(Structure):
+    _fields_ = [
+        ('guidEventContext', GUID),
+        ('bMuted', BOOL),
+        ('fMasterVolume', c_float),
+        ('nChannels', UINT),
+        ('afChannelVolumes', c_float)]
+
+class IAudioEndpointVolumeCallback(IUnknown):
+    _iid_ = GUID('{b1136c83-b6b5-4add-98a5-a2df8eedf6fa}')
+    _methods_ = (
+        # HRESULT OnNotify(
+        # PAUDIO_VOLUME_NOTIFICATION_DATA pNotify);
+        COMMETHOD([], HRESULT, 'OnNotify',
+                  (['in'],
+                  PAUDIO_VOLUME_NOTIFICATION_DATA,
+                  'pNotify')))
+
 
 class IAudioEndpointVolume(IUnknown):
     _iid_ = GUID('{5CDF2C82-841E-4546-9722-0CF74078229A}')
     _methods_ = (
         # HRESULT RegisterControlChangeNotify(
         # [in] IAudioEndpointVolumeCallback *pNotify);
-        COMMETHOD([], HRESULT, 'NotImpl1'),
+        COMMETHOD([], HRESULT, 'RegisterControlChangeNotify',
+                  (['in'],
+                  POINTER(POINTER(IAudioEndpointVolumeCallback)),
+                  'pNotify')),
         # HRESULT UnregisterControlChangeNotify(
         # [in] IAudioEndpointVolumeCallback *pNotify);
-        COMMETHOD([], HRESULT, 'NotImpl2'),
+        COMMETHOD([], HRESULT, 'UnregisterControlChangeNotify',
+                  (['in'],
+                  POINTER(POINTER(IAudioEndpointVolumeCallback)),
+                  'pNotify')),
         # HRESULT GetChannelCount([out] UINT *pnChannelCount);
         COMMETHOD([], HRESULT, 'GetChannelCount',
                   (['out'], POINTER(UINT), 'pnChannelCount')),
