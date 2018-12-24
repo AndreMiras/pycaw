@@ -63,5 +63,3 @@ target/
 
 # virtualenv
 venv/
-.eric6project/
-.ropeproject/
