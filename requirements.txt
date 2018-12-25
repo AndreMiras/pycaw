@@ -1,4 +1,4 @@
 comtypes==1.1.3.post2
 enum34==1.1.4
-psutil==4.1.0
+psutil==5.4.8
 future==0.15.2

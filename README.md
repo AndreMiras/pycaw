@@ -1,4 +1,7 @@
 # pycaw
+
+[![Build Status](https://travis-ci.org/AndreMiras/pycaw.svg?branch=develop)](https://travis-ci.org/AndreMiras/pycaw)
+
 Python Core Audio Windows Library, working for both Python2 and Python3.
 
 ## Install
