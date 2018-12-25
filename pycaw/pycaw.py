@@ -1,17 +1,17 @@
 ﻿"""
 Python wrapper around the Core Audio Windows API.
 """
-from future.utils import python_2_unicode_compatible
-import psutil
-import comtypes
+from ctypes import (HRESULT, POINTER, Structure, Union, c_float, c_longlong,
+                    c_uint32)
+from ctypes.wintypes import (BOOL, DWORD, INT, LONG, LPCWSTR, LPWSTR, UINT,
+                             ULARGE_INTEGER, VARIANT_BOOL, WORD)
 from enum import Enum
-from ctypes import HRESULT, POINTER, Structure, Union, \
-    c_uint32, c_longlong, c_float
-from ctypes.wintypes import BOOL, VARIANT_BOOL, WORD, DWORD, \
-    UINT, INT, LONG, ULARGE_INTEGER, LPWSTR, LPCWSTR
-from comtypes import IUnknown, GUID, COMMETHOD
-from comtypes.automation import VARTYPE, VT_BOOL, VT_LPWSTR, VT_UI4, VT_CLSID
 
+import comtypes
+import psutil
+from comtypes import COMMETHOD, GUID, IUnknown
+from comtypes.automation import VARTYPE, VT_BOOL, VT_CLSID, VT_LPWSTR, VT_UI4
+from future.utils import python_2_unicode_compatible
 
 IID_Empty = GUID(
     '{00000000-0000-0000-0000-000000000000}')

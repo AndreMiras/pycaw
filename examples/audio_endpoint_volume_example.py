@@ -2,8 +2,11 @@
 Get and set access to master volume example.
 """
 from __future__ import print_function
-from ctypes import cast, POINTER
+
+from ctypes import POINTER, cast
+
 from comtypes import CLSCTX_ALL
+
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 

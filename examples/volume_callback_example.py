@@ -7,6 +7,7 @@ from __future__ import print_function
 from ctypes import POINTER, cast
 
 from comtypes import CLSCTX_ALL, COMObject
+
 from pycaw.pycaw import (AudioUtilities, IAudioEndpointVolume,
                          IAudioEndpointVolumeCallback)
 
