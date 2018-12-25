@@ -1,5 +1,6 @@
 """
-Per session GetMute() SetMute() GetMasterVolume() SetMasterVolume() using SimpleAudioVolume.
+Per session GetMute() SetMute() GetMasterVolume() SetMasterVolume() using
+SimpleAudioVolume.
 """
 from __future__ import print_function
 from pycaw.pycaw import AudioUtilities
@@ -39,7 +40,8 @@ class AudioController(object):
         for session in sessions:
             interface = session.SimpleAudioVolume
             if session.Process and session.Process.name() == self.process_name:
-                self.volume = min(1.0, max(0.0, decibels))  # only set volume in the range 0.0 to 1.0
+                # only set volume in the range 0.0 to 1.0
+                self.volume = min(1.0, max(0.0, decibels))
                 interface.SetMasterVolume(self.volume, None)
                 print('Volume set to', self.volume)  # debug
 
@@ -48,7 +50,8 @@ class AudioController(object):
         for session in sessions:
             interface = session.SimpleAudioVolume
             if session.Process and session.Process.name() == self.process_name:
-                self.volume = max(0.0, self.volume-decibels)  # 0.0 is the min value, reduce by decibels
+                # 0.0 is the min value, reduce by decibels
+                self.volume = max(0.0, self.volume-decibels)
                 interface.SetMasterVolume(self.volume, None)
                 print('Volume reduced to', self.volume)  # debug
 
@@ -57,7 +60,8 @@ class AudioController(object):
         for session in sessions:
             interface = session.SimpleAudioVolume
             if session.Process and session.Process.name() == self.process_name:
-                self.volume = min(1.0, self.volume+decibels)  # 1.0 is the max value, raise by decibels
+                # 1.0 is the max value, raise by decibels
+                self.volume = min(1.0, self.volume+decibels)
                 interface.SetMasterVolume(self.volume, None)
                 print('Volume raised to', self.volume)  # debug
 
@@ -69,6 +73,7 @@ def main():
     audio_controller.decrease_volume(0.25)
     audio_controller.increase_volume(0.05)
     audio_controller.unmute()
+
 
 if __name__ == "__main__":
     main()
