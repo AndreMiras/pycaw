@@ -1,5 +1,9 @@
 # Change Log
 
+## [Unreleased]
+    - GetVolumeStepInfo() interface fixes
+    - IAudioEndpointVolumeCallback::OnNotify support, refs #10
+
 ## [20160929]
     - Fixed crash on print AudioDevice & AudioSession on Python3
     - Fixed GetAllSessions() reliability, refs #1
