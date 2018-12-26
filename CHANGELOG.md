@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [20181226]
     - GetVolumeStepInfo() interface fixes
     - IAudioEndpointVolumeCallback::OnNotify support, refs #10
     - Setup (limited) continuous testing, refs #12
