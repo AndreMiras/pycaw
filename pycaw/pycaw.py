@@ -1,17 +1,17 @@
 ﻿"""
 Python wrapper around the Core Audio Windows API.
 """
-from future.utils import python_2_unicode_compatible
-import psutil
-import comtypes
+from ctypes import (HRESULT, POINTER, Structure, Union, c_float, c_longlong,
+                    c_uint32)
+from ctypes.wintypes import (BOOL, DWORD, INT, LONG, LPCWSTR, LPWSTR, UINT,
+                             ULARGE_INTEGER, VARIANT_BOOL, WORD)
 from enum import Enum
-from ctypes import HRESULT, POINTER, Structure, Union, \
-    c_uint32, c_longlong, c_float
-from ctypes.wintypes import BOOL, VARIANT_BOOL, WORD, DWORD, \
-    UINT, INT, LONG, ULARGE_INTEGER, LPWSTR, LPCWSTR
-from comtypes import IUnknown, GUID, COMMETHOD
-from comtypes.automation import VARTYPE, VT_BOOL, VT_LPWSTR, VT_UI4, VT_CLSID
 
+import comtypes
+import psutil
+from comtypes import COMMETHOD, GUID, IUnknown
+from comtypes.automation import VARTYPE, VT_BOOL, VT_CLSID, VT_LPWSTR, VT_UI4
+from future.utils import python_2_unicode_compatible
 
 IID_Empty = GUID(
     '{00000000-0000-0000-0000-000000000000}')
@@ -110,15 +110,46 @@ class AUDCLNT_SHAREMODE(Enum):
     AUDCLNT_SHAREMODE_EXCLUSIVE = 0x00000002
 
 
+class AUDIO_VOLUME_NOTIFICATION_DATA(Structure):
+    _fields_ = [
+        ('guidEventContext', GUID),
+        ('bMuted', BOOL),
+        ('fMasterVolume', c_float),
+        ('nChannels', UINT),
+        ('afChannelVolumes', c_float * 8),
+    ]
+
+
+PAUDIO_VOLUME_NOTIFICATION_DATA = POINTER(AUDIO_VOLUME_NOTIFICATION_DATA)
+
+
+class IAudioEndpointVolumeCallback(IUnknown):
+    _iid_ = GUID('{b1136c83-b6b5-4add-98a5-a2df8eedf6fa}')
+    _methods_ = (
+        # HRESULT OnNotify(
+        # [in] PAUDIO_VOLUME_NOTIFICATION_DATA pNotify);
+        COMMETHOD([], HRESULT, 'OnNotify',
+                  (['in'],
+                  PAUDIO_VOLUME_NOTIFICATION_DATA,
+                  'pNotify')),
+    )
+
+
 class IAudioEndpointVolume(IUnknown):
     _iid_ = GUID('{5CDF2C82-841E-4546-9722-0CF74078229A}')
     _methods_ = (
         # HRESULT RegisterControlChangeNotify(
         # [in] IAudioEndpointVolumeCallback *pNotify);
-        COMMETHOD([], HRESULT, 'NotImpl1'),
+        COMMETHOD([], HRESULT, 'RegisterControlChangeNotify',
+                  (['in'],
+                  POINTER(IAudioEndpointVolumeCallback),
+                  'pNotify')),
         # HRESULT UnregisterControlChangeNotify(
         # [in] IAudioEndpointVolumeCallback *pNotify);
-        COMMETHOD([], HRESULT, 'NotImpl2'),
+        COMMETHOD([], HRESULT, 'UnregisterControlChangeNotify',
+                  (['in'],
+                  POINTER(IAudioEndpointVolumeCallback),
+                  'pNotify')),
         # HRESULT GetChannelCount([out] UINT *pnChannelCount);
         COMMETHOD([], HRESULT, 'GetChannelCount',
                   (['out'], POINTER(UINT), 'pnChannelCount')),
@@ -130,7 +161,7 @@ class IAudioEndpointVolume(IUnknown):
         # HRESULT SetMasterVolumeLevelScalar(
         # [in] float fLevel, [in] LPCGUID pguidEventContext);
         COMMETHOD([], HRESULT, 'SetMasterVolumeLevelScalar',
-                  (['in'], c_float, 'fLevelDB'),
+                  (['in'], c_float, 'fLevel'),
                   (['in'], POINTER(GUID), 'pguidEventContext')),
         # HRESULT GetMasterVolumeLevel([out] float *pfLevelDB);
         COMMETHOD([], HRESULT, 'GetMasterVolumeLevel',
@@ -177,8 +208,8 @@ class IAudioEndpointVolume(IUnknown):
         # [out] UINT *pnStep,
         # [out] UINT *pnStepCount);
         COMMETHOD([], HRESULT, 'GetVolumeStepInfo',
-                  (['out'], POINTER(c_float), 'pnStep'),
-                  (['out'], POINTER(c_float), 'pnStepCount')),
+                  (['out'], POINTER(DWORD), 'pnStep'),
+                  (['out'], POINTER(DWORD), 'pnStepCount')),
         # HRESULT VolumeStepUp([in] LPCGUID pguidEventContext);
         COMMETHOD([], HRESULT, 'VolumeStepUp',
                   (['in'], POINTER(GUID), 'pguidEventContext')),
