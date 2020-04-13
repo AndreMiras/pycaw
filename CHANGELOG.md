@@ -1,8 +1,12 @@
 # Change Log
 
+## [20190904]
+    - Fixed enum34 dependency, refs #17 (@mmxfguerin)
+
 ## [20181226]
     - GetVolumeStepInfo() interface fixes
-    - IAudioEndpointVolumeCallback::OnNotify support, refs #10
+    - Added AudioController class example, refs #4 (@lorenzsj)
+    - IAudioEndpointVolumeCallback::OnNotify support, refs #10, #11 (@csevast)
     - Setup (limited) continuous testing, refs #12
 
 ## [20160929]
