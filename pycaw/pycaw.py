@@ -301,6 +301,13 @@ class ISimpleAudioVolume(IUnknown):
         COMMETHOD([], HRESULT, 'GetMute', (['out'], POINTER(BOOL), 'pbMute')))
 
 
+class IAudioMeterInformation(IUnknown):
+    _iid_ = GUID('{C02216F6-8C67-4B5B-9D00-D008E73E0064}')
+    _methods_ = (
+        # HRESULT GetPeakValue([out] c_float *pfPeak);
+        COMMETHOD([], HRESULT, 'GetPeakValue',
+                  (['out'], POINTER(c_float), 'pfPeak')),)
+    
 class IAudioSessionEnumerator(IUnknown):
     _iid_ = GUID('{E2F5BB11-0570-40CA-ACDD-3AA01277DEE8}')
     _methods_ = (
