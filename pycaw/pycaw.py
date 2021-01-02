@@ -307,7 +307,8 @@ class IAudioMeterInformation(IUnknown):
         # HRESULT GetPeakValue([out] c_float *pfPeak);
         COMMETHOD([], HRESULT, 'GetPeakValue',
                   (['out'], POINTER(c_float), 'pfPeak')),)
-    
+
+
 class IAudioSessionEnumerator(IUnknown):
     _iid_ = GUID('{E2F5BB11-0570-40CA-ACDD-3AA01277DEE8}')
     _methods_ = (
