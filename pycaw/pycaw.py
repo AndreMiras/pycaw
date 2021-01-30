@@ -709,8 +709,13 @@ class AudioUtilities(object):
             propCount = store.GetCount()
             for j in range(propCount):
                 pk = store.GetAt(j)
-                value = store.GetValue(pk)
-                v = value.GetValue()
+                try:
+                    value = store.GetValue(pk)
+                    v = value.GetValue()
+                except:
+                    # Failure to get a property shouldn't be fatal.
+                    # https://github.com/AndreMiras/pycaw/issues/15
+                    continue
                 # TODO
                 # PropVariantClear(byref(value))
                 name = str(pk)
