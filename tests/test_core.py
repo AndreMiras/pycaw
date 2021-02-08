@@ -2,10 +2,12 @@
 Verifies core features run as expected.
 """
 from __future__ import print_function
+import _ctypes
 import sys
 import unittest
+from unittest import mock
 from contextlib import contextmanager
-from pycaw.pycaw import AudioUtilities
+from pycaw.pycaw import AudioDeviceState, AudioUtilities
 try:
     from StringIO import StringIO
 except ImportError:
@@ -45,6 +47,22 @@ class TestCore(unittest.TestCase):
             print("devices: %s" % devices)
             for device in devices:
                 print("device: %s" % device)
+
+    def test_device_failed_properties(self):
+        """
+        Makes sure printing a device doesn't crash.
+        """
+
+        with captured_output() as (out, err):
+            dev = mock.Mock()
+            dev.GetId = mock.Mock(return_value="id")
+            dev.GetState = mock.Mock(return_value=AudioDeviceState.Active)
+            store = mock.Mock()
+            store.GetCount = mock.Mock(return_value=3)
+            store.GetAt = mock.Mock(return_value="pk")
+            store.GetValue = mock.Mock(side_effect=_ctypes.COMError(None, None, None))
+            dev.OpenPropertyStore = mock.Mock(return_value=store)
+            audev = AudioUtilities.CreateDevice(dev)
 
     def test_getallsessions_reliability(self):
         """

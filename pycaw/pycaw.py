@@ -1,11 +1,13 @@
 ﻿"""
 Python wrapper around the Core Audio Windows API.
 """
+from _ctypes import COMError
 from ctypes import (HRESULT, POINTER, Structure, Union, c_float, c_longlong,
                     c_uint32)
 from ctypes.wintypes import (BOOL, DWORD, INT, LONG, LPCWSTR, LPWSTR, UINT,
                              ULARGE_INTEGER, VARIANT_BOOL, WORD)
 from enum import Enum
+import warnings
 
 import comtypes
 import psutil
@@ -708,9 +710,17 @@ class AudioUtilities(object):
         if store is not None:
             propCount = store.GetCount()
             for j in range(propCount):
-                pk = store.GetAt(j)
-                value = store.GetValue(pk)
-                v = value.GetValue()
+                try:
+                    pk = store.GetAt(j)
+                    value = store.GetValue(pk)
+                    v = value.GetValue()
+                except COMError as exc:
+                    warnings.warn(
+                        "COMError attempting to get property %r from device %r: %r" % (
+                            j, dev, exc
+                        )
+                    )
+                    continue
                 # TODO
                 # PropVariantClear(byref(value))
                 name = str(pk)
