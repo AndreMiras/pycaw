@@ -1,7 +1,7 @@
 # Change Log
 
 ## [Unreleased]
-    - Fixed GetAllDevices() COMError, refs #15, #28 and #30 (@micolous and @mmxfguerin)
+    - Fixed GetAllDevices() COMError, refs #15, #28 and #30 (@micolous and @reversefold)
 
 ## [20190904]
     - Fixed enum34 dependency, refs #17 (@mmxfguerin)
