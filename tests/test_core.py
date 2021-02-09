@@ -73,5 +73,6 @@ class TestCore(unittest.TestCase):
             sessions = AudioUtilities.GetAllSessions()
             self.assertTrue(len(sessions) > 0)
 
+
 if __name__ == '__main__':
     unittest.main()

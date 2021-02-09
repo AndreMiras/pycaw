@@ -1,19 +1,20 @@
 ﻿"""
 Python wrapper around the Core Audio Windows API.
 """
-from _ctypes import COMError
+import warnings
 from ctypes import (HRESULT, POINTER, Structure, Union, c_float, c_longlong,
                     c_uint32)
 from ctypes.wintypes import (BOOL, DWORD, INT, LONG, LPCWSTR, LPWSTR, UINT,
                              ULARGE_INTEGER, VARIANT_BOOL, WORD)
 from enum import Enum
-import warnings
 
 import comtypes
 import psutil
 from comtypes import COMMETHOD, GUID, IUnknown
 from comtypes.automation import VARTYPE, VT_BOOL, VT_CLSID, VT_LPWSTR, VT_UI4
 from future.utils import python_2_unicode_compatible
+
+from _ctypes import COMError
 
 IID_Empty = GUID(
     '{00000000-0000-0000-0000-000000000000}')
@@ -27,13 +28,13 @@ REFERENCE_TIME = c_longlong
 
 
 class PROPVARIANT_UNION(Union):
-        _fields_ = [
-            ('lVal', LONG),
-            ('uhVal', ULARGE_INTEGER),
-            ('boolVal', VARIANT_BOOL),
-            ('pwszVal', LPWSTR),
-            ('puuid', GUID),
-        ]
+    _fields_ = [
+        ('lVal', LONG),
+        ('uhVal', ULARGE_INTEGER),
+        ('boolVal', VARIANT_BOOL),
+        ('pwszVal', LPWSTR),
+        ('puuid', GUID),
+    ]
 
 
 class PROPVARIANT(Structure):
@@ -716,9 +717,8 @@ class AudioUtilities(object):
                     v = value.GetValue()
                 except COMError as exc:
                     warnings.warn(
-                        "COMError attempting to get property %r from device %r: %r" % (
-                            j, dev, exc
-                        )
+                        "COMError attempting to get property %r "
+                        "from device %r: %r" % (j, dev, exc)
                     )
                     continue
                 # TODO
