@@ -3,7 +3,7 @@ Python wrapper around the Core Audio Windows API.
 """
 import warnings
 from ctypes import (HRESULT, POINTER, Structure, Union, c_float, c_longlong,
-                    c_uint32)
+                    c_uint32, cast)
 from ctypes.wintypes import (BOOL, DWORD, INT, LONG, LPCWSTR, LPWSTR, UINT,
                              ULARGE_INTEGER, VARIANT_BOOL, WORD)
 from enum import Enum
@@ -544,10 +544,12 @@ class AudioDevice(object):
     """
     http://stackoverflow.com/a/20982715/185510
     """
-    def __init__(self, id, state, properties):
+    def __init__(self, id, state, properties, dev):
         self.id = id
         self.state = state
         self.properties = properties
+        self._dev = dev
+        self._volume = None
 
     def __str__(self):
         return "AudioDevice: %s" % (self.FriendlyName)
@@ -558,6 +560,14 @@ class AudioDevice(object):
             u"{a45c254e-df1c-4efd-8020-67d146a850e0} 14".upper()
         value = self.properties.get(DEVPKEY_Device_FriendlyName)
         return value
+
+    @property
+    def EndpointVolume(self):
+        if self._volume is None:
+            iface = self._dev.Activate(
+                IAudioEndpointVolume._iid_, comtypes.CLSCTX_ALL, None)
+            self._volume = cast(iface, POINTER(IAudioEndpointVolume))
+        return self._volume
 
 
 @python_2_unicode_compatible
@@ -726,7 +736,7 @@ class AudioUtilities(object):
                 name = str(pk)
                 properties[name] = v
         audioState = AudioDeviceState(state)
-        return AudioDevice(id, audioState, properties)
+        return AudioDevice(id, audioState, properties, dev)
 
     @staticmethod
     def GetAllDevices():
