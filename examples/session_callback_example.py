@@ -46,9 +46,9 @@ class AudioSessionEvents(COMObject):
 
     def OnSimpleVolumeChanged(self, NewVolume, NewMute, EventContext):
         print(':: OnSimpleVolumeChanged callback')
-        print(f"NewVolume: {NewVolume};"
-              "NewMute: {NewMute};"
-              "EventContext: {EventContext.contents}")
+        print(f"NewVolume: {NewVolume}; "
+              f"NewMute: {NewMute}; "
+              f"EventContext: {EventContext.contents}")
 
     def OnStateChanged(self, NewState):
         print(':: OnStateChanged callback')
@@ -82,7 +82,7 @@ def add_callback(app_name):
         exit("Enter the right 'app_name', start it and play something")
 
     print("Ready to go!")
-    print("Change the volume / mute state"
+    print("Change the volume / mute state "
           "/ close the app or unplug your speaker")
     print("and watch the callbacks ;)\n")
 
