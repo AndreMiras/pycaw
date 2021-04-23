@@ -248,9 +248,9 @@ class IAudioSessionEvents(IUnknown):
         # [in] BOOL    NewMute,
         # [in] LPCGUID EventContext);
         COMMETHOD([], HRESULT, 'OnSimpleVolumeChanged',
-            (['in'], c_float, 'NewVolume'),
-            (['in'], BOOL, 'NewMute'),
-            (['in'], POINTER(GUID), 'EventContext')),
+                  (['in'], c_float, 'NewVolume'),
+                  (['in'], BOOL, 'NewMute'),
+                  (['in'], POINTER(GUID), 'EventContext')),
         # HRESULT OnChannelVolumeChanged(
         # [in] DWORD    ChannelCount,
         # [in] float [] NewChannelVolumeArray,
@@ -264,11 +264,11 @@ class IAudioSessionEvents(IUnknown):
         # HRESULT OnStateChanged(
         # AudioSessionState NewState);
         COMMETHOD([], HRESULT, 'OnStateChanged',
-            (['in'], DWORD, 'NewState')),
+                  (['in'], DWORD, 'NewState')),
         # HRESULT OnSessionDisconnected(
         # [in] AudioSessionDisconnectReason DisconnectReason);
         COMMETHOD([], HRESULT, 'OnSessionDisconnected',
-            (['in'], DWORD, 'DisconnectReason')),
+                  (['in'], DWORD, 'DisconnectReason')),
     )
 
 
@@ -299,11 +299,11 @@ class IAudioSessionControl(IUnknown):
         # HRESULT RegisterAudioSessionNotification(
         # [in] IAudioSessionEvents *NewNotifications);
         COMMETHOD([], HRESULT, 'RegisterAudioSessionNotification',
-                 (['in'], POINTER(IAudioSessionEvents), 'NewNotifications')),
+                  (['in'], POINTER(IAudioSessionEvents), 'NewNotifications')),
         # HRESULT UnregisterAudioSessionNotification(
         # [in] IAudioSessionEvents *NewNotifications);
         COMMETHOD([], HRESULT, 'UnregisterAudioSessionNotification',
-                 (['in'], POINTER(IAudioSessionEvents), 'NewNotifications')))
+                  (['in'], POINTER(IAudioSessionEvents), 'NewNotifications')))
 
 
 class IAudioSessionControl2(IAudioSessionControl):
