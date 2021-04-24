@@ -276,7 +276,8 @@ class IAudioSessionControl(IUnknown):
     _iid_ = GUID('{F4B1A599-7266-4319-A8CA-E70ACB11E8CD}')
     _methods_ = (
         # HRESULT GetState ([out] AudioSessionState *pRetVal);
-        COMMETHOD([], HRESULT, 'NotImpl1'),
+        COMMETHOD([], HRESULT, 'GetState',
+                  (['out'], POINTER(DWORD), 'pRetVal')),
         # HRESULT GetDisplayName([out] LPWSTR *pRetVal);
         COMMETHOD([], HRESULT, 'GetDisplayName',
                   (['out'], POINTER(LPWSTR), 'pRetVal')),
