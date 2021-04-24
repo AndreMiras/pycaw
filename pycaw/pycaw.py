@@ -232,6 +232,46 @@ class IAudioEndpointVolume(IUnknown):
                   (['out'], POINTER(c_float), 'pfIncr')))
 
 
+class IAudioSessionEvents(IUnknown):
+    _iid_ = GUID('{073d618c-490a-4f9f-9d18-7bec6fc21121}')
+    _methods_ = (
+        # HRESULT OnDisplayNameChanged(
+        # [in] LPCWSTR NewDisplayName,
+        # [in] LPCGUID EventContext);
+        COMMETHOD([], HRESULT, 'NotImpl1'),
+        # HRESULT OnIconPathChanged(
+        # [in] LPCWSTR NewIconPath,
+        # [in] LPCGUID EventContext);
+        COMMETHOD([], HRESULT, 'NotImpl2'),
+        # HRESULT OnSimpleVolumeChanged(
+        # [in] float   NewVolume,
+        # [in] BOOL    NewMute,
+        # [in] LPCGUID EventContext);
+        COMMETHOD([], HRESULT, 'OnSimpleVolumeChanged',
+                  (['in'], c_float, 'NewVolume'),
+                  (['in'], BOOL, 'NewMute'),
+                  (['in'], POINTER(GUID), 'EventContext')),
+        # HRESULT OnChannelVolumeChanged(
+        # [in] DWORD    ChannelCount,
+        # [in] float [] NewChannelVolumeArray,
+        # [in] DWORD    ChangedChannel,
+        # [in] LPCGUID  EventContext);
+        COMMETHOD([], HRESULT, 'NotImpl3'),
+        # HRESULT OnGroupingParamChanged(
+        # [in] LPCGUID NewGroupingParam,
+        # [in] LPCGUID EventContext);
+        COMMETHOD([], HRESULT, 'NotImpl4'),
+        # HRESULT OnStateChanged(
+        # AudioSessionState NewState);
+        COMMETHOD([], HRESULT, 'OnStateChanged',
+                  (['in'], DWORD, 'NewState')),
+        # HRESULT OnSessionDisconnected(
+        # [in] AudioSessionDisconnectReason DisconnectReason);
+        COMMETHOD([], HRESULT, 'OnSessionDisconnected',
+                  (['in'], DWORD, 'DisconnectReason')),
+    )
+
+
 class IAudioSessionControl(IUnknown):
     _iid_ = GUID('{F4B1A599-7266-4319-A8CA-E70ACB11E8CD}')
     _methods_ = (
@@ -258,10 +298,12 @@ class IAudioSessionControl(IUnknown):
         COMMETHOD([], HRESULT, 'NotImpl6'),
         # HRESULT RegisterAudioSessionNotification(
         # [in] IAudioSessionEvents *NewNotifications);
-        COMMETHOD([], HRESULT, 'NotImpl7'),
+        COMMETHOD([], HRESULT, 'RegisterAudioSessionNotification',
+                  (['in'], POINTER(IAudioSessionEvents), 'NewNotifications')),
         # HRESULT UnregisterAudioSessionNotification(
         # [in] IAudioSessionEvents *NewNotifications);
-        COMMETHOD([], HRESULT, 'NotImpl8'))
+        COMMETHOD([], HRESULT, 'UnregisterAudioSessionNotification',
+                  (['in'], POINTER(IAudioSessionEvents), 'NewNotifications')))
 
 
 class IAudioSessionControl2(IAudioSessionControl):
