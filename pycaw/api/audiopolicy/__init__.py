@@ -133,6 +133,18 @@ class IAudioSessionManager(IUnknown):
                    POINTER(POINTER(ISimpleAudioVolume)), 'AudioVolume')))
 
 
+class IAudioSessionNotification(IUnknown):
+    _iid_ = GUID('{8aad9bb7-39e1-4c62-a3ab-ff6e76dcf9c8}')
+    _methods_ = (
+        # HRESULT OnSessionCreated(
+        # ['in'] IAudioSessionControl *NewSession
+        # );
+        COMMETHOD([], HRESULT, 'OnSessionCreated',
+                  (['in'],
+                   POINTER(IAudioSessionControl), 'NewSession'),),
+    )
+
+
 class IAudioSessionManager2(IAudioSessionManager):
     _iid_ = GUID('{77aa99a0-1bd6-484f-8bc7-2c654c9a9b6f}')
     _methods_ = (
@@ -143,10 +155,14 @@ class IAudioSessionManager2(IAudioSessionManager):
                   POINTER(POINTER(IAudioSessionEnumerator)), 'SessionList')),
         # HRESULT RegisterSessionNotification(
         # IAudioSessionNotification *SessionNotification);
-        COMMETHOD([], HRESULT, 'NotImpl1'),
+        COMMETHOD([], HRESULT, 'RegisterSessionNotification',
+                  (['in'],
+                  POINTER(IAudioSessionNotification), 'SessionNotification')),
         # HRESULT UnregisterSessionNotification(
         # IAudioSessionNotification *SessionNotification);
-        COMMETHOD([], HRESULT, 'NotImpl2'),
+        COMMETHOD([], HRESULT, 'UnregisterSessionNotification',
+                  (['in'],
+                  POINTER(IAudioSessionNotification), 'SessionNotification')),
         # HRESULT RegisterDuckNotification(
         # LPCWSTR SessionID,
         # IAudioVolumeDuckNotification *duckNotification);

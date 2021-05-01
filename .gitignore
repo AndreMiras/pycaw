@@ -1,5 +1,6 @@
 # Custom
 venv/
+.vscode/
 *.swp
 
 # Byte-compiled / optimized / DLL files

@@ -56,6 +56,7 @@ class AudioSession(object):
         self._ctl = audio_session_control2
         self._process = None
         self._volume = None
+        self._callback = None
 
     def __str__(self):
         s = self.DisplayName
@@ -130,6 +131,15 @@ class AudioSession(object):
         if self._volume is None:
             self._volume = self._ctl.QueryInterface(ISimpleAudioVolume)
         return self._volume
+
+    def register_notification(self, callback):
+        if self._callback is None:
+            self._callback = callback
+            self._ctl.RegisterAudioSessionNotification(self._callback)
+
+    def unregister_notification(self):
+        if self._callback:
+            self._ctl.UnregisterAudioSessionNotification(self._callback)
 
 
 class AudioUtilities(object):

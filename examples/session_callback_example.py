@@ -7,58 +7,45 @@ Requirements: Python >= 3.6 - f strings ;)
 following "IAudioSessionEvents" callbacks are supported:
 :: Gets called on volume and mute change:
 IAudioSessionEvents.OnSimpleVolumeChanged()
-:: Gets called on session state change (active/inactive/expired)
+-> on_simple_volume_changed()
+
+:: Gets called on session state change (active/inactive/expired):
 IAudioSessionEvents.OnStateChanged()
+-> on_state_changed()
+
 :: Gets called on for example Speaker unplug
 IAudioSessionEvents.OnSessionDisconnected()
+-> on_session_disconnected()
 
 https://docs.microsoft.com/en-us/windows/win32/api/audiopolicy/nn-audiopolicy-iaudiosessionevents
 
 """
 import time
 
-from comtypes import COMError, COMObject
+from comtypes import COMError
 
-from pycaw.pycaw import AudioUtilities, IAudioSessionEvents
+from pycaw.callbacks import AudioSessionEvents
+from pycaw.utils import AudioUtilities
 
 app_name = "msedge.exe"
 
 
-class AudioSessionEvents(COMObject):
-    _com_interfaces_ = [IAudioSessionEvents]
+class MyCustomCallback(AudioSessionEvents):
 
-    def __init__(self):
-        # not necessary only to decode the returned int value
-        # see mmdeviceapi.h and audiopolicy.h
-        self.AudioSessionState = [
-            "AudioSessionStateInactive",
-            "AudioSessionStateActive",
-            "AudioSessionStateExpired"
-        ]
-        self.AudioSessionDisconnectReason = [
-            "DisconnectReasonDeviceRemoval",
-            "DisconnectReasonServerShutdown",
-            "DisconnectReasonFormatChanged",
-            "DisconnectReasonSessionLogoff",
-            "DisconnectReasonSessionDisconnected",
-            "DisconnectReasonExclusiveModeOverride"
-        ]
+    def on_simple_volume_changed(self, new_volume, new_mute, event_context):
+        print(':: OnSimpleVolumeChanged callback\n'
+              f"new_volume: {new_volume}; "
+              f"new_mute: {new_mute}; "
+              f"event_context: {event_context.contents}")
 
-    def OnSimpleVolumeChanged(self, NewVolume, NewMute, EventContext):
-        print(':: OnSimpleVolumeChanged callback')
-        print(f"NewVolume: {NewVolume}; "
-              f"NewMute: {NewMute}; "
-              f"EventContext: {EventContext.contents}")
+    def on_state_changed(self, new_state, new_state_id):
+        print(':: OnStateChanged callback\n'
+              f"new_state: {new_state}; id: {new_state_id}")
 
-    def OnStateChanged(self, NewState):
-        print(':: OnStateChanged callback')
-        translate = self.AudioSessionState[NewState]
-        print(translate)
-
-    def OnSessionDisconnected(self, DisconnectReason):
-        print(':: OnSessionDisconnected callback')
-        translate = self.AudioSessionDisconnectReason[DisconnectReason]
-        print(translate)
+    def on_session_disconnected(self, disconnect_reason, disconnect_reason_id):
+        print(':: OnSessionDisconnected callback\n'
+              f"disconnect_reason: {disconnect_reason}; "
+              f"id: {disconnect_reason_id}")
 
 
 def add_callback(app_name):
@@ -73,10 +60,9 @@ def add_callback(app_name):
         if session.Process and session.Process.name() == app_name:
 
             app_found = True
-            callback = AudioSessionEvents()
-            # Adding the callback by accessing the
-            # IAudioSessionControl2 interface through ._ctl
-            session._ctl.RegisterAudioSessionNotification(callback)
+            callback = MyCustomCallback()
+            # Adding the callback
+            session.register_notification(callback)
 
     if not app_found:
         exit("Enter the right 'app_name', start it and play something")
@@ -92,6 +78,14 @@ def add_callback(app_name):
     except KeyboardInterrupt:
         pass
     finally:
+
+        # unregister callback(s)
+        # unregister_notification()
+        # (only if it was also registered.)
+        # pycaw.utils -> unregister_notification()
+        for session in sessions:
+            session.unregister_notification()
+
         print("\nTschüss")
 
 
