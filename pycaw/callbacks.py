@@ -38,10 +38,6 @@ class AudioSessionNotification(COMObject):
 
     def on_session_created(self, new_volume, new_mute, event_context):
         Is fired, when a new audio session is created.
-        Sometimes this method gets fired multiple times even if the session
-        is already active. It is up to the developer to filter this.
-        new_session.InstanceIdentifier - GetSessionInstanceIdentifier()
-        will uniquely identify a session by a long string.
             new_session : pycaw.utils.AudioSession
     """
 

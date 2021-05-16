@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, IntEnum
 
 from comtypes import GUID
 
@@ -45,3 +45,10 @@ class STGM(Enum):
 class AUDCLNT_SHAREMODE(Enum):
     AUDCLNT_SHAREMODE_SHARED = 0x00000001
     AUDCLNT_SHAREMODE_EXCLUSIVE = 0x00000002
+
+
+class AudioSessionState(IntEnum):
+    # IntEnum to make instances comparable.
+    Inactive = 0
+    Active = 1
+    Expired = 2
