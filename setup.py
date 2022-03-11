@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def read(fname):
@@ -18,5 +18,5 @@ setup(name='pycaw',
       long_description_content_type='text/markdown',
       author='Andre Miras',
       url='https://github.com/AndreMiras/pycaw',
-      packages=['pycaw'],
+      packages=find_packages(),
       install_requires=install_requires)
