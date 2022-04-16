@@ -19,11 +19,13 @@ git flow release finish
 Push everything, make sure tags are also pushed:
 ```batch
 git push
-git push origin master:master
+git push origin main:main
 git push --tags
 ```
 
 ## Publish to PyPI
+This process is handled automatically by [GitHub Actions](https://github.com/AndreMiras/pycaw/actions/workflows/pypi-release.yml).
+If needed below are the instructions to perform it manually.
 Build it:
 ```batch
 python setup.py sdist bdist_wheel
