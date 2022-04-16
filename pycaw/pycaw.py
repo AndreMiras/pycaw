@@ -9,9 +9,10 @@ Python wrapper around the Core Audio Windows API.
 
 from pycaw.api.audioclient import IAudioClient, ISimpleAudioVolume
 from pycaw.api.audioclient.depend import WAVEFORMATEX
-from pycaw.api.audiopolicy import (
-    IAudioSessionControl, IAudioSessionControl2, IAudioSessionEnumerator,
-    IAudioSessionEvents, IAudioSessionManager, IAudioSessionManager2)
+from pycaw.api.audiopolicy import (IAudioSessionControl, IAudioSessionControl2,
+                                   IAudioSessionEnumerator,
+                                   IAudioSessionEvents, IAudioSessionManager,
+                                   IAudioSessionManager2)
 from pycaw.api.endpointvolume import (IAudioEndpointVolume,
                                       IAudioEndpointVolumeCallback,
                                       IAudioMeterInformation)

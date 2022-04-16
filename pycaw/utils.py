@@ -3,8 +3,8 @@ from ctypes import POINTER, cast
 
 import comtypes
 import psutil
-
 from _ctypes import COMError
+
 from pycaw.api.audioclient import ISimpleAudioVolume
 from pycaw.api.audiopolicy import IAudioSessionControl2, IAudioSessionManager2
 from pycaw.api.endpointvolume import IAudioEndpointVolume

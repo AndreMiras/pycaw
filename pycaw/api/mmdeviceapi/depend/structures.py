@@ -1,6 +1,6 @@
 from ctypes import Structure, Union
-from ctypes.wintypes import (
-    DWORD, LONG, LPWSTR, ULARGE_INTEGER, VARIANT_BOOL, WORD)
+from ctypes.wintypes import (DWORD, LONG, LPWSTR, ULARGE_INTEGER, VARIANT_BOOL,
+                             WORD)
 
 from comtypes import GUID
 from comtypes.automation import VARTYPE, VT_BOOL, VT_CLSID, VT_LPWSTR, VT_UI4
