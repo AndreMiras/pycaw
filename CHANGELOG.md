@@ -2,6 +2,12 @@
 
 ## [Unreleased]
     - Fixed GetAllDevices() COMError, refs #15, #28 and #30 (@micolous and @reversefold)
+    - New IAudioSessionEvents callbacks support, refs #27, #36 (@TurboAnonym)
+    - IAudioSessionControl GetState fix, refs #32, #37 (@TurboAnonym)
+    - Adding AudioUtilities.GetMicrophone(), refs #39 (@alebzk)
+    - Reorganize / Split the pycaw.pycaw file in modules and subpackages, refs #38 (@TurboAnonym)
+    - OnSessionCreated support + Wrapper for callbacks, refs #40 (@TurboAnonym)
+    - "Magic" module, easy session control, refs #42 (@TurboAnonym)
 
 ## [20190904]
     - Fixed enum34 dependency, refs #17 (@mmxfguerin)
