@@ -8,8 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
-        with:
-          python-version: 3.6
       - run: pip install tox
       - run: tox -e pep8
       - run: tox -e isort
@@ -17,7 +15,7 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        python: [3.6]
+        python: ['3.7', '3.8', '3.9', '3.10']
 
     steps:
       - uses: actions/checkout@v2

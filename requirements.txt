@@ -1,3 +1,2 @@
-comtypes==1.1.8
-enum34;python_version<"3.4"
-psutil==5.7.3
+comtypes==1.1.11
+psutil==5.9.0

@@ -10,7 +10,7 @@ def read(fname):
 
 
 install_requires = [
-    'comtypes', 'enum34;python_version<"3.4"', 'psutil']
+    'comtypes', 'psutil']
 setup(name='pycaw',
       version='20210516.dev0',
       description='Python Core Audio Windows Library',
