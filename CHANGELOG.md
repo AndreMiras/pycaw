@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [20210516]
     - Fixed GetAllDevices() COMError, refs #15, #28 and #30 (@micolous and @reversefold)
     - New IAudioSessionEvents callbacks support, refs #27, #36 (@TurboAnonym)
     - IAudioSessionControl GetState fix, refs #32, #37 (@TurboAnonym)
