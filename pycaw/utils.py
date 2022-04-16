@@ -3,7 +3,6 @@ from ctypes import POINTER, cast
 
 import comtypes
 import psutil
-from future.utils import python_2_unicode_compatible
 
 from _ctypes import COMError
 from pycaw.api.audioclient import ISimpleAudioVolume
@@ -15,8 +14,7 @@ from pycaw.constants import (DEVICE_STATE, STGM, AudioDeviceState,
                              IID_Empty)
 
 
-@python_2_unicode_compatible
-class AudioDevice(object):
+class AudioDevice:
     """
     http://stackoverflow.com/a/20982715/185510
     """
@@ -46,8 +44,7 @@ class AudioDevice(object):
         return self._volume
 
 
-@python_2_unicode_compatible
-class AudioSession(object):
+class AudioSession:
     """
     http://stackoverflow.com/a/20982715/185510
     """
@@ -142,7 +139,7 @@ class AudioSession(object):
             self._ctl.UnregisterAudioSessionNotification(self._callback)
 
 
-class AudioUtilities(object):
+class AudioUtilities:
     """
     http://stackoverflow.com/a/20982715/185510
     """

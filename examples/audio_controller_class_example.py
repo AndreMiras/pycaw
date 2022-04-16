@@ -2,12 +2,10 @@
 Per session GetMute() SetMute() GetMasterVolume() SetMasterVolume() using
 SimpleAudioVolume.
 """
-from __future__ import print_function
-
 from pycaw.pycaw import AudioUtilities
 
 
-class AudioController(object):
+class AudioController:
     def __init__(self, process_name):
         self.process_name = process_name
         self.volume = self.process_volume()

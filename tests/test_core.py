@@ -1,7 +1,6 @@
 """
 Verifies core features run as expected.
 """
-from __future__ import print_function
 import _ctypes
 import sys
 import warnings
@@ -9,10 +8,7 @@ import unittest
 from unittest import mock
 from contextlib import contextmanager
 from pycaw.pycaw import AudioDeviceState, AudioUtilities
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+from io import StringIO
 
 
 @contextmanager

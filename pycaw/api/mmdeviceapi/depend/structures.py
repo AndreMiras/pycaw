@@ -4,7 +4,6 @@ from ctypes.wintypes import (
 
 from comtypes import GUID
 from comtypes.automation import VARTYPE, VT_BOOL, VT_CLSID, VT_LPWSTR, VT_UI4
-from future.utils import python_2_unicode_compatible
 
 
 class PROPVARIANT_UNION(Union):
@@ -43,7 +42,6 @@ class PROPVARIANT(Structure):
             return "%s:?" % (vt)
 
 
-@python_2_unicode_compatible
 class PROPERTYKEY(Structure):
     _fields_ = [
         ('fmtid', GUID),

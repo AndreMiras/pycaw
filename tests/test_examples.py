@@ -9,10 +9,7 @@ from pycaw.pycaw import AudioUtilities
 from examples import audio_endpoint_volume_example
 from examples import simple_audio_volume_example
 from examples import volume_by_process_example
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+from io import StringIO
 
 
 @contextmanager
