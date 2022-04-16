@@ -3,9 +3,11 @@
 ## Run all tests
 
 Using Python unit testing framework:
-
-    python -m unittest discover
+```bat
+pytest tests
+```
 
 Using Tox:
-
-    tox
+```bat
+tox
+```

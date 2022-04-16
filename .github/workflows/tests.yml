@@ -21,11 +21,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      # Virtual network sound card for Microsoft Windows
+      - name: Install Scream
+        shell: powershell
+        run: |
+          Invoke-WebRequest https://github.com/duncanthrax/scream/releases/download/3.8/Scream3.8.zip -OutFile Scream3.8.zip
+          Expand-Archive -Path Scream3.8.zip -DestinationPath Scream
+          Import-Certificate -FilePath Scream\Install\driver\x64\Scream.cat -CertStoreLocation Cert:\LocalMachine\TrustedPublisher
+          Scream\Install\helpers\devcon-x64.exe install Scream\Install\driver\x64\Scream.inf *Scream
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python }}
       - run: pip install tox
-      # # can't run actual unit tests in GitHub Actions
-      # https://github.com/AndreMiras/pycaw/runs/6049929435
-      # _ctypes.COMError: (-2147023728, 'Element not found.', (None, None, None, 0, None))
-      # - run: tox -e py
+      - run: tox -e py

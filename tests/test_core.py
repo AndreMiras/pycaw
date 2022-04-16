@@ -4,6 +4,7 @@ Verifies core features run as expected.
 from __future__ import print_function
 import _ctypes
 import sys
+import warnings
 import unittest
 from unittest import mock
 from contextlib import contextmanager
@@ -56,11 +57,12 @@ class TestCore(unittest.TestCase):
             side_effect=_ctypes.COMError(None, None, None)
         )
         dev.OpenPropertyStore = mock.Mock(return_value=store)
-        with captured_output() as (out, err):
+        with warnings.catch_warnings(record=True) as w:
             AudioUtilities.CreateDevice(dev)
+        self.assertEqual(len(w), 1)
         self.assertTrue(
-            "UserWarning: COMError attempting to get property 0 from device"
-            in err.getvalue()
+            "COMError attempting to get property 0 from device"
+            in str(w[0].message)
         )
 
     def test_getallsessions_reliability(self):
