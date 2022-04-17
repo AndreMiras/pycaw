@@ -1,5 +1,13 @@
 # Change Log
 
+## [20220416]
+    - Migrate to GitHub Actions
+    - CI tests via virtual sound card
+    - Drop Python 2.7 and 3.6
+    - Add support for 3.7 up to 3.10
+    - Fix missing api package, refs #63 (@Jan-Zeiseweis)
+    - Automatic PyPI release on tagging, refs #44
+
 ## [20210516]
     - Fixed GetAllDevices() COMError, refs #15, #28 and #30 (@micolous and @reversefold)
     - New IAudioSessionEvents callbacks support, refs #27, #36 (@TurboAnonym)
