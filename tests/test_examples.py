@@ -2,7 +2,6 @@
 Verifies examples run as expected.
 """
 import pytest
-import unittest
 from pycaw.pycaw import AudioUtilities
 from tests.test_core import captured_output
 from examples import audio_endpoint_volume_example
@@ -10,7 +9,7 @@ from examples import simple_audio_volume_example
 from examples import volume_by_process_example
 
 
-class TestExamples(unittest.TestCase):
+class TestExamples:
 
     @pytest.mark.skip(reason="Currently failing in the CI")
     def test_audio_endpoint_volume_example(self):
@@ -18,16 +17,11 @@ class TestExamples(unittest.TestCase):
             audio_endpoint_volume_example.main()
         output = out.getvalue()
         lines = output.split("\n")
-        self.assertEqual(
-            lines[0], 'volume.GetMute(): 0')
-        self.assertEqual(
-            lines[1], 'volume.GetMasterVolumeLevel(): -20.0')
-        self.assertEqual(
-            lines[2], 'volume.GetVolumeRange(): (-95.25, 0.0, 0.75)')
-        self.assertEqual(
-            lines[3], 'volume.SetMasterVolumeLevel()')
-        self.assertEqual(
-            lines[4], 'volume.GetMasterVolumeLevel(): -20.0')
+        assert lines[0] == 'volume.GetMute(): 0'
+        assert lines[1] == 'volume.GetMasterVolumeLevel(): -20.0'
+        assert lines[2] == 'volume.GetVolumeRange(): (-95.25, 0.0, 0.75)'
+        assert lines[3] == 'volume.SetMasterVolumeLevel()'
+        assert lines[4] == 'volume.GetMasterVolumeLevel(): -20.0'
 
     def test_simple_audio_volume_example(self):
         with captured_output() as (out, err):
@@ -35,9 +29,9 @@ class TestExamples(unittest.TestCase):
         output = out.getvalue()
         lines = output.strip().split("\n")
         sessions = AudioUtilities.GetAllSessions()
-        self.assertEqual(len(lines), len(sessions))
+        assert len(lines) == len(sessions)
         for line in lines:
-            self.assertTrue(
+            assert (
                 'volume.GetMute(): 0' in line or
                 'volume.GetMute(): 1' in line)
 
@@ -47,10 +41,6 @@ class TestExamples(unittest.TestCase):
         for session in sessions:
             volume = session.SimpleAudioVolume
             if session.Process and session.Process.name() == "chrome.exe":
-                self.assertEqual(volume.GetMute(), 0)
+                assert volume.GetMute() == 0
             else:
-                self.assertEqual(volume.GetMute(), 1)
-
-
-if __name__ == '__main__':
-    unittest.main()
+                assert volume.GetMute() == 1
