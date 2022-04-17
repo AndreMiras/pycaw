@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def read(fname):
@@ -10,13 +10,13 @@ def read(fname):
 
 
 install_requires = [
-    'comtypes', 'enum34;python_version<"3.4"', 'psutil', 'future']
+    'comtypes', 'psutil']
 setup(name='pycaw',
-      version='20190904',
+      version='20220416',
       description='Python Core Audio Windows Library',
       long_description=read('README.md'),
       long_description_content_type='text/markdown',
       author='Andre Miras',
       url='https://github.com/AndreMiras/pycaw',
-      packages=['pycaw'],
+      packages=find_packages(exclude=("tests", "examples")),
       install_requires=install_requires)

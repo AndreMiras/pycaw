@@ -1,6 +1,7 @@
 # pycaw
 
-[![Build Status](https://travis-ci.org/AndreMiras/pycaw.svg?branch=develop)](https://travis-ci.org/AndreMiras/pycaw)
+[![Tests](https://github.com/AndreMiras/pycaw/actions/workflows/tests.yml/badge.svg)](https://github.com/AndreMiras/pycaw/actions/workflows/tests.yml)
+[![PyPI release](https://github.com/AndreMiras/pycaw/actions/workflows/pypi-release.yml/badge.svg)](https://github.com/AndreMiras/pycaw/actions/workflows/pypi-release.yml)
 [![PyPI version](https://badge.fury.io/py/pycaw.svg)](https://badge.fury.io/py/pycaw)
 
 Python Core Audio Windows Library, working for both Python2 and Python3.
