@@ -1,6 +1,7 @@
 # pycaw
 
 [![Tests](https://github.com/AndreMiras/pycaw/workflows/Tests/badge.svg)](https://github.com/AndreMiras/pycaw/actions/workflows/tests.yml)
+[![Coverage Status](https://coveralls.io/repos/github/AndreMiras/pycaw/badge.svg?branch=develop)](https://coveralls.io/github/AndreMiras/pycaw?branch=develop)
 [![PyPI release](https://github.com/AndreMiras/pycaw/workflows/PyPI%20release/badge.svg)](https://github.com/AndreMiras/pycaw/actions/workflows/pypi-release.yml)
 [![PyPI version](https://badge.fury.io/py/pycaw.svg)](https://badge.fury.io/py/pycaw)
 

@@ -31,3 +31,8 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: pip install tox
       - run: tox -e py
+      - name: Run Coverage
+        if: matrix.python == '3.10'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: tox -e coveralls
