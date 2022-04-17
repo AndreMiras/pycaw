@@ -9,18 +9,18 @@ Python Core Audio Windows Library, working for both Python2 and Python3.
 ## Install
 
 Latest stable release:
-```bash
+```bat
 pip install pycaw
 ```
 
 Development branch:
-```bash
+```bat
 pip install https://github.com/AndreMiras/pycaw/archive/develop.zip
 ```
 
 System requirements:
-```bash
-choco install visualcppbuildtools
+```bat
+choco install visualcpp-build-tools
 ```
 
 ## Usage
