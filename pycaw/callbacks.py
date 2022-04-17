@@ -2,8 +2,11 @@ from ctypes import pointer
 
 from comtypes import COMObject
 
-from pycaw.api.audiopolicy import (IAudioSessionControl2, IAudioSessionEvents,
-                                   IAudioSessionNotification)
+from pycaw.api.audiopolicy import (
+    IAudioSessionControl2,
+    IAudioSessionEvents,
+    IAudioSessionNotification,
+)
 from pycaw.api.endpointvolume import IAudioEndpointVolumeCallback
 from pycaw.utils import AudioSession
 
@@ -89,11 +92,7 @@ class AudioSessionEvents(COMObject):
 
     # ======= DECODE RETURNED INT VALUE =======
     # see audiosessiontypes.h and audiopolicy.h
-    AudioSessionState = (
-        "Inactive",
-        "Active",
-        "Expired"
-    )
+    AudioSessionState = ("Inactive", "Active", "Expired")
 
     AudioSessionDisconnectReason = (
         "DeviceRemoval",
@@ -101,7 +100,7 @@ class AudioSessionEvents(COMObject):
         "FormatChanged",
         "SessionLogoff",
         "SessionDisconnected",
-        "ExclusiveModeOverride"
+        "ExclusiveModeOverride",
     )
 
     def OnSimpleVolumeChanged(self, new_volume, new_mute, event_context):
@@ -112,9 +111,7 @@ class AudioSessionEvents(COMObject):
         self.on_state_changed(new_state, new_state_id)
 
     def OnSessionDisconnected(self, disconnect_reason_id):
-        disconnect_reason = self.AudioSessionDisconnectReason[
-            disconnect_reason_id
-        ]
+        disconnect_reason = self.AudioSessionDisconnectReason[disconnect_reason_id]
         self.on_session_disconnected(disconnect_reason, disconnect_reason_id)
 
     def on_simple_volume_changed(self, new_volume, new_mute, event_context):
@@ -154,6 +151,7 @@ class AudioEndpointVolumeCallback(COMObject):
                 the channel volumes in range(0, 1)
                 len(channel_volumes) == channels
     """
+
     _com_interfaces_ = (IAudioEndpointVolumeCallback,)
 
     def OnNotify(self, pNotify):
@@ -170,10 +168,14 @@ class AudioEndpointVolumeCallback(COMObject):
 
         event_context = pointer(notify_data.guidEventContext)
 
-        self.on_notify(notify_data.fMasterVolume, notify_data.bMuted,
-                       event_context, channels, channel_volumes)
+        self.on_notify(
+            notify_data.fMasterVolume,
+            notify_data.bMuted,
+            event_context,
+            channels,
+            channel_volumes,
+        )
 
-    def on_notify(self, new_volume, new_mute, event_context,
-                  channels, channel_volumes):
+    def on_notify(self, new_volume, new_mute, event_context, channels, channel_volumes):
         """pycaw user interface"""
         raise NotImplementedError

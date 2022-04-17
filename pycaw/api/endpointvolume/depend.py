@@ -6,11 +6,11 @@ from comtypes import GUID
 
 class AUDIO_VOLUME_NOTIFICATION_DATA(Structure):
     _fields_ = [
-        ('guidEventContext', GUID),
-        ('bMuted', BOOL),
-        ('fMasterVolume', c_float),
-        ('nChannels', UINT),
-        ('afChannelVolumes', c_float * 8),
+        ("guidEventContext", GUID),
+        ("bMuted", BOOL),
+        ("fMasterVolume", c_float),
+        ("nChannels", UINT),
+        ("afChannelVolumes", c_float * 8),
     ]
 
 

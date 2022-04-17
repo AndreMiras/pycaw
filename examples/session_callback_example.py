@@ -31,21 +31,25 @@ app_name = "msedge.exe"
 
 
 class MyCustomCallback(AudioSessionEvents):
-
     def on_simple_volume_changed(self, new_volume, new_mute, event_context):
-        print(':: OnSimpleVolumeChanged callback\n'
-              f"new_volume: {new_volume}; "
-              f"new_mute: {new_mute}; "
-              f"event_context: {event_context.contents}")
+        print(
+            ":: OnSimpleVolumeChanged callback\n"
+            f"new_volume: {new_volume}; "
+            f"new_mute: {new_mute}; "
+            f"event_context: {event_context.contents}"
+        )
 
     def on_state_changed(self, new_state, new_state_id):
-        print(':: OnStateChanged callback\n'
-              f"new_state: {new_state}; id: {new_state_id}")
+        print(
+            ":: OnStateChanged callback\n" f"new_state: {new_state}; id: {new_state_id}"
+        )
 
     def on_session_disconnected(self, disconnect_reason, disconnect_reason_id):
-        print(':: OnSessionDisconnected callback\n'
-              f"disconnect_reason: {disconnect_reason}; "
-              f"id: {disconnect_reason_id}")
+        print(
+            ":: OnSessionDisconnected callback\n"
+            f"disconnect_reason: {disconnect_reason}; "
+            f"id: {disconnect_reason_id}"
+        )
 
 
 def add_callback(app_name):
@@ -68,8 +72,7 @@ def add_callback(app_name):
         exit("Enter the right 'app_name', start it and play something")
 
     print("Ready to go!")
-    print("Change the volume / mute state "
-          "/ close the app or unplug your speaker")
+    print("Change the volume / mute state " "/ close the app or unplug your speaker")
     print("and watch the callbacks ;)\n")
 
     try:
