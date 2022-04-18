@@ -36,6 +36,16 @@ class TestMagicManager:
         assert hasattr(MagicManager, "magic_sessions") is False
         assert MagicManager.magic_activated is None
 
+    def test_clean_up(self):
+        app_execs = {"msedge.exe"}
+        with patch_atexit_register(), warnings.catch_warnings(record=True):
+            MagicApp(app_execs)
+        assert MagicManager.magic_apps is not None
+        MagicManager.clean_up()
+        assert MagicManager.str() == "unactive MagicManager"
+        assert hasattr(MagicManager, "magic_apps") is False
+        assert hasattr(MagicManager, "magic_sessions") is False
+
     def test_activate_magic(self):
         MagicManager.magic_activated = None
         app_execs = {"msedge.exe"}
