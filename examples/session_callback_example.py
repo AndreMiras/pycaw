@@ -62,7 +62,6 @@ def add_callback(app_name):
     app_found = False
     for session in sessions:
         if session.Process and session.Process.name() == app_name:
-
             app_found = True
             callback = MyCustomCallback()
             # Adding the callback
@@ -81,7 +80,6 @@ def add_callback(app_name):
     except KeyboardInterrupt:
         pass
     finally:
-
         # unregister callback(s)
         # unregister_notification()
         # (only if it was also registered.)

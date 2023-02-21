@@ -435,7 +435,6 @@ class MagicApp(_MagicAudioControl):
         state_callback=None,
         session_callback=None,
     ):
-
         # normalize app_execs
         if type(app_execs) == str:
             # if string directly to set: {'a', 'b', 'c'}
@@ -523,7 +522,6 @@ class MagicSession(_MagicAudioControl):
         advanced_mute_callback=None,
         state_callback=None,
     ):
-
         self.magic_root_session = self._passed_magic_root_session
         self._passed_magic_root_session = None
 
