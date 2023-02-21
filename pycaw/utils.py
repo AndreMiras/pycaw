@@ -8,7 +8,7 @@ from _ctypes import COMError
 from pycaw.api.audioclient import ISimpleAudioVolume
 from pycaw.api.audiopolicy import IAudioSessionControl2, IAudioSessionManager2
 from pycaw.api.endpointvolume import IAudioEndpointVolume
-from pycaw.api.mmdeviceapi import IMMDeviceEnumerator
+from pycaw.api.mmdeviceapi import IMMDeviceEnumerator, IMMEndpoint
 from pycaw.constants import (
     DEVICE_STATE,
     STGM,
@@ -112,6 +112,10 @@ class AudioSession:
 
     @property
     def DisplayName(self):
+        """
+        Please, note that this returns an empty string if
+        the client hadn't called the setter method before.
+        """
         s = self._ctl.GetDisplayName()
         return s
 
@@ -123,6 +127,10 @@ class AudioSession:
 
     @property
     def IconPath(self):
+        """
+        Please, note that this returns an empty string if
+        the client hadn't called the setter method before.
+        """
         s = self._ctl.GetIconPath()
         return s
 
@@ -264,3 +272,33 @@ class AudioUtilities:
             if dev is not None:
                 devices.append(AudioUtilities.CreateDevice(dev))
         return devices
+
+    # Not sure that those should be here
+    @staticmethod
+    def GetDeviceEnumerator():
+        """
+        Get an instance of IMMDeviceEnumerator.
+        """
+        device_enumerator = comtypes.CoCreateInstance(
+            CLSID_MMDeviceEnumerator,
+            IMMDeviceEnumerator,
+            comtypes.CLSCTX_INPROC_SERVER)
+        return device_enumerator
+
+    @staticmethod
+    def GetEndpointDataFlow(devId, outputType = 0):
+        """
+        Get data flow information of a given endpoint.
+        2 input arguments:
+            - devId: id of the device
+            - outputType: 0 (default) for text, 1 for code.
+        """
+        DataFlow = ["eRender", "eCapture", "eAll", "EDataFlow_enum_count"]
+        devEnum = AudioUtilities.GetDeviceEnumerator()
+        dev = devEnum.GetDevice(devId)
+        value = dev.QueryInterface(IMMEndpoint).GetDataFlow()
+        if outputType:
+            return value
+        else:
+            return DataFlow[value]
+        
