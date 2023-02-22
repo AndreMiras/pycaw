@@ -1,5 +1,5 @@
 from ctypes import HRESULT, POINTER, c_float, c_uint32
-from ctypes.wintypes import BOOL, DWORD, INT, LPWSTR, LPCWSTR
+from ctypes.wintypes import BOOL, DWORD, INT, LPCWSTR, LPWSTR
 
 from comtypes import COMMETHOD, GUID, IUnknown
 
@@ -12,15 +12,23 @@ class IAudioSessionEvents(IUnknown):
         # HRESULT OnDisplayNameChanged(
         # [in] LPCWSTR NewDisplayName,
         # [in] LPCGUID EventContext);
-        COMMETHOD([], HRESULT, "OnDisplayNameChanged", 
-                (["in"], LPCWSTR, "NewDisplayName"), 
-                (["in"], POINTER(GUID), "EventContext"),),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "OnDisplayNameChanged",
+            (["in"], LPCWSTR, "NewDisplayName"),
+            (["in"], POINTER(GUID), "EventContext"),
+        ),
         # HRESULT OnIconPathChanged(
         # [in] LPCWSTR NewIconPath,
         # [in] LPCGUID EventContext);
-        COMMETHOD([], HRESULT, "OnIconPathChanged",
-                    (["in"], LPCWSTR, "NewIconPath"), 
-                    (["in"], POINTER(GUID), "EventContext"),),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "OnIconPathChanged",
+            (["in"], LPCWSTR, "NewIconPath"),
+            (["in"], POINTER(GUID), "EventContext"),
+        ),
         # HRESULT OnSimpleVolumeChanged(
         # [in] float   NewVolume,
         # [in] BOOL    NewMute,
@@ -38,17 +46,25 @@ class IAudioSessionEvents(IUnknown):
         # [in] float [] NewChannelVolumeArray,
         # [in] DWORD    ChangedChannel,
         # [in] LPCGUID  EventContext);
-        COMMETHOD([], HRESULT, "OnChannelVolumeChanged",
-                    (["in"], DWORD, "ChannelCount"), 
-                    (["in"], (c_float * 8), "NewChannelVolumeArray"),
-                    (["in"], DWORD, "ChangedChannel"), 
-                    (["in"], POINTER(GUID), "EventContext"),),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "OnChannelVolumeChanged",
+            (["in"], DWORD, "ChannelCount"),
+            (["in"], (c_float * 8), "NewChannelVolumeArray"),
+            (["in"], DWORD, "ChangedChannel"),
+            (["in"], POINTER(GUID), "EventContext"),
+        ),
         # HRESULT OnGroupingParamChanged(
         # [in] LPCGUID NewGroupingParam,
         # [in] LPCGUID EventContext);
-        COMMETHOD([], HRESULT, "OnGroupingParamChanged",
-                    (["in"], POINTER(GUID), "NewGroupingParam"), 
-                    (["in"], POINTER(GUID), "EventContext"),),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "OnGroupingParamChanged",
+            (["in"], POINTER(GUID), "NewGroupingParam"),
+            (["in"], POINTER(GUID), "EventContext"),
+        ),
         # HRESULT OnStateChanged(
         # AudioSessionState NewState);
         COMMETHOD([], HRESULT, "OnStateChanged", (["in"], DWORD, "NewState")),
@@ -70,23 +86,37 @@ class IAudioSessionControl(IUnknown):
         # HRESULT SetDisplayName(
         # [in] LPCWSTR Value,
         # [in] LPCGUID EventContext);
-        COMMETHOD([], HRESULT, "SetDisplayName", 
-                    (["in"], LPCWSTR, "Value"), (["in"], POINTER(GUID), "EventContext")),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "SetDisplayName",
+            (["in"], LPCWSTR, "Value"),
+            (["in"], POINTER(GUID), "EventContext"),
+        ),
         # HRESULT GetIconPath([out] LPWSTR *pRetVal);
         COMMETHOD([], HRESULT, "GetIconPath", (["out"], POINTER(LPWSTR), "pRetVal")),
         # HRESULT SetIconPath(
         # [in] LPCWSTR Value,
         # [in] LPCGUID EventContext);
-        COMMETHOD([], HRESULT, "SetIconPath", 
-                    (["in"], LPCWSTR, "Value"), (["in"], POINTER(GUID), "EventContext")),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "SetIconPath",
+            (["in"], LPCWSTR, "Value"),
+            (["in"], POINTER(GUID), "EventContext"),
+        ),
         # HRESULT GetGroupingParam([out] GUID *pRetVal);
-        COMMETHOD([], HRESULT, "GetGroupingParam",
-                    (["out"], POINTER(GUID), "pRetVal")),
+        COMMETHOD([], HRESULT, "GetGroupingParam", (["out"], POINTER(GUID), "pRetVal")),
         # HRESULT SetGroupingParam(
         # [in] LPCGUID Grouping,
         # [in] LPCGUID EventContext);
-        COMMETHOD([], HRESULT, "SetGroupingParam",
-                    (["in"], POINTER(GUID), "Grouping"), (["in"], POINTER(GUID), "EventContext")),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "SetGroupingParam",
+            (["in"], POINTER(GUID), "Grouping"),
+            (["in"], POINTER(GUID), "EventContext"),
+        ),
         # HRESULT RegisterAudioSessionNotification(
         # [in] IAudioSessionEvents *NewNotifications);
         COMMETHOD(
@@ -124,7 +154,7 @@ class IAudioSessionControl2(IAudioSessionControl):
         COMMETHOD([], HRESULT, "GetProcessId", (["out"], POINTER(DWORD), "pRetVal")),
         # HRESULT IsSystemSoundsSession();
         COMMETHOD([], HRESULT, "IsSystemSoundsSession"),
-        #HRESULT SetDuckingPreference([in] BOOL optOut);
+        # HRESULT SetDuckingPreference([in] BOOL optOut);
         COMMETHOD([], HRESULT, "SetDuckingPreferences", (["in"], BOOL, "optOut")),
     )
 
@@ -154,10 +184,14 @@ class IAudioSessionManager(IUnknown):
         # [in] LPCGUID AudioSessionGuid,
         # [in] DWORD StreamFlags,
         # [out] IAudioSessionControl **SessionControl);
-        COMMETHOD([], HRESULT, "GetAudioSessionControl", 
-                    (["in"], POINTER(GUID), "AudioSessionGuid"),
-                    (["in"], DWORD, "StreamFlags"),
-                    (["out"], POINTER(POINTER(IAudioSessionControl)), "SessionControl"),),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "GetAudioSessionControl",
+            (["in"], POINTER(GUID), "AudioSessionGuid"),
+            (["in"], DWORD, "StreamFlags"),
+            (["out"], POINTER(POINTER(IAudioSessionControl)), "SessionControl"),
+        ),
         # HRESULT GetSimpleAudioVolume(
         # [in] LPCGUID AudioSessionGuid,
         # [in] DWORD CrossProcessSession,
@@ -187,12 +221,13 @@ class IAudioSessionNotification(IUnknown):
         ),
     )
 
+
 class IAudioVolumeDuckNotification(IUnknown):
     _iid_ = GUID("{C3B284D4-6D39-4359-B3CF-B56DDB3BB39C}")
     _methods_ = (
-        #HRESULT OnVolumeDuckNotification(
-        #[in] LPCWSTR sessionID,
-        #[in] UINT32  countCommunicationSessions);
+        # HRESULT OnVolumeDuckNotification(
+        # [in] LPCWSTR sessionID,
+        # [in] UINT32  countCommunicationSessions);
         COMMETHOD(
             [],
             HRESULT,
@@ -200,8 +235,8 @@ class IAudioVolumeDuckNotification(IUnknown):
             (["in"], LPCWSTR, "sessionID"),
             (["in"], c_uint32, "countCommunicationSessions"),
         ),
-        #HRESULT OnVolumeUnduckNotification(
-        #[in] LPCWSTR sessionID);
+        # HRESULT OnVolumeUnduckNotification(
+        # [in] LPCWSTR sessionID);
         COMMETHOD(
             [],
             HRESULT,
@@ -209,6 +244,7 @@ class IAudioVolumeDuckNotification(IUnknown):
             (["in"], LPCWSTR, "sessionID"),
         ),
     )
+
 
 class IAudioSessionManager2(IAudioSessionManager):
     _iid_ = GUID("{77aa99a0-1bd6-484f-8bc7-2c654c9a9b6f}")
@@ -241,16 +277,18 @@ class IAudioSessionManager2(IAudioSessionManager):
         # LPCWSTR SessionID,
         # IAudioVolumeDuckNotification *duckNotification);
         COMMETHOD(
-            [], 
-            HRESULT, 
+            [],
+            HRESULT,
             "RegisterDuckNotification",
             (["in"], LPCWSTR, "SessionID"),
-            (["in"], POINTER(IAudioVolumeDuckNotification), "duckNotification"),),
+            (["in"], POINTER(IAudioVolumeDuckNotification), "duckNotification"),
+        ),
         # HRESULT UnregisterDuckNotification(
         # IAudioVolumeDuckNotification *duckNotification);
         COMMETHOD(
-            [], 
-            HRESULT, 
+            [],
+            HRESULT,
             "UnregisterDuckNotification",
-            (["in"], POINTER(IAudioVolumeDuckNotification), "duckNotification"),),
+            (["in"], POINTER(IAudioVolumeDuckNotification), "duckNotification"),
+        ),
     )

@@ -16,8 +16,8 @@ from pycaw.api.audiopolicy import (
     IAudioSessionEvents,
     IAudioSessionManager,
     IAudioSessionManager2,
-    IAudioVolumeDuckNotification,
     IAudioSessionNotification,
+    IAudioVolumeDuckNotification,
 )
 from pycaw.api.endpointvolume import (
     IAudioEndpointVolume,
@@ -28,7 +28,13 @@ from pycaw.api.endpointvolume.depend import (
     AUDIO_VOLUME_NOTIFICATION_DATA,
     PAUDIO_VOLUME_NOTIFICATION_DATA,
 )
-from pycaw.api.mmdeviceapi import IMMDevice, IMMDeviceCollection, IMMDeviceEnumerator, IMMNotificationClient, IMMEndpoint
+from pycaw.api.mmdeviceapi import (
+    IMMDevice,
+    IMMDeviceCollection,
+    IMMDeviceEnumerator,
+    IMMEndpoint,
+    IMMNotificationClient,
+)
 from pycaw.api.mmdeviceapi.depend import IPropertyStore
 from pycaw.api.mmdeviceapi.depend.structures import (
     PROPERTYKEY,

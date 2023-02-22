@@ -1,6 +1,6 @@
 from ctypes import pointer
 
-from comtypes import COMObject, CLSCTX_INPROC_SERVER, GUID, POINTER
+from comtypes import COMObject
 
 from pycaw.api.audiopolicy import (
     IAudioSessionControl2,
@@ -10,8 +10,6 @@ from pycaw.api.audiopolicy import (
 from pycaw.api.endpointvolume import IAudioEndpointVolumeCallback
 from pycaw.api.mmdeviceapi import IMMNotificationClient
 from pycaw.utils import AudioSession
-from pycaw.pycaw import IMMDeviceEnumerator
-from pycaw.constants import CLSID_MMDeviceEnumerator
 
 
 class AudioSessionNotification(COMObject):
@@ -74,7 +72,7 @@ class AudioSessionEvents(COMObject):
             event_context : comtypes.GUID
                 the guid "should" be unique to who made the changes.
                 access guid str with event_context.contents.
-    
+
     def OnIconPathChanged(self, new_icon_path, event_context):
         Is fired, when the audio session icon path is changed.
             new_icon_path : str
@@ -93,14 +91,16 @@ class AudioSessionEvents(COMObject):
                 the guid "should" be unique to who made the changes.
                 access guid str with event_context.contents.
 
-    def OnChannelVolumeChanged(self, channel_count, new_channel_volume_array, changed_channel, event_context):
+    def OnChannelVolumeChanged(self, channel_count, new_channel_volume_array,
+                                                changed_channel, event_context):
         Is fired, when the audio session channels volume changed.
             channel_count: int
-                This parameter specifies the number of audio channels in the session submix.
+                This parameter specifies the number of audio channels in the session
+                submix.
             new_channel_volume_array : float array
                 values in range(0, 1)
             changed_channel : int
-                The number (x) of the channel whose volume level changed. 
+                The number (x) of the channel whose volume level changed.
                 Use (x-1) as index of new_channel_volume_array
                 to get the new volume for the changed_channel (x)
             event_context : comtypes.GUID
@@ -143,18 +143,22 @@ class AudioSessionEvents(COMObject):
         "SessionDisconnected",
         "ExclusiveModeOverride",
     )
-    
+
     def OnDisplayNameChanged(self, new_display_name, event_context):
         self.on_display_name_changed(new_display_name, event_context)
 
     def OnIconPathChanged(self, new_icon_path, event_context):
-        self.on_icon_path_changed(new_icon_path, event_context)  
+        self.on_icon_path_changed(new_icon_path, event_context)
 
     def OnSimpleVolumeChanged(self, new_volume, new_mute, event_context):
         self.on_simple_volume_changed(new_volume, new_mute, event_context)
 
-    def OnChannelVolumeChanged(self, channel_count, new_channel_volume_array, changed_channel, event_context):
-        self.on_channel_volume_changed(channel_count, new_channel_volume_array, changed_channel, event_context)
+    def OnChannelVolumeChanged(
+        self, channel_count, new_channel_volume_array, changed_channel, event_context
+    ):
+        self.on_channel_volume_changed(
+            channel_count, new_channel_volume_array, changed_channel, event_context
+        )
 
     def OnGroupingParamChanged(self, new_grouping_param, event_context):
         self.on_grouping_param_changed(new_grouping_param, event_context)
@@ -179,7 +183,9 @@ class AudioSessionEvents(COMObject):
         """pycaw user interface"""
         pass
 
-    def on_channel_volume_changed(self, channel_count, new_channel_volume_array, changed_channel, event_context):
+    def on_channel_volume_changed(
+        self, channel_count, new_channel_volume_array, changed_channel, event_context
+    ):
         """pycaw user interface"""
         pass
 
@@ -291,19 +297,22 @@ class MMNotificationClient(COMObject):
                 ID of the new state.
 
     def on_property_value_changed(self, device_id, property_struct, fmtid, pid):
-        Is fired when the value of a property belonging to an audio endpoint device has changed.
+        Is fired when the value of a property belonging to an audio endpoint device
+        has changed.
             device_id: str
                 String containing the id of the device for which a property is changed.
             property_struct: pycaw.api.mmdeviceapi.depend.structures.PROPERTYKEY
-                A structure containing an unique GUID for the property and a PID (property identifier).
+                A structure containing an unique GUID for the property and a PID
+                (property identifier).
             fmtid: comtypes.GUID
                 GUID of the changed property.
             pid: int
                 PID of the changed property.
     """
+
     _com_interfaces_ = (IMMNotificationClient,)
 
-    DeviceStates = {1 : "Active", 2 : "Disabled", 4 : "NotPresent", 8 : "Unplugged"}
+    DeviceStates = {1: "Active", 2: "Disabled", 4: "NotPresent", 8: "Unplugged"}
     Roles = ["eConsole", "eMultimedia", "eCommunications", "ERole_enum_count"]
     DataFlow = ["eRender", "eCapture", "eAll", "EDataFlow_enum_count"]
 
@@ -323,11 +332,13 @@ class MMNotificationClient(COMObject):
         self.on_device_state_changed(device_id, new_state, new_state_id)
 
     def OnPropertyValueChanged(self, device_id, property_struct):
-        fmtid = property_struct.fmtid 
+        fmtid = property_struct.fmtid
         pid = property_struct.pid
         self.on_property_value_changed(device_id, property_struct, fmtid, pid)
-    
-    def on_default_device_changed(self, flow, flow_id, role, role_id, default_device_id):
+
+    def on_default_device_changed(
+        self, flow, flow_id, role, role_id, default_device_id
+    ):
         """pycaw user interface"""
         pass
 
@@ -346,5 +357,3 @@ class MMNotificationClient(COMObject):
     def on_property_value_changed(self, device_id, property_struct, fmtid, pid):
         """pycaw user interface"""
         pass
-
-    

@@ -279,13 +279,12 @@ class AudioUtilities:
         Get an instance of IMMDeviceEnumerator.
         """
         device_enumerator = comtypes.CoCreateInstance(
-            CLSID_MMDeviceEnumerator,
-            IMMDeviceEnumerator,
-            comtypes.CLSCTX_INPROC_SERVER)
+            CLSID_MMDeviceEnumerator, IMMDeviceEnumerator, comtypes.CLSCTX_INPROC_SERVER
+        )
         return device_enumerator
 
     @staticmethod
-    def GetEndpointDataFlow(devId, outputType = 0):
+    def GetEndpointDataFlow(devId, outputType=0):
         """
         Get data flow information of a given endpoint.
         Two input arguments:
@@ -300,4 +299,3 @@ class AudioUtilities:
             return value
         else:
             return DataFlow[value]
-        

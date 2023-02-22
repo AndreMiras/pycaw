@@ -68,7 +68,12 @@ class IAudioClient(IUnknown):
         ),
         # HRESULT GetStreamLatency(
         # [out] REFERENCE_TIME *phnsLatency);
-        COMMETHOD([], HRESULT, "GetStreamLatency", (["out"], POINTER(REFERENCE_TIME), "phnsLatency")),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "GetStreamLatency",
+            (["out"], POINTER(REFERENCE_TIME), "phnsLatency"),
+        ),
         # HRESULT GetCurrentPadding(
         # [out] UINT32 *pNumPaddingFrames);
         COMMETHOD(
@@ -81,10 +86,14 @@ class IAudioClient(IUnknown):
         # [in] AUDCLNT_SHAREMODE ShareMode,
         # [in] const WAVEFORMATEX *pFormat,
         # [out,unique] WAVEFORMATEX **ppClosestMatch);
-        COMMETHOD([], HRESULT, "IsFormatSupported",
-                (["in"], DWORD, "ShareMode"),
-                (["in"], POINTER(WAVEFORMATEX), "pFormat"),
-                (["out"], POINTER(POINTER(WAVEFORMATEX)), 'ppClosestMatch')),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "IsFormatSupported",
+            (["in"], DWORD, "ShareMode"),
+            (["in"], POINTER(WAVEFORMATEX), "pFormat"),
+            (["out"], POINTER(POINTER(WAVEFORMATEX)), "ppClosestMatch"),
+        ),
         # HRESULT GetMixFormat(
         # [out] WAVEFORMATEX **ppDeviceFormat
         # );
@@ -97,9 +106,13 @@ class IAudioClient(IUnknown):
         # HRESULT GetDevicePeriod(
         # [out] REFERENCE_TIME *phnsDefaultDevicePeriod,
         # [out] REFERENCE_TIME *phnsMinimumDevicePeriod);
-        COMMETHOD([], HRESULT, "GetDevicePeriod",
-                (["out"], POINTER(REFERENCE_TIME), "phnsDefaultDevicePeriod"),
-                (["out"], POINTER(REFERENCE_TIME), "phnsMinimumDevicePeriod")),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "GetDevicePeriod",
+            (["out"], POINTER(REFERENCE_TIME), "phnsDefaultDevicePeriod"),
+            (["out"], POINTER(REFERENCE_TIME), "phnsMinimumDevicePeriod"),
+        ),
         # HRESULT Start(void);
         COMMETHOD([], HRESULT, "Start"),
         # HRESULT Stop(void);
@@ -107,8 +120,12 @@ class IAudioClient(IUnknown):
         # HRESULT Reset(void);
         COMMETHOD([], HRESULT, "Reset"),
         # HRESULT SetEventHandle([in] HANDLE eventHandle);
-        COMMETHOD([], HRESULT, "SetEventHandle",
-                (["in"], HANDLE, "eventHandle"),),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "SetEventHandle",
+            (["in"], HANDLE, "eventHandle"),
+        ),
         # HRESULT GetService(
         # [in] REFIID riid,
         # [out] void **ppv);
