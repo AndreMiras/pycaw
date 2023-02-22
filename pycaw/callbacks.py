@@ -67,7 +67,21 @@ class AudioSessionEvents(COMObject):
     -------
     Override the following method(s):
 
-    ### DOCSTRING MUST BE UPDATED WITH NEWER CONTENT ###
+    def on_display_name_changed(self, new_display_name, event_context):
+        Is fired, when the audio session name is changed.
+            new_display_name : str
+                The new name that is displayed.
+            event_context : comtypes.GUID
+                the guid "should" be unique to who made the changes.
+                access guid str with event_context.contents.
+    
+    def OnIconPathChanged(self, new_icon_path, event_context):
+        Is fired, when the audio session icon path is changed.
+            new_icon_path : str
+                The new path of the icon that is displayed.
+            event_context : comtypes.GUID
+                the guid "should" be unique to who made the changes.
+                access guid str with event_context.contents.
 
     def on_simple_volume_changed(self, new_volume, new_mute, event_context):
         Is fired, when the audio session volume/mute changed.
@@ -77,7 +91,29 @@ class AudioSessionEvents(COMObject):
                 0, 1
             event_context : comtypes.GUID
                 the guid "should" be unique to who made the changes.
-                access guid str with event_context.contents
+                access guid str with event_context.contents.
+
+    def OnChannelVolumeChanged(self, channel_count, new_channel_volume_array, changed_channel, event_context):
+        Is fired, when the audio session channels volume changed.
+            channel_count: int
+                This parameter specifies the number of audio channels in the session submix.
+            new_channel_volume_array : float array
+                values in range(0, 1)
+            changed_channel : int
+                The number (x) of the channel whose volume level changed. 
+                Use (x-1) as index of new_channel_volume_array
+                to get the new volume for the changed_channel (x)
+            event_context : comtypes.GUID
+                the guid "should" be unique to who made the changes.
+                access guid str with event_context.contents.
+
+    def OnGroupingParamChanged(self, new_grouping_param, event_context):
+        Is fired, when the grouping parameter for the session has changed.
+            new_grouping_param : comtypes.GUID
+                points to a grouping-parameter GUID.
+            event_context : comtypes.GUID
+                the guid "should" be unique to who made the changes.
+                access guid str with event_context.contents.
 
     def on_state_changed(self, new_state, new_state_id):
         Is fired, when the audio session state changed.
@@ -89,8 +125,8 @@ class AudioSessionEvents(COMObject):
     def on_session_disconnected(self, disconnect_reason, disconnect_reason_id):
         Is fired, when the audio session disconnected "hard".
             Mostly on_state_changed == "Expired" is what you are looking for.
-            see self.AudioSessionDisconnectReason for disconnect_reason
-            The use is similar to on_state_changed
+            see self.AudioSessionDisconnectReason for disconnect_reason.
+            The use is similar to on_state_changed.
     """
 
     _com_interfaces_ = (IAudioSessionEvents,)

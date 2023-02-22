@@ -273,7 +273,6 @@ class AudioUtilities:
                 devices.append(AudioUtilities.CreateDevice(dev))
         return devices
 
-    # Not sure that those should be here
     @staticmethod
     def GetDeviceEnumerator():
         """
@@ -289,7 +288,7 @@ class AudioUtilities:
     def GetEndpointDataFlow(devId, outputType = 0):
         """
         Get data flow information of a given endpoint.
-        2 input arguments:
+        Two input arguments:
             - devId: id of the device
             - outputType: 0 (default) for text, 1 for code.
         """
