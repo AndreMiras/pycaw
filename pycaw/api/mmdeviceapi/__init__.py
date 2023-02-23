@@ -3,7 +3,7 @@ from ctypes.wintypes import DWORD, LPCWSTR, LPWSTR, UINT
 
 from comtypes import COMMETHOD, GUID, IUnknown
 
-from .depend import IPropertyStore
+from .depend import PROPERTYKEY, IPropertyStore
 
 
 class IMMDevice(IUnknown):
@@ -56,6 +56,61 @@ class IMMDeviceCollection(IUnknown):
     )
 
 
+class IMMNotificationClient(IUnknown):
+    _case_insensitive_ = True
+    _iid_ = GUID("{7991EEC9-7E89-4D85-8390-6C703CEC60C0}")
+    _methods_ = (
+        # HRESULT OnDeviceStateChanged(
+        # [in] LPCWSTR pwstrDeviceId,
+        # [in] DWORD   dwNewState);
+        COMMETHOD(
+            [],
+            HRESULT,
+            "OnDeviceStateChanged",
+            (["in"], LPCWSTR, "pwstrDeviceId"),
+            (["in"], DWORD, "dwNewState"),
+        ),
+        # HRESULT OnDeviceAdded(
+        # [in] LPCWSTR pwstrDeviceId,
+        COMMETHOD(
+            [],
+            HRESULT,
+            "OnDeviceAdded",
+            (["in"], LPCWSTR, "pwstrDeviceId"),
+        ),
+        # HRESULT OnDeviceRemoved(
+        # [in] LPCWSTR pwstrDeviceId,
+        COMMETHOD(
+            [],
+            HRESULT,
+            "OnDeviceRemoved",
+            (["in"], LPCWSTR, "pwstrDeviceId"),
+        ),
+        # HRESULT OnDefaultDeviceChanged(
+        # [in] EDataFlow flow,
+        # [in] ERole role,
+        # [in] LPCWSTR pwstrDefaultDeviceId;
+        COMMETHOD(
+            [],
+            HRESULT,
+            "OnDefaultDeviceChanged",
+            (["in"], DWORD, "flow"),
+            (["in"], DWORD, "role"),
+            (["in"], LPCWSTR, "pwstrDefaultDeviceId"),
+        ),
+        # HRESULT OnPropertyValueChanged(
+        # [in] LPCWSTR           pwstrDeviceId,
+        # [in] const PROPERTYKEY key);
+        COMMETHOD(
+            [],
+            HRESULT,
+            "OnPropertyValueChanged",
+            (["in"], LPCWSTR, "pwstrDeviceId"),
+            (["in"], PROPERTYKEY, "key"),
+        ),
+    )
+
+
 class IMMDeviceEnumerator(IUnknown):
     _iid_ = GUID("{A95664D2-9614-4F35-A746-DE8DB63617E6}")
     _methods_ = (
@@ -95,8 +150,32 @@ class IMMDeviceEnumerator(IUnknown):
         ),
         # HRESULT RegisterEndpointNotificationCallback(
         # [in] IMMNotificationClient *pClient);
-        COMMETHOD([], HRESULT, "NotImpl1"),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "RegisterEndpointNotificationCallback",
+            (["in"], POINTER(IMMNotificationClient), "pClient"),
+        ),
         # HRESULT UnregisterEndpointNotificationCallback(
         # [in] IMMNotificationClient *pClient);
-        COMMETHOD([], HRESULT, "NotImpl2"),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "UnregisterEndpointNotificationCallback",
+            (["in"], POINTER(IMMNotificationClient), "pClient"),
+        ),
+    )
+
+
+class IMMEndpoint(IUnknown):
+    _iid_ = GUID("{1BE09788-6894-4089-8586-9A2A6C265AC5}")
+    _methods_ = (
+        # HRESULT GetDataFlow(
+        # [out] EDataFlow *pDataFlow);
+        COMMETHOD(
+            [],
+            HRESULT,
+            "GetDataFlow",
+            (["out"], POINTER(DWORD), "pDataFlow"),
+        ),
     )
