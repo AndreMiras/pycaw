@@ -1,5 +1,5 @@
 from ctypes import HRESULT, POINTER
-from ctypes.wintypes import DWORD, LPWSTR
+from ctypes.wintypes import DWORD
 
 from comtypes import COMMETHOD, GUID, IUnknown
 
@@ -31,8 +31,17 @@ class IPropertyStore(IUnknown):
             (["in"], POINTER(PROPERTYKEY), "key"),
             (["out"], POINTER(PROPVARIANT), "pv"),
         ),
-        # HRESULT SetValue([out] LPWSTR *ppstrId);
-        COMMETHOD([], HRESULT, "SetValue", (["out"], POINTER(LPWSTR), "ppstrId")),
+        # HRESULT SetValue(
+        #   [in] REFPROPERTYKEY key,
+        #   [in] REFPROPVARIANT propvar
+        # );
+        COMMETHOD(
+            [],
+            HRESULT,
+            "SetValue",
+            (["in"], POINTER(PROPERTYKEY), "key"),
+            (["in"], POINTER(PROPVARIANT), "propvar"),
+        ),
         # HRESULT Commit();
         COMMETHOD([], HRESULT, "Commit"),
     )
