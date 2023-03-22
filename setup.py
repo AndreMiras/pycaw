@@ -12,7 +12,7 @@ def read(fname):
 install_requires = ["comtypes", "psutil"]
 setup(
     name="pycaw",
-    version="20220416.dev0",
+    version="20230322",
     description="Python Core Audio Windows Library",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
