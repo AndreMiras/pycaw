@@ -6,21 +6,23 @@ from ctypes import POINTER, cast
 
 from comtypes import CLSCTX_ALL, COMObject
 
-from pycaw.pycaw import (AudioUtilities, IAudioEndpointVolume,
-                         IAudioEndpointVolumeCallback)
+from pycaw.pycaw import (
+    AudioUtilities,
+    IAudioEndpointVolume,
+    IAudioEndpointVolumeCallback,
+)
 
 
 class AudioEndpointVolumeCallback(COMObject):
     _com_interfaces_ = [IAudioEndpointVolumeCallback]
 
     def OnNotify(self, pNotify):
-        print('OnNotify callback')
+        print("OnNotify callback")
 
 
 def main():
     devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(
-        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
     volume = cast(interface, POINTER(IAudioEndpointVolume))
     callback = AudioEndpointVolumeCallback()
     volume.RegisterControlChangeNotify(callback)

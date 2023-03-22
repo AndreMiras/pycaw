@@ -11,3 +11,9 @@ Using Tox:
 ```bat
 tox
 ```
+
+## Linter
+```bat
+tox -e lint-check
+tox -e lint-format
+```

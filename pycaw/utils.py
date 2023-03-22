@@ -8,16 +8,23 @@ from _ctypes import COMError
 from pycaw.api.audioclient import ISimpleAudioVolume
 from pycaw.api.audiopolicy import IAudioSessionControl2, IAudioSessionManager2
 from pycaw.api.endpointvolume import IAudioEndpointVolume
-from pycaw.api.mmdeviceapi import IMMDeviceEnumerator
-from pycaw.constants import (DEVICE_STATE, STGM, AudioDeviceState,
-                             CLSID_MMDeviceEnumerator, EDataFlow, ERole,
-                             IID_Empty)
+from pycaw.api.mmdeviceapi import IMMDeviceEnumerator, IMMEndpoint
+from pycaw.constants import (
+    DEVICE_STATE,
+    STGM,
+    AudioDeviceState,
+    CLSID_MMDeviceEnumerator,
+    EDataFlow,
+    ERole,
+    IID_Empty,
+)
 
 
 class AudioDevice:
     """
     http://stackoverflow.com/a/20982715/185510
     """
+
     def __init__(self, id, state, properties, dev):
         self.id = id
         self.state = state
@@ -30,8 +37,9 @@ class AudioDevice:
 
     @property
     def FriendlyName(self):
-        DEVPKEY_Device_FriendlyName = \
-            u"{a45c254e-df1c-4efd-8020-67d146a850e0} 14".upper()
+        DEVPKEY_Device_FriendlyName = (
+            "{a45c254e-df1c-4efd-8020-67d146a850e0} 14".upper()
+        )
         value = self.properties.get(DEVPKEY_Device_FriendlyName)
         return value
 
@@ -39,7 +47,8 @@ class AudioDevice:
     def EndpointVolume(self):
         if self._volume is None:
             iface = self._dev.Activate(
-                IAudioEndpointVolume._iid_, comtypes.CLSCTX_ALL, None)
+                IAudioEndpointVolume._iid_, comtypes.CLSCTX_ALL, None
+            )
             self._volume = cast(iface, POINTER(IAudioEndpointVolume))
         return self._volume
 
@@ -103,6 +112,10 @@ class AudioSession:
 
     @property
     def DisplayName(self):
+        """
+        Please, note that this returns an empty string if
+        the client hadn't called the setter method before.
+        """
         s = self._ctl.GetDisplayName()
         return s
 
@@ -114,6 +127,10 @@ class AudioSession:
 
     @property
     def IconPath(self):
+        """
+        Please, note that this returns an empty string if
+        the client hadn't called the setter method before.
+        """
         s = self._ctl.GetIconPath()
         return s
 
@@ -143,17 +160,18 @@ class AudioUtilities:
     """
     http://stackoverflow.com/a/20982715/185510
     """
+
     @staticmethod
     def GetSpeakers():
         """
         get the speakers (1st render + multimedia) device
         """
         deviceEnumerator = comtypes.CoCreateInstance(
-            CLSID_MMDeviceEnumerator,
-            IMMDeviceEnumerator,
-            comtypes.CLSCTX_INPROC_SERVER)
+            CLSID_MMDeviceEnumerator, IMMDeviceEnumerator, comtypes.CLSCTX_INPROC_SERVER
+        )
         speakers = deviceEnumerator.GetDefaultAudioEndpoint(
-                    EDataFlow.eRender.value, ERole.eMultimedia.value)
+            EDataFlow.eRender.value, ERole.eMultimedia.value
+        )
         return speakers
 
     @staticmethod
@@ -162,11 +180,11 @@ class AudioUtilities:
         get the microphone (1st capture + multimedia) device
         """
         deviceEnumerator = comtypes.CoCreateInstance(
-            CLSID_MMDeviceEnumerator,
-            IMMDeviceEnumerator,
-            comtypes.CLSCTX_INPROC_SERVER)
+            CLSID_MMDeviceEnumerator, IMMDeviceEnumerator, comtypes.CLSCTX_INPROC_SERVER
+        )
         microphone = deviceEnumerator.GetDefaultAudioEndpoint(
-                    EDataFlow.eCapture.value, ERole.eMultimedia.value)
+            EDataFlow.eCapture.value, ERole.eMultimedia.value
+        )
         return microphone
 
     @staticmethod
@@ -175,8 +193,7 @@ class AudioUtilities:
         if speakers is None:
             return None
         # win7+ only
-        o = speakers.Activate(
-            IAudioSessionManager2._iid_, comtypes.CLSCTX_ALL, None)
+        o = speakers.Activate(IAudioSessionManager2._iid_, comtypes.CLSCTX_ALL, None)
         mgr = o.QueryInterface(IAudioSessionManager2)
         return mgr
 
@@ -238,14 +255,14 @@ class AudioUtilities:
     def GetAllDevices():
         devices = []
         deviceEnumerator = comtypes.CoCreateInstance(
-            CLSID_MMDeviceEnumerator,
-            IMMDeviceEnumerator,
-            comtypes.CLSCTX_INPROC_SERVER)
+            CLSID_MMDeviceEnumerator, IMMDeviceEnumerator, comtypes.CLSCTX_INPROC_SERVER
+        )
         if deviceEnumerator is None:
             return devices
 
         collection = deviceEnumerator.EnumAudioEndpoints(
-            EDataFlow.eAll.value, DEVICE_STATE.MASK_ALL.value)
+            EDataFlow.eAll.value, DEVICE_STATE.MASK_ALL.value
+        )
         if collection is None:
             return devices
 
@@ -255,3 +272,30 @@ class AudioUtilities:
             if dev is not None:
                 devices.append(AudioUtilities.CreateDevice(dev))
         return devices
+
+    @staticmethod
+    def GetDeviceEnumerator():
+        """
+        Get an instance of IMMDeviceEnumerator.
+        """
+        device_enumerator = comtypes.CoCreateInstance(
+            CLSID_MMDeviceEnumerator, IMMDeviceEnumerator, comtypes.CLSCTX_INPROC_SERVER
+        )
+        return device_enumerator
+
+    @staticmethod
+    def GetEndpointDataFlow(devId, outputType=0):
+        """
+        Get data flow information of a given endpoint.
+        Two input arguments:
+            - devId: id of the device
+            - outputType: 0 (default) for text, 1 for code.
+        """
+        DataFlow = ["eRender", "eCapture", "eAll", "EDataFlow_enum_count"]
+        devEnum = AudioUtilities.GetDeviceEnumerator()
+        dev = devEnum.GetDevice(devId)
+        value = dev.QueryInterface(IMMEndpoint).GetDataFlow()
+        if outputType:
+            return value
+        else:
+            return DataFlow[value]

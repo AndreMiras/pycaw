@@ -52,11 +52,13 @@ def handle_all(*args):
     print(args)
 
 
-magic = MagicApp({"msedge.exe"},
-                 volume_callback=handle_all,
-                 mute_callback=handle_all,
-                 state_callback=handle_all,
-                 session_callback=handle_all)
+magic = MagicApp(
+    {"msedge.exe"},
+    volume_callback=handle_all,
+    mute_callback=handle_all,
+    state_callback=handle_all,
+    session_callback=handle_all,
+)
 
 
 def main():
@@ -97,5 +99,5 @@ def main():
     print("\nTschüss")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

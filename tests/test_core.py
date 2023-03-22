@@ -1,14 +1,15 @@
 """
 Verifies core features run as expected.
 """
-import _ctypes
 import sys
 import warnings
-import unittest
-from unittest import mock
 from contextlib import contextmanager
-from pycaw.pycaw import AudioDeviceState, AudioUtilities
 from io import StringIO
+from unittest import mock
+
+import _ctypes
+
+from pycaw.pycaw import AudioDeviceState, AudioUtilities
 
 
 @contextmanager
@@ -22,8 +23,7 @@ def captured_output():
         sys.stdout, sys.stderr = old_out, old_err
 
 
-class TestCore(unittest.TestCase):
-
+class TestCore:
     def test_session_unicode(self):
         """Makes sure printing a session doesn't crash."""
         with captured_output() as (out, err):
@@ -49,17 +49,12 @@ class TestCore(unittest.TestCase):
         store = mock.Mock()
         store.GetCount = mock.Mock(return_value=1)
         store.GetAt = mock.Mock(return_value="pk")
-        store.GetValue = mock.Mock(
-            side_effect=_ctypes.COMError(None, None, None)
-        )
+        store.GetValue = mock.Mock(side_effect=_ctypes.COMError(None, None, None))
         dev.OpenPropertyStore = mock.Mock(return_value=store)
         with warnings.catch_warnings(record=True) as w:
             AudioUtilities.CreateDevice(dev)
-        self.assertEqual(len(w), 1)
-        self.assertTrue(
-            "COMError attempting to get property 0 from device"
-            in str(w[0].message)
-        )
+        assert len(w) == 1
+        assert "COMError attempting to get property 0 from device" in str(w[0].message)
 
     def test_getallsessions_reliability(self):
         """
@@ -69,8 +64,4 @@ class TestCore(unittest.TestCase):
         """
         for _ in range(100):
             sessions = AudioUtilities.GetAllSessions()
-            self.assertTrue(len(sessions) > 0)
-
-
-if __name__ == '__main__':
-    unittest.main()
+            assert len(sessions) > 0

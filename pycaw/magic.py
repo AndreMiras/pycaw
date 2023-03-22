@@ -47,8 +47,11 @@ from _ctypes import COMError
 from comtypes import GUID, COMObject
 
 from pycaw.api.audioclient import ISimpleAudioVolume
-from pycaw.api.audiopolicy import (IAudioSessionControl2, IAudioSessionEvents,
-                                   IAudioSessionNotification)
+from pycaw.api.audiopolicy import (
+    IAudioSessionControl2,
+    IAudioSessionEvents,
+    IAudioSessionNotification,
+)
 from pycaw.constants import AudioSessionState
 from pycaw.utils import AudioUtilities
 
@@ -98,15 +101,16 @@ class MagicManager(COMObject):
         """Get infos about the current state."""
         # __str__ wont work since MagicManager is a class
         if not cls.magic_activated:
-            log.warning(
-               "Nothing to show. MagicManager needs to be activated")
+            log.warning("Nothing to show. MagicManager needs to be activated")
             return "unactive MagicManager"
 
-        return (f"<MagicManager magic_apps='{len(cls.magic_apps)}' "
-                f"magic_sessions='{len(cls.magic_sessions)}' "
-                f"active_mrs='{len(cls.magic_root_sessions)}' "
-                f"trash_mrs='{len(cls.expired_magic_root_sessions)}'"
-                "/>")
+        return (
+            f"<MagicManager magic_apps='{len(cls.magic_apps)}' "
+            f"magic_sessions='{len(cls.magic_sessions)}' "
+            f"active_mrs='{len(cls.magic_root_sessions)}' "
+            f"trash_mrs='{len(cls.expired_magic_root_sessions)}'"
+            "/>"
+        )
 
     @classmethod
     def activate_magic(cls):
@@ -118,15 +122,16 @@ class MagicManager(COMObject):
             self.magic_session()
         """
         if cls.magic_activated:
-            warn = ("cannot activate MagicManager. "
-                    "MagicManager is already active!")
+            warn = "cannot activate MagicManager. " "MagicManager is already active!"
             log.warning(warn)
             warnings.warn(warn)
             return
 
         if cls.magic_activated is None:
-            warn = ("<MagicManager/> was already activated an closed. "
-                    "Trying to activate again - untested")
+            warn = (
+                "<MagicManager/> was already activated an closed. "
+                "Trying to activate again - untested"
+            )
             log.warning(warn)
             warnings.warn(warn)
 
@@ -165,8 +170,7 @@ class MagicManager(COMObject):
         # to make IAudioSessionNotification::OnSessionCreated working
         sessionEnumerator = cls._mgr.GetSessionEnumerator()
 
-        log.debug(
-            "<MagicManager/> registered and activated session notification")
+        log.debug("<MagicManager/> registered and activated session notification")
 
         # Scan for running session and add them to session_manager
 
@@ -208,7 +212,8 @@ class MagicManager(COMObject):
             # if MagicSession is configured via cls.magic_session()
             MagicSessionClass, args, kwargs = cls.MagicSessionConfigured
             magic_session = MagicSessionClass.initialize(
-                magic_root_session, *args, **kwargs)
+                magic_root_session, *args, **kwargs
+            )
             cls.magic_sessions[iid] = magic_session
 
         log.info(cls.str())
@@ -224,12 +229,12 @@ class MagicManager(COMObject):
             cls.activate_magic()
 
         if cls.MagicSessionConfigured:
-            raise NotImplementedError(
-                "only one MagicSession wrapper is allowed")
+            raise NotImplementedError("only one MagicSession wrapper is allowed")
 
         for iid, magic_root_session in cls.magic_root_sessions.items():
             magic_session = MagicSessionClass.initialize(
-                magic_root_session, *args, **kwargs)
+                magic_root_session, *args, **kwargs
+            )
             cls.magic_sessions[iid] = magic_session
         cls.MagicSessionConfigured = (MagicSessionClass, args, kwargs)
 
@@ -248,8 +253,10 @@ class MagicManager(COMObject):
                 # and not magic_root_session.magic_app
                 # will prohibit multiple magic_apps to use the same
                 # magic_root_session
-                if (magic_root_session.app_exec == app_exec and
-                        not magic_root_session.magic_app):
+                if (
+                    magic_root_session.app_exec == app_exec
+                    and not magic_root_session.magic_app
+                ):
                     log.info(f"{magic_root_session} matched {magic_app}.")
                     magic_app.add_magic_root_session(iid, magic_root_session)
 
@@ -265,10 +272,8 @@ class MagicManager(COMObject):
         for magic_app in cls.magic_apps:
             for app_exec in magic_app.app_execs:
                 if app_exec == new_app_exec:
-                    log.info(f"Match {magic_root_session} "
-                             f"{magic_app}")
-                    magic_app.add_magic_root_session(
-                        iid, magic_root_session)
+                    log.info(f"Match {magic_root_session} " f"{magic_app}")
+                    magic_app.add_magic_root_session(iid, magic_root_session)
                     # return will prohibit multiple magic_apps
                     # to use the same magic_root_session
                     return
@@ -313,8 +318,10 @@ class MagicManager(COMObject):
     def empty_trash(cls):
         while cls.expired_magic_root_sessions:
             to_remove = cls.expired_magic_root_sessions.pop()
-            log.info(":: :: :: release <POINTER(IAudioSessionControl2)/> "
-                     f"from {to_remove}")
+            log.info(
+                ":: :: :: release <POINTER(IAudioSessionControl2)/> "
+                f"from {to_remove}"
+            )
 
             # at this point it is already unregistered ...
             # see cls.remove_session()
@@ -359,6 +366,7 @@ class MagicManager(COMObject):
 # Make it more pythonic and beautifull
 def for_session_in_sessions(func):
     """Decorator for looping through sessions in MagicApp."""
+
     def wrapper(self, *args):
         if self.magic_root_sessions is None:
             # nothing to change
@@ -366,10 +374,7 @@ def for_session_in_sessions(func):
 
         # RuntimeError: dictionary changed size during iteration
         temp_sessions = dict(self.magic_root_sessions)
-        rv = [
-            func(self, session, *args)
-            for session in temp_sessions.values()
-            ]
+        rv = [func(self, session, *args) for session in temp_sessions.values()]
 
         # max([None, None]) -> TypeError: '>' not supported ...
         rv_no_none = [r for r in rv if r is not None]
@@ -386,6 +391,7 @@ def for_session_in_sessions(func):
 
 class _MagicAudioControl:
     """Simplifies the audio control by using the self.properties."""
+
     # TODO:
     # (this TODO applies to MagicApp, MagicSession, for_session_in_sessions)
     # handle incorrect input or raise exception.
@@ -416,17 +422,19 @@ class MagicApp(_MagicAudioControl):
     will be able to get/ set volume etc, also if the
     session is created after initialize.
     """
-    guid = pointer(GUID('{E0BD1A40-9624-44FC-A607-2ED4F00B1CC4}'))
 
-    def __init__(self,
-                 app_execs,
-                 volume_callback=None,
-                 advanced_volume_callback=None,
-                 mute_callback=None,
-                 advanced_mute_callback=None,
-                 state_callback=None,
-                 session_callback=None):
+    guid = pointer(GUID("{E0BD1A40-9624-44FC-A607-2ED4F00B1CC4}"))
 
+    def __init__(
+        self,
+        app_execs,
+        volume_callback=None,
+        advanced_volume_callback=None,
+        mute_callback=None,
+        advanced_mute_callback=None,
+        state_callback=None,
+        session_callback=None,
+    ):
         # normalize app_execs
         if type(app_execs) == str:
             # if string directly to set: {'a', 'b', 'c'}
@@ -462,9 +470,11 @@ class MagicApp(_MagicAudioControl):
             self.session_callback(magic_root_session)
 
     def __str__(self):
-        return (f"<{self.__class__.__name__} "
-                f"registered-for='{self.app_execs}' "
-                f"controls-sessions='{len(self.magic_root_sessions)}'/>")
+        return (
+            f"<{self.__class__.__name__} "
+            f"registered-for='{self.app_execs}' "
+            f"controls-sessions='{len(self.magic_root_sessions)}'/>"
+        )
 
     # easy control:
     @property
@@ -501,15 +511,17 @@ class MagicSession(_MagicAudioControl):
     Dict of all iid -> MagicSession:
         MagicManager.magic_sessions
     """
-    guid = pointer(GUID('{34482A3D-37DD-40E3-BB37-63A16036C87C}'))
 
-    def __init__(self,
-                 volume_callback=None,
-                 advanced_volume_callback=None,
-                 mute_callback=None,
-                 advanced_mute_callback=None,
-                 state_callback=None):
+    guid = pointer(GUID("{34482A3D-37DD-40E3-BB37-63A16036C87C}"))
 
+    def __init__(
+        self,
+        volume_callback=None,
+        advanced_volume_callback=None,
+        mute_callback=None,
+        advanced_mute_callback=None,
+        state_callback=None,
+    ):
         self.magic_root_session = self._passed_magic_root_session
         self._passed_magic_root_session = None
 
@@ -554,8 +566,10 @@ class MagicSession(_MagicAudioControl):
         return magic_session
 
     def __str__(self):
-        return (f"<{self.__class__.__name__} "
-                f"app_exec='{self.magic_root_session.app_exec}'/>")
+        return (
+            f"<{self.__class__.__name__} "
+            f"app_exec='{self.magic_root_session.app_exec}'/>"
+        )
 
     # easy control:
     @property
@@ -596,10 +610,12 @@ class _MagicGuidCompare:
         self.compare = compare
 
     def __str__(self):
-        return (f"<{self.__class__.__name__} "
-                f"changed-external='{self.compare}' "
-                f"master='{self.master.contents}' "
-                f"changer='{self.changer.contents}'/>")
+        return (
+            f"<{self.__class__.__name__} "
+            f"changed-external='{self.compare}' "
+            f"master='{self.master.contents}' "
+            f"changer='{self.changer.contents}'/>"
+        )
 
     def __bool__(self):
         """Returns True if changes are made external."""
@@ -675,8 +691,10 @@ class _MagicRootSession(COMObject):
 
     def OnSimpleVolumeChanged(self, new_volume, new_mute, event_context):
         """Is fired, when the audio session volume/mute changed."""
-        log.debug(f"OnSimpleVolumeChanged: {self.app_exec} "
-                  f"Vol: ~{new_volume} Mute: {new_mute}")
+        log.debug(
+            f"OnSimpleVolumeChanged: {self.app_exec} "
+            f"Vol: ~{new_volume} Mute: {new_mute}"
+        )
         # only make callbacks and update internal volume and mute
         # if someone is listening
 
@@ -690,15 +708,13 @@ class _MagicRootSession(COMObject):
             self.volume = new_volume
 
             # send callbacks, if callback exists
-            self._send_callback(self.magic_app,
-                                "volume_callback",
-                                event_context,
-                                new_volume)
+            self._send_callback(
+                self.magic_app, "volume_callback", event_context, new_volume
+            )
 
-            self._send_callback(self.magic_session,
-                                "volume_callback",
-                                event_context,
-                                new_volume)
+            self._send_callback(
+                self.magic_session, "volume_callback", event_context, new_volume
+            )
             return
         # check old mute vs new:
         if self.mute != new_mute:
@@ -707,15 +723,13 @@ class _MagicRootSession(COMObject):
             self.mute = new_mute
 
             # send callbacks, if callback exists
-            self._send_callback(self.magic_app,
-                                "mute_callback",
-                                event_context,
-                                new_mute)
+            self._send_callback(
+                self.magic_app, "mute_callback", event_context, new_mute
+            )
 
-            self._send_callback(self.magic_session,
-                                "mute_callback",
-                                event_context,
-                                new_mute)
+            self._send_callback(
+                self.magic_session, "mute_callback", event_context, new_mute
+            )
             return
 
     @staticmethod
@@ -754,8 +768,7 @@ class _MagicRootSession(COMObject):
 
         # create a new _MagicGuidCompare which will compare
         # changer_guid and master.guid
-        compare = _MagicGuidCompare(master.guid,
-                                    changer_guid)
+        compare = _MagicGuidCompare(master.guid, changer_guid)
 
         if master_advanced_callback:
             master_advanced_callback(value, compare)
@@ -793,8 +806,7 @@ class _MagicRootSession(COMObject):
             # ... but that would only work if empty_trash()
             # is triggered by the user and not via a callback
 
-            self.magic_manager.remove_session(self.iid,
-                                              self.magic_app)
+            self.magic_manager.remove_session(self.iid, self.magic_app)
 
             # XXX remove old session:
             # would crash the app:
@@ -832,8 +844,10 @@ class _MagicRootSession(COMObject):
         if returned_HRESULT == S_OK:
             return "SndVol.exe"
         else:
-            warn = ("unidentified app! "
-                    f"pid: {self.pid}, is system sound: {returned_HRESULT}")
+            warn = (
+                "unidentified app! "
+                f"pid: {self.pid}, is system sound: {returned_HRESULT}"
+            )
             log.critical(warn)
             raise ValueError(warn)
 

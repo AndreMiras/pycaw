@@ -1,5 +1,10 @@
 # Change Log
 
+## [20230322]
+    - CI and testing improvements
+    - Improve audioclient, audiopolicy and mmdeviceapi support, refs #70 (@dot-Eagle96)
+    - Fix IPropertyStore.SetValue parameters, refs #71 (@Invisi)
+
 ## [20220416]
     - Migrate to GitHub Actions
     - CI tests via virtual sound card
