@@ -1,9 +1,8 @@
-from ctypes import Structure, Union
+from ctypes import Structure, Union, byref, windll
 from ctypes.wintypes import DWORD, LONG, LPWSTR, ULARGE_INTEGER, VARIANT_BOOL, WORD
 
 from comtypes import GUID
 from comtypes.automation import VARTYPE, VT_BOOL, VT_CLSID, VT_LPWSTR, VT_UI4
-
 
 class PROPVARIANT_UNION(Union):
     _fields_ = [
@@ -39,6 +38,9 @@ class PROPVARIANT(Structure):
             return
         else:
             return "%s:?" % (vt)
+    
+    def clear(self):
+        windll.ole32.PropVariantClear(byref(self))
 
 
 class PROPERTYKEY(Structure):

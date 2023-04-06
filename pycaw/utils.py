@@ -246,6 +246,7 @@ class AudioUtilities:
                     continue
                 # TODO
                 # PropVariantClear(byref(value))
+                value.clear()
                 name = str(pk)
                 properties[name] = v
         audioState = AudioDeviceState(state)
