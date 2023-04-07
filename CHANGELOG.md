@@ -1,5 +1,8 @@
 # Change Log
 
+## [20230407]
+    - Fixes memory leak from PROPVARIANT, refs #72 (@KillerBOSS2019)
+
 ## [20230322]
     - CI and testing improvements
     - Improve audioclient, audiopolicy and mmdeviceapi support, refs #70 (@dot-Eagle96)
