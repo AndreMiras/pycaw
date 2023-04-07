@@ -244,8 +244,6 @@ class AudioUtilities:
                         "from device %r: %r" % (j, dev, exc)
                     )
                     continue
-                # TODO
-                # PropVariantClear(byref(value))
                 value.clear()
                 name = str(pk)
                 properties[name] = v
