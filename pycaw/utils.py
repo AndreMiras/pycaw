@@ -1,5 +1,4 @@
 import warnings
-from ctypes import POINTER, cast
 
 import comtypes
 import psutil
@@ -49,7 +48,7 @@ class AudioDevice:
             iface = self._dev.Activate(
                 IAudioEndpointVolume._iid_, comtypes.CLSCTX_ALL, None
             )
-            self._volume = cast(iface, POINTER(IAudioEndpointVolume))
+            self._volume = iface.QueryInterface(IAudioEndpointVolume)
         return self._volume
 
 
