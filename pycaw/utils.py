@@ -21,7 +21,7 @@ from pycaw.constants import (
 
 class AudioDevice:
     """
-    http://stackoverflow.com/a/20982715/185510
+    https://stackoverflow.com/a/20982715/185510
     """
 
     def __init__(self, id, state, properties, dev):
@@ -54,7 +54,7 @@ class AudioDevice:
 
 class AudioSession:
     """
-    http://stackoverflow.com/a/20982715/185510
+    https://stackoverflow.com/a/20982715/185510
     """
 
     def __init__(self, audio_session_control2):
@@ -157,7 +157,7 @@ class AudioSession:
 
 class AudioUtilities:
     """
-    http://stackoverflow.com/a/20982715/185510
+    https://stackoverflow.com/a/20982715/185510
     """
 
     @staticmethod

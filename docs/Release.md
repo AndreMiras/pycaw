@@ -5,7 +5,7 @@ This is documenting the release process.
 
 ## Git flow & CHANGELOG.md
 
-Make sure the CHANGELOG.md is up to date and follows the http://keepachangelog.com guidelines.
+Make sure the CHANGELOG.md is up to date and follows the https://keepachangelog.com guidelines.
 Start the release with git flow:
 ```batch
 git flow release start vYYYYMMDD
