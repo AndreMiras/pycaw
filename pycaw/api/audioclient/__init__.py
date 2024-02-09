@@ -137,3 +137,27 @@ class IAudioClient(IUnknown):
             (["out"], POINTER(POINTER(IUnknown)), "ppv"),
         ),
     )
+
+
+class IChannelAudioVolume(IUnknown):
+    _iid_ = GUID("{1c158861-b533-4b30-b1cf-e853e51c59b8}")
+    _methods_ = (
+        COMMETHOD(
+            [], HRESULT, "GetChannelCount", (["out"], POINTER(UINT32), "pnChannelCount")
+        ),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "SetChannelVolume",
+            (["in"], UINT32, "dwIndex"),
+            (["in"], c_float, "fLevel"),
+            (["in"], POINTER(GUID), "EventContext"),
+        ),
+        COMMETHOD(
+            [],
+            HRESULT,
+            "GetChannelVolume",
+            (["in"], UINT32, "dwIndex"),
+            (["out"], POINTER(c_float), "pfLevel"),
+        ),
+    )
