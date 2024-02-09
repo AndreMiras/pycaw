@@ -2,6 +2,7 @@
 IAudioEndpointVolumeCallback.OnNotify() example.
 The OnNotify() callback method gets called on volume change.
 """
+
 from comtypes import CLSCTX_ALL, COMObject
 
 from pycaw.pycaw import (

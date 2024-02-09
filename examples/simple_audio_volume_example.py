@@ -1,6 +1,7 @@
 """
 Per session GetMute() SetMute() using ISimpleAudioVolume.
 """
+
 from pycaw.pycaw import AudioUtilities, ISimpleAudioVolume
 
 
