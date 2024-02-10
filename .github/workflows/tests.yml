@@ -6,8 +6,8 @@ jobs:
   linter:
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
       - run: pip install tox
       - run: tox -e lint-check
   test:
@@ -17,7 +17,7 @@ jobs:
         python: ['3.7', '3.8', '3.9', '3.10']
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       # Virtual network sound card for Microsoft Windows
       - name: Install Scream
         shell: powershell
@@ -26,7 +26,7 @@ jobs:
           Expand-Archive -Path Scream3.8.zip -DestinationPath Scream
           Import-Certificate -FilePath Scream\Install\driver\x64\Scream.cat -CertStoreLocation Cert:\LocalMachine\TrustedPublisher
           Scream\Install\helpers\devcon-x64.exe install Scream\Install\driver\x64\Scream.inf *Scream
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
       - run: pip install tox
