@@ -1,6 +1,7 @@
 """
 Verifies core features run as expected.
 """
+
 import sys
 import warnings
 from contextlib import contextmanager

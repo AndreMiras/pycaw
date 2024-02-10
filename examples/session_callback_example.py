@@ -20,6 +20,7 @@ IAudioSessionEvents.OnSessionDisconnected()
 https://docs.microsoft.com/en-us/windows/win32/api/audiopolicy/nn-audiopolicy-iaudiosessionevents
 
 """
+
 import time
 
 from comtypes import COMError
