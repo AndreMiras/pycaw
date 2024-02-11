@@ -1,5 +1,10 @@
 # Change Log
 
+## [unreleased]
+    - fix double free due to using cast rather than QueryInterface, refs #74 (@mrob95)
+    - add: example for IMMNotificationClient, refs #77 (@Invisi)
+    - IChannelAudioVolume support, refs #87 (@mltony)
+
 ## [20230407]
     - Fixes memory leak from PROPVARIANT, refs #72 (@KillerBOSS2019)
 
