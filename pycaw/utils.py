@@ -1,11 +1,10 @@
 import warnings
-from ctypes import POINTER, cast
 
 import comtypes
 import psutil
 from _ctypes import COMError
 
-from pycaw.api.audioclient import ISimpleAudioVolume
+from pycaw.api.audioclient import IChannelAudioVolume, ISimpleAudioVolume
 from pycaw.api.audiopolicy import IAudioSessionControl2, IAudioSessionManager2
 from pycaw.api.endpointvolume import IAudioEndpointVolume
 from pycaw.api.mmdeviceapi import IMMDeviceEnumerator, IMMEndpoint
@@ -22,7 +21,7 @@ from pycaw.constants import (
 
 class AudioDevice:
     """
-    http://stackoverflow.com/a/20982715/185510
+    https://stackoverflow.com/a/20982715/185510
     """
 
     def __init__(self, id, state, properties, dev):
@@ -49,19 +48,20 @@ class AudioDevice:
             iface = self._dev.Activate(
                 IAudioEndpointVolume._iid_, comtypes.CLSCTX_ALL, None
             )
-            self._volume = cast(iface, POINTER(IAudioEndpointVolume))
+            self._volume = iface.QueryInterface(IAudioEndpointVolume)
         return self._volume
 
 
 class AudioSession:
     """
-    http://stackoverflow.com/a/20982715/185510
+    https://stackoverflow.com/a/20982715/185510
     """
 
     def __init__(self, audio_session_control2):
         self._ctl = audio_session_control2
         self._process = None
         self._volume = None
+        self._channelVolume = None
         self._callback = None
 
     def __str__(self):
@@ -146,6 +146,11 @@ class AudioSession:
             self._volume = self._ctl.QueryInterface(ISimpleAudioVolume)
         return self._volume
 
+    def channelAudioVolume(self):
+        if self._channelVolume is None:
+            self._channelVolume = self._ctl.QueryInterface(IChannelAudioVolume)
+        return self._channelVolume
+
     def register_notification(self, callback):
         if self._callback is None:
             self._callback = callback
@@ -158,7 +163,7 @@ class AudioSession:
 
 class AudioUtilities:
     """
-    http://stackoverflow.com/a/20982715/185510
+    https://stackoverflow.com/a/20982715/185510
     """
 
     @staticmethod

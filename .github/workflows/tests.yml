@@ -4,35 +4,51 @@ on: [push, pull_request]
 
 jobs:
   linter:
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
       - run: pip install tox
       - run: tox -e lint-check
   test:
-    runs-on: windows-2019
+    runs-on: windows-2022
     strategy:
       matrix:
-        python: ['3.7', '3.8', '3.9', '3.10']
+        python: ['3.8', '3.9', '3.10', '3.11', '3.12']
 
     steps:
-      - uses: actions/checkout@v2
-      # Virtual network sound card for Microsoft Windows
-      - name: Install Scream
+      - uses: actions/checkout@v4
+      - name: Start audio server
+        run: net start audiosrv
+      - name: Disable time sync with Hyper-V & setting system date time
+        # TODO: Remove the time workaround when virtual audio device certificate is valid again, refs:
+        # https://github.com/duncanthrax/scream/issues/202
+        run: |
+          Set-Service -Name vmictimesync -Status stopped -StartupType disabled
+          Set-ItemProperty HKLM:\SYSTEM\CurrentControlSet\services\W32Time\Parameters -Name 'Type' -Value 'NoSync'
+          net stop w32time; Set-Date (Get-Date "2023-07-04 12:00:00")
+      - name: Install virtual audio device (Scream)
+        timeout-minutes: 3
+        env:
+          VERSION: '4.0'
         shell: powershell
         run: |
-          Invoke-WebRequest https://github.com/duncanthrax/scream/releases/download/3.8/Scream3.8.zip -OutFile Scream3.8.zip
-          Expand-Archive -Path Scream3.8.zip -DestinationPath Scream
-          Import-Certificate -FilePath Scream\Install\driver\x64\Scream.cat -CertStoreLocation Cert:\LocalMachine\TrustedPublisher
+          Invoke-WebRequest https://github.com/duncanthrax/scream/releases/download/${{ env.VERSION }}/Scream${{ env.VERSION }}.zip -OutFile Scream${{ env.VERSION }}.zip
+          Expand-Archive -Path Scream${{ env.VERSION }}.zip -DestinationPath Scream
+          Import-Certificate -FilePath Scream\Install\driver\x64\scream.cat -CertStoreLocation Cert:\LocalMachine\TrustedPublisher
           Scream\Install\helpers\devcon-x64.exe install Scream\Install\driver\x64\Scream.inf *Scream
-      - uses: actions/setup-python@v2
+      - name: Resetting system date time
+        run: |
+          Set-Service -Name vmictimesync -Status running -StartupType automatic
+          Set-ItemProperty HKLM:\SYSTEM\CurrentControlSet\services\W32Time\Parameters -Name 'Type' -Value 'NTP'
+          net start w32time; w32tm /resync /force; $currentDate = Get-Date; Write-Host "Current System Date: $currentDate";
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
       - run: pip install tox
       - run: tox -e py
       - name: Run Coverage
-        if: matrix.python == '3.10'
+        if: matrix.python == '3.12'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: tox -e coveralls

@@ -2,7 +2,6 @@
 IAudioEndpointVolumeCallback.OnNotify() example.
 The OnNotify() callback method gets called on volume change.
 """
-from ctypes import POINTER, cast
 
 from comtypes import CLSCTX_ALL, COMObject
 
@@ -23,7 +22,7 @@ class AudioEndpointVolumeCallback(COMObject):
 def main():
     devices = AudioUtilities.GetSpeakers()
     interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = cast(interface, POINTER(IAudioEndpointVolume))
+    volume = interface.QueryInterface(IAudioEndpointVolume)
     callback = AudioEndpointVolumeCallback()
     volume.RegisterControlChangeNotify(callback)
     for i in range(3):

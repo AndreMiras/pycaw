@@ -2,6 +2,7 @@
 Per session GetMute() SetMute() GetMasterVolume() SetMasterVolume() using
 SimpleAudioVolume.
 """
+
 from pycaw.pycaw import AudioUtilities
 
 

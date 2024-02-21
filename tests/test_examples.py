@@ -1,6 +1,7 @@
 """
 Verifies examples run as expected.
 """
+
 import pytest
 
 from examples import (

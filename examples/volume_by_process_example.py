@@ -1,6 +1,7 @@
 """
 Mutes the volume of all processes, but unmutes chrome.exe process.
 """
+
 from pycaw.pycaw import AudioUtilities
 
 
