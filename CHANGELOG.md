@@ -1,9 +1,13 @@
 # Change Log
 
-## [unreleased]
+## [20240210]
     - fix double free due to using cast rather than QueryInterface, refs #74 (@mrob95)
     - add: example for IMMNotificationClient, refs #77 (@Invisi)
     - IChannelAudioVolume support, refs #87 (@mltony)
+    - Format fix (@AndreMiras), refs #89
+    - GitHub Actions versions bumps (@AndreMiras), refs #88
+    - Bump Python versions (@AndreMiras), refs #90
+    - Fix CI virtual audio install (@AndreMiras), refs #91
 
 ## [20230407]
     - Fixes memory leak from PROPVARIANT, refs #72 (@KillerBOSS2019)
