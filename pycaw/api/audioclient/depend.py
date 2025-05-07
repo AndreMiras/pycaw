@@ -1,5 +1,5 @@
 from ctypes import Structure
-from ctypes.wintypes import WORD, DWORD
+from ctypes.wintypes import DWORD, WORD
 
 
 class WAVEFORMATEX(Structure):
