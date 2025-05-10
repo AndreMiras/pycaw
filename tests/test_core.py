@@ -53,7 +53,10 @@ class TestCore:
         store.GetValue = mock.Mock(side_effect=_ctypes.COMError(None, None, None))
         dev.OpenPropertyStore = mock.Mock(return_value=store)
         with warnings.catch_warnings(record=True) as w:
-            AudioUtilities.CreateDevice(dev)
+            device = AudioUtilities.CreateDevice(dev)
+            # Properties are lazy-loaded and won't throw exceptions
+            # until accessed
+            dev = device.properties
         assert len(w) == 1
         assert "COMError attempting to get property 0 from device" in str(w[0].message)
 
