@@ -8,9 +8,9 @@ from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 
 def main():
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = interface.QueryInterface(IAudioEndpointVolume)
+    device = AudioUtilities.GetSpeakers()
+    print("Device found: %s" % device.FriendlyName)
+    volume = device.EndpointVolume
     print("volume.GetMute(): %s" % volume.GetMute())
     print("volume.GetMasterVolumeLevel(): %s" % volume.GetMasterVolumeLevel())
     print("volume.GetVolumeRange(): (%s, %s, %s)" % volume.GetVolumeRange())

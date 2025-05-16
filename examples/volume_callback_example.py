@@ -20,9 +20,8 @@ class AudioEndpointVolumeCallback(COMObject):
 
 
 def main():
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = interface.QueryInterface(IAudioEndpointVolume)
+    device = AudioUtilities.GetSpeakers()
+    volume = device.EndpointVolume
     callback = AudioEndpointVolumeCallback()
     volume.RegisterControlChangeNotify(callback)
     for _ in range(3):

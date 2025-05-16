@@ -8,6 +8,7 @@ from pycaw.api.audioclient import IChannelAudioVolume, ISimpleAudioVolume
 from pycaw.api.audiopolicy import IAudioSessionControl2, IAudioSessionManager2
 from pycaw.api.endpointvolume import IAudioEndpointVolume
 from pycaw.api.mmdeviceapi import IMMDeviceEnumerator, IMMEndpoint
+from pycaw.api.policyconfig import IPolicyConfig
 from pycaw.constants import (
     DEVICE_STATE,
     STGM,
@@ -16,6 +17,7 @@ from pycaw.constants import (
     EDataFlow,
     ERole,
     IID_Empty,
+    CLSID_CPolicyConfigClient,
 )
 
 
@@ -177,7 +179,7 @@ class AudioUtilities:
         speakers = deviceEnumerator.GetDefaultAudioEndpoint(
             EDataFlow.eRender.value, ERole.eMultimedia.value
         )
-        return speakers
+        return AudioUtilities.CreateDevice(speakers)
 
     @staticmethod
     def GetMicrophone():
@@ -256,7 +258,7 @@ class AudioUtilities:
         return AudioDevice(id, audioState, properties, dev)
 
     @staticmethod
-    def GetAllDevices():
+    def GetAllDevices(data_flow=EDataFlow.eAll.value, device_state=DEVICE_STATE.MASK_ALL.value):
         devices = []
         deviceEnumerator = comtypes.CoCreateInstance(
             CLSID_MMDeviceEnumerator, IMMDeviceEnumerator, comtypes.CLSCTX_INPROC_SERVER
@@ -265,7 +267,7 @@ class AudioUtilities:
             return devices
 
         collection = deviceEnumerator.EnumAudioEndpoints(
-            EDataFlow.eAll.value, DEVICE_STATE.MASK_ALL.value
+            data_flow, device_state
         )
         if collection is None:
             return devices
@@ -303,3 +305,15 @@ class AudioUtilities:
             return value
         else:
             return DataFlow[value]
+
+    @staticmethod
+    def SetDefaultDevice(devId, roles=None):
+        if roles is None:
+            roles = [ERole.eConsole]
+        policy_config = comtypes.CoCreateInstance(
+            CLSID_CPolicyConfigClient, IPolicyConfig, comtypes.CLSCTX_ALL
+        )
+        for role in roles:
+            hr = policy_config.SetDefaultEndpoint(devId, role.value)
+            if hr != 0:
+                raise OSError(f"SetDefaultEndpoint failed for role {role} with HRESULT {hr:#x}")
