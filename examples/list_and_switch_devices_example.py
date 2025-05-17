@@ -8,7 +8,7 @@ from pycaw.utils import AudioDevice
 import warnings
 
 
-def list_active_output_devices():
+def get_active_output_devices():
     with warnings.catch_warnings():  # suppress COMError warnings
         warnings.simplefilter("ignore", UserWarning)
         return AudioUtilities.GetAllDevices(data_flow=EDataFlow.eRender.value,
@@ -26,7 +26,7 @@ def set_default_device(device: AudioDevice):
 if __name__ == "__main__":
     # List devices
     print("List of available output devices (* = default): ")
-    active_output_devices = list_active_output_devices()
+    active_output_devices = get_active_output_devices()
     default_device = get_default_device()
     other_device = None
     for device in active_output_devices:
