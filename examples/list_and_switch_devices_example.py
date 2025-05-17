@@ -11,7 +11,8 @@ import warnings
 def list_active_output_devices():
     with warnings.catch_warnings():  # suppress COMError warnings
         warnings.simplefilter("ignore", UserWarning)
-        return AudioUtilities.GetAllDevices(data_flow=EDataFlow.eRender.value, device_state=DEVICE_STATE.ACTIVE.value)
+        return AudioUtilities.GetAllDevices(data_flow=EDataFlow.eRender.value,
+                                            device_state=DEVICE_STATE.ACTIVE.value)
 
 
 def get_default_device():

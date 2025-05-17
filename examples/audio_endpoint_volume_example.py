@@ -2,9 +2,7 @@
 Get and set access to master volume example.
 """
 
-from comtypes import CLSCTX_ALL
-
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+from pycaw.pycaw import AudioUtilities
 
 
 def main():
