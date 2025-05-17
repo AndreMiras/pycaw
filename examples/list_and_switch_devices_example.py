@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
         # List devices again
         print("Updated list of available output devices (* = default): ")
-        active_output_devices = list_active_output_devices()
+        active_output_devices = get_active_output_devices()
         default_device = get_default_device()
         for device in active_output_devices:
             if device.id == default_device.id:
