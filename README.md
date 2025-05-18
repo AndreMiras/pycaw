@@ -34,15 +34,13 @@ choco install visualcpp-build-tools
 ## Usage
 
 ```Python
-from comtypes import CLSCTX_ALL
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
-devices = AudioUtilities.GetSpeakers()
-interface = devices.Activate(
-    IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-volume = interface.QueryInterface(IAudioEndpointVolume)
-volume.GetMute()
-volume.GetMasterVolumeLevel()
-volume.GetVolumeRange()
+from pycaw.pycaw import AudioUtilities
+device = AudioUtilities.GetSpeakers()
+volume = device.EndpointVolume
+print(f"Audio output: {device.FriendlyName}")
+print(f"- Muted: {bool(volume.GetMute())}")
+print(f"- Volume level: {volume.GetMasterVolumeLevel()} dB")
+print(f"- Volume range: {volume.GetVolumeRange()[0]} dB - {volume.GetVolumeRange()[1]} dB")
 volume.SetMasterVolumeLevel(-20.0, None)
 ```
 

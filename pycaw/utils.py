@@ -32,6 +32,7 @@ class AudioDevice:
         self.properties = properties
         self._dev = dev
         self._volume = None
+        self._audio_session_manager = None
 
     def __str__(self):
         return "AudioDevice: %s" % (self.FriendlyName)
@@ -52,6 +53,16 @@ class AudioDevice:
             )
             self._volume = iface.QueryInterface(IAudioEndpointVolume)
         return self._volume
+
+    @property
+    def AudioSessionManager(self):
+        if self._audio_session_manager is None:
+            # win7+ only
+            iface = self._dev.Activate(
+                IAudioSessionManager2._iid_, comtypes.CLSCTX_ALL, None
+            )
+            self._audio_session_manager = iface.QueryInterface(IAudioSessionManager2)
+        return self._audio_session_manager
 
 
 class AudioSession:
@@ -199,10 +210,7 @@ class AudioUtilities:
         speakers = AudioUtilities.GetSpeakers()
         if speakers is None:
             return None
-        # win7+ only
-        o = speakers.Activate(IAudioSessionManager2._iid_, comtypes.CLSCTX_ALL, None)
-        mgr = o.QueryInterface(IAudioSessionManager2)
-        return mgr
+        return speakers.AudioSessionManager
 
     @staticmethod
     def GetAllSessions():
