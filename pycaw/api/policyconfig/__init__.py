@@ -1,5 +1,6 @@
 from ctypes import HRESULT, POINTER
 from ctypes.wintypes import BOOL, DWORD, LPCWSTR
+
 from comtypes import COMMETHOD, GUID, IUnknown
 
 from pycaw.api.mmdeviceapi import PROPERTYKEY

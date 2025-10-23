@@ -20,7 +20,7 @@ class TestExamples:
             audio_endpoint_volume_example.main()
         output = out.getvalue()
         lines = output.split("\n")
-        assert lines[0].startswith('Device found: ')
+        assert lines[0].startswith("Device found: ")
         assert lines[1] == "volume.GetMute(): 0"
         assert lines[2] == "volume.GetMasterVolumeLevel(): -20.0"
         assert lines[3] == "volume.GetVolumeRange(): (-95.25, 0.0, 0.75)"

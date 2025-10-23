@@ -13,11 +13,11 @@ from pycaw.constants import (
     DEVICE_STATE,
     STGM,
     AudioDeviceState,
+    CLSID_CPolicyConfigClient,
     CLSID_MMDeviceEnumerator,
     EDataFlow,
     ERole,
     IID_Empty,
-    CLSID_CPolicyConfigClient,
 )
 
 
@@ -266,8 +266,9 @@ class AudioUtilities:
         return AudioDevice(id, audioState, properties, dev)
 
     @staticmethod
-    def GetAllDevices(data_flow=EDataFlow.eAll.value,
-                      device_state=DEVICE_STATE.MASK_ALL.value):
+    def GetAllDevices(
+        data_flow=EDataFlow.eAll.value, device_state=DEVICE_STATE.MASK_ALL.value
+    ):
         devices = []
         deviceEnumerator = comtypes.CoCreateInstance(
             CLSID_MMDeviceEnumerator, IMMDeviceEnumerator, comtypes.CLSCTX_INPROC_SERVER
@@ -275,9 +276,7 @@ class AudioUtilities:
         if deviceEnumerator is None:
             return devices
 
-        collection = deviceEnumerator.EnumAudioEndpoints(
-            data_flow, device_state
-        )
+        collection = deviceEnumerator.EnumAudioEndpoints(data_flow, device_state)
         if collection is None:
             return devices
 
@@ -325,5 +324,7 @@ class AudioUtilities:
         for role in roles:
             hr = policy_config.SetDefaultEndpoint(devId, role.value)
             if hr != 0:
-                raise OSError(f"SetDefaultEndpoint failed for role {role} "
-                              f"with HRESULT {hr:#x}")
+                raise OSError(
+                    f"SetDefaultEndpoint failed for role {role} "
+                    f"with HRESULT {hr:#x}"
+                )

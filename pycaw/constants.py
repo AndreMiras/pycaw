@@ -5,7 +5,7 @@ from comtypes import GUID
 IID_Empty = GUID("{00000000-0000-0000-0000-000000000000}")
 
 CLSID_MMDeviceEnumerator = GUID("{BCDE0395-E52F-467C-8E3D-C4579291692E}")
-CLSID_CPolicyConfigClient = GUID('{870af99c-171d-4f9e-af0d-e63df40c2bc9}')
+CLSID_CPolicyConfigClient = GUID("{870af99c-171d-4f9e-af0d-e63df40c2bc9}")
 
 
 class ERole(Enum):
