@@ -301,9 +301,21 @@ class AudioUtilities:
     def GetEndpointDataFlow(devId, outputType=0):
         """
         Get data flow information of a given endpoint.
-        Two input arguments:
-            - devId: id of the device
-            - outputType: 0 (default) for text, 1 for code.
+
+        Parameters
+        ----------
+        devId : str
+            ID of the device to query
+        outputType : int, optional
+            Output format: 0 (default) returns text representation,
+            1 returns numeric code
+
+        Returns
+        -------
+        str or int
+            Data flow direction. If outputType=0, returns one of:
+            "eRender", "eCapture", "eAll", "EDataFlow_enum_count".
+            If outputType=1, returns the numeric value (0-3).
         """
         DataFlow = ["eRender", "eCapture", "eAll", "EDataFlow_enum_count"]
         devEnum = AudioUtilities.GetDeviceEnumerator()
