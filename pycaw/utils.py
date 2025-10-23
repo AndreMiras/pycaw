@@ -8,6 +8,7 @@ from pycaw.api.audioclient import IChannelAudioVolume, ISimpleAudioVolume
 from pycaw.api.audiopolicy import IAudioSessionControl2, IAudioSessionManager2
 from pycaw.api.endpointvolume import IAudioEndpointVolume
 from pycaw.api.mmdeviceapi import IMMDeviceEnumerator, IMMEndpoint
+from pycaw.api.policyconfig import IPolicyConfig
 from pycaw.constants import (
     DEVICE_STATE,
     STGM,
@@ -16,6 +17,7 @@ from pycaw.constants import (
     EDataFlow,
     ERole,
     IID_Empty,
+    CLSID_CPolicyConfigClient,
 )
 
 
@@ -30,6 +32,7 @@ class AudioDevice:
         self.properties = properties
         self._dev = dev
         self._volume = None
+        self._audio_session_manager = None
 
     def __str__(self):
         return "AudioDevice: %s" % (self.FriendlyName)
@@ -50,6 +53,16 @@ class AudioDevice:
             )
             self._volume = iface.QueryInterface(IAudioEndpointVolume)
         return self._volume
+
+    @property
+    def AudioSessionManager(self):
+        if self._audio_session_manager is None:
+            # win7+ only
+            iface = self._dev.Activate(
+                IAudioSessionManager2._iid_, comtypes.CLSCTX_ALL, None
+            )
+            self._audio_session_manager = iface.QueryInterface(IAudioSessionManager2)
+        return self._audio_session_manager
 
 
 class AudioSession:
@@ -177,7 +190,7 @@ class AudioUtilities:
         speakers = deviceEnumerator.GetDefaultAudioEndpoint(
             EDataFlow.eRender.value, ERole.eMultimedia.value
         )
-        return speakers
+        return AudioUtilities.CreateDevice(speakers)
 
     @staticmethod
     def GetMicrophone():
@@ -197,10 +210,7 @@ class AudioUtilities:
         speakers = AudioUtilities.GetSpeakers()
         if speakers is None:
             return None
-        # win7+ only
-        o = speakers.Activate(IAudioSessionManager2._iid_, comtypes.CLSCTX_ALL, None)
-        mgr = o.QueryInterface(IAudioSessionManager2)
-        return mgr
+        return speakers.AudioSessionManager
 
     @staticmethod
     def GetAllSessions():
@@ -256,7 +266,8 @@ class AudioUtilities:
         return AudioDevice(id, audioState, properties, dev)
 
     @staticmethod
-    def GetAllDevices():
+    def GetAllDevices(data_flow=EDataFlow.eAll.value,
+                      device_state=DEVICE_STATE.MASK_ALL.value):
         devices = []
         deviceEnumerator = comtypes.CoCreateInstance(
             CLSID_MMDeviceEnumerator, IMMDeviceEnumerator, comtypes.CLSCTX_INPROC_SERVER
@@ -265,7 +276,7 @@ class AudioUtilities:
             return devices
 
         collection = deviceEnumerator.EnumAudioEndpoints(
-            EDataFlow.eAll.value, DEVICE_STATE.MASK_ALL.value
+            data_flow, device_state
         )
         if collection is None:
             return devices
@@ -303,3 +314,16 @@ class AudioUtilities:
             return value
         else:
             return DataFlow[value]
+
+    @staticmethod
+    def SetDefaultDevice(devId, roles=None):
+        if roles is None:
+            roles = [ERole.eConsole]
+        policy_config = comtypes.CoCreateInstance(
+            CLSID_CPolicyConfigClient, IPolicyConfig, comtypes.CLSCTX_ALL
+        )
+        for role in roles:
+            hr = policy_config.SetDefaultEndpoint(devId, role.value)
+            if hr != 0:
+                raise OSError(f"SetDefaultEndpoint failed for role {role} "
+                              f"with HRESULT {hr:#x}")

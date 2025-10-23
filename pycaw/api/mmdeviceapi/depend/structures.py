@@ -29,13 +29,10 @@ class PROPVARIANT(Structure):
         if vt == VT_BOOL:
             return self.union.boolVal != 0
         elif vt == VT_LPWSTR:
-            # return Marshal.PtrToStringUni(union.pwszVal)
             return self.union.pwszVal
         elif vt == VT_UI4:
             return self.union.lVal
         elif vt == VT_CLSID:
-            # TODO
-            # return (Guid)Marshal.PtrToStructure(union.puuid, typeof(Guid))
             return
         else:
             return "%s:?" % (vt)

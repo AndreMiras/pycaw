@@ -3,13 +3,8 @@ IAudioEndpointVolumeCallback.OnNotify() example.
 The OnNotify() callback method gets called on volume change.
 """
 
-from comtypes import CLSCTX_ALL, COMObject
-
-from pycaw.pycaw import (
-    AudioUtilities,
-    IAudioEndpointVolume,
-    IAudioEndpointVolumeCallback,
-)
+from comtypes import COMObject
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolumeCallback
 
 
 class AudioEndpointVolumeCallback(COMObject):
@@ -20,12 +15,11 @@ class AudioEndpointVolumeCallback(COMObject):
 
 
 def main():
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = interface.QueryInterface(IAudioEndpointVolume)
+    device = AudioUtilities.GetSpeakers()
+    volume = device.EndpointVolume
     callback = AudioEndpointVolumeCallback()
     volume.RegisterControlChangeNotify(callback)
-    for i in range(3):
+    for _ in range(3):
         volume.SetMute(0, None)
         volume.SetMute(1, None)
 

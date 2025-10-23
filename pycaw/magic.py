@@ -122,7 +122,7 @@ class MagicManager(COMObject):
             self.magic_session()
         """
         if cls.magic_activated:
-            warn = "cannot activate MagicManager. " "MagicManager is already active!"
+            warn = "cannot activate MagicManager. MagicManager is already active!"
             log.warning(warn)
             warnings.warn(warn)
             return
@@ -272,7 +272,7 @@ class MagicManager(COMObject):
         for magic_app in cls.magic_apps:
             for app_exec in magic_app.app_execs:
                 if app_exec == new_app_exec:
-                    log.info(f"Match {magic_root_session} " f"{magic_app}")
+                    log.info(f"Match {magic_root_session} {magic_app}")
                     magic_app.add_magic_root_session(iid, magic_root_session)
                     # return will prohibit multiple magic_apps
                     # to use the same magic_root_session
@@ -362,8 +362,6 @@ class MagicManager(COMObject):
         cls.magic_activated = None
 
 
-# TODO:
-# Make it more pythonic and beautifull
 def for_session_in_sessions(func):
     """Decorator for looping through sessions in MagicApp."""
 
@@ -393,8 +391,8 @@ class _MagicAudioControl:
     """Simplifies the audio control by using the self.properties."""
 
     # TODO:
-    # (this TODO applies to MagicApp, MagicSession, for_session_in_sessions)
-    # handle incorrect input or raise exception.
+    # MagicApp, MagicSession and for_session_in_sessions to handle incorrect
+    # input or raise exception.
     # also handle failing com calls
     # (failing in terms of the retrieved value is not 'S_OK')
     #   it will happen, when the speaker is gets disconnected!
@@ -436,7 +434,7 @@ class MagicApp(_MagicAudioControl):
         session_callback=None,
     ):
         # normalize app_execs
-        if type(app_execs) == str:
+        if isinstance(app_execs, str):
             # if string directly to set: {'a', 'b', 'c'}
             app_execs = (app_execs,)
         self.app_execs = set(app_execs)

@@ -2,15 +2,13 @@
 Get and set access to master volume example.
 """
 
-from comtypes import CLSCTX_ALL
-
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+from pycaw.pycaw import AudioUtilities
 
 
 def main():
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = interface.QueryInterface(IAudioEndpointVolume)
+    device = AudioUtilities.GetSpeakers()
+    print("Device found: %s" % device.FriendlyName)
+    volume = device.EndpointVolume
     print("volume.GetMute(): %s" % volume.GetMute())
     print("volume.GetMasterVolumeLevel(): %s" % volume.GetMasterVolumeLevel())
     print("volume.GetVolumeRange(): (%s, %s, %s)" % volume.GetVolumeRange())

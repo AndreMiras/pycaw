@@ -1,5 +1,16 @@
 # Change Log
 
+## [Unreleased]
+    - Add SetDefaultDevice functionality to switch default audio devices, refs #49, #103 (@bdieudonne)
+    - Add policyconfig API module (IPolicyConfig) for device management, refs #103 (@bdieudonne)
+    - Add GetAllDevices() filters for data_flow and device_state, refs #103 (@bdieudonne)
+    - Update GetSpeakers() to return AudioDevice type for consistency, refs #103 (@bdieudonne)
+    - Add list_and_switch_devices_example.py, refs #103 (@bdieudonne)
+    - Correct API definitions in audioclient and constants, refs #102 (@gexgd0419)
+    - Update README to clarify Windows-only support, refs #94, #95 (@AndreMiras)
+    - Update examples and tests (@bdieudonne)
+    - Code quality improvements (@AndreMiras)
+
 ## [20240210]
     - fix double free due to using cast rather than QueryInterface, refs #74 (@mrob95)
     - add: example for IMMNotificationClient, refs #77 (@Invisi)

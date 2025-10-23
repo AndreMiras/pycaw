@@ -72,7 +72,7 @@ def add_callback(app_name):
         exit("Enter the right 'app_name', start it and play something")
 
     print("Ready to go!")
-    print("Change the volume / mute state " "/ close the app or unplug your speaker")
+    print("Change the volume / mute state / close the app or unplug your speaker")
     print("and watch the callbacks ;)\n")
 
     try:
