@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pycaw - Python Core Audio Windows &mdash; Pycaw Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quick Start Guide" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Pycaw
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#basic-usage">Basic Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#getting-the-default-speakers">Getting the Default Speakers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#controlling-volume">Controlling Volume</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#audio-endpoint-volume-control">Audio Endpoint Volume Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#volume-control-by-process">Volume Control by Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#list-and-switch-devices">List and Switch Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#more-examples">More Examples</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#high-level-api">High-Level API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#audioutilities">AudioUtilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.pycaw.AudioUtilities"><code class="docutils literal notranslate"><span class="pre">AudioUtilities</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#audiodevice">AudioDevice</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.pycaw.AudioDevice"><code class="docutils literal notranslate"><span class="pre">AudioDevice</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#audiosession">AudioSession</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.pycaw.AudioSession"><code class="docutils literal notranslate"><span class="pre">AudioSession</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#module-pycaw.constants">Constants and Enums</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#pycaw.constants.AUDCLNT_SHAREMODE"><code class="docutils literal notranslate"><span class="pre">AUDCLNT_SHAREMODE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_EXCLUSIVE"><code class="docutils literal notranslate"><span class="pre">AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_EXCLUSIVE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_SHARED"><code class="docutils literal notranslate"><span class="pre">AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_SHARED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#pycaw.constants.AudioDeviceState"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.AudioDeviceState.Active"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState.Active</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.AudioDeviceState.Disabled"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState.Disabled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.AudioDeviceState.NotPresent"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState.NotPresent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.AudioDeviceState.Unplugged"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState.Unplugged</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#pycaw.constants.AudioSessionState"><code class="docutils literal notranslate"><span class="pre">AudioSessionState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.AudioSessionState.Active"><code class="docutils literal notranslate"><span class="pre">AudioSessionState.Active</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.AudioSessionState.Expired"><code class="docutils literal notranslate"><span class="pre">AudioSessionState.Expired</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.AudioSessionState.Inactive"><code class="docutils literal notranslate"><span class="pre">AudioSessionState.Inactive</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#pycaw.constants.DEVICE_STATE"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.DEVICE_STATE.ACTIVE"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.ACTIVE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.DEVICE_STATE.DISABLED"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.DISABLED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.DEVICE_STATE.MASK_ALL"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.MASK_ALL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.DEVICE_STATE.NOTPRESENT"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.NOTPRESENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.DEVICE_STATE.UNPLUGGED"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.UNPLUGGED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#pycaw.constants.EDataFlow"><code class="docutils literal notranslate"><span class="pre">EDataFlow</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.EDataFlow.EDataFlow_enum_count"><code class="docutils literal notranslate"><span class="pre">EDataFlow.EDataFlow_enum_count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.EDataFlow.eAll"><code class="docutils literal notranslate"><span class="pre">EDataFlow.eAll</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.EDataFlow.eCapture"><code class="docutils literal notranslate"><span class="pre">EDataFlow.eCapture</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.EDataFlow.eRender"><code class="docutils literal notranslate"><span class="pre">EDataFlow.eRender</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#pycaw.constants.ERole"><code class="docutils literal notranslate"><span class="pre">ERole</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.ERole.ERole_enum_count"><code class="docutils literal notranslate"><span class="pre">ERole.ERole_enum_count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.ERole.eCommunications"><code class="docutils literal notranslate"><span class="pre">ERole.eCommunications</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.ERole.eConsole"><code class="docutils literal notranslate"><span class="pre">ERole.eConsole</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.ERole.eMultimedia"><code class="docutils literal notranslate"><span class="pre">ERole.eMultimedia</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#pycaw.constants.STGM"><code class="docutils literal notranslate"><span class="pre">STGM</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.constants.STGM.STGM_READ"><code class="docutils literal notranslate"><span class="pre">STGM.STGM_READ</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#module-pycaw.callbacks">Callbacks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioEndpointVolumeCallback"><code class="docutils literal notranslate"><span class="pre">AudioEndpointVolumeCallback</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioEndpointVolumeCallback.OnNotify"><code class="docutils literal notranslate"><span class="pre">AudioEndpointVolumeCallback.OnNotify()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioEndpointVolumeCallback.on_notify"><code class="docutils literal notranslate"><span class="pre">AudioEndpointVolumeCallback.on_notify()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.AudioSessionDisconnectReason"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.AudioSessionDisconnectReason</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.AudioSessionState"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.AudioSessionState</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.OnChannelVolumeChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnChannelVolumeChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.OnDisplayNameChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnDisplayNameChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.OnGroupingParamChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnGroupingParamChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.OnIconPathChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnIconPathChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.OnSessionDisconnected"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnSessionDisconnected()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.OnSimpleVolumeChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnSimpleVolumeChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.OnStateChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnStateChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.on_channel_volume_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_channel_volume_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.on_display_name_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_display_name_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.on_grouping_param_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_grouping_param_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.on_icon_path_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_icon_path_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.on_session_disconnected"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_session_disconnected()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.on_simple_volume_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_simple_volume_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionEvents.on_state_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_state_changed()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionNotification"><code class="docutils literal notranslate"><span class="pre">AudioSessionNotification</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionNotification.OnSessionCreated"><code class="docutils literal notranslate"><span class="pre">AudioSessionNotification.OnSessionCreated()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.AudioSessionNotification.on_session_created"><code class="docutils literal notranslate"><span class="pre">AudioSessionNotification.on_session_created()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient.DataFlow"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.DataFlow</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient.DeviceStates"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.DeviceStates</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient.OnDefaultDeviceChanged"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnDefaultDeviceChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient.OnDeviceAdded"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnDeviceAdded()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient.OnDeviceRemoved"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnDeviceRemoved()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient.OnDeviceStateChanged"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnDeviceStateChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient.OnPropertyValueChanged"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnPropertyValueChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient.Roles"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.Roles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient.on_default_device_changed"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_default_device_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient.on_device_added"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_device_added()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient.on_device_removed"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_device_removed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient.on_device_state_changed"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_device_state_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#pycaw.callbacks.MMNotificationClient.on_property_value_changed"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_property_value_changed()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Pycaw</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Pycaw - Python Core Audio Windows</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pycaw-python-core-audio-windows">
+<h1>Pycaw - Python Core Audio Windows<a class="headerlink" href="#pycaw-python-core-audio-windows" title="Link to this heading"></a></h1>
+<a class="reference external image-reference" href="https://github.com/AndreMiras/pycaw/actions/workflows/tests.yml"><img alt="Tests" src="https://github.com/AndreMiras/pycaw/actions/workflows/tests.yml/badge.svg" />
+</a>
+<a class="reference external image-reference" href="https://coveralls.io/github/AndreMiras/pycaw?branch=develop"><img alt="Coverage" src="https://coveralls.io/repos/github/AndreMiras/pycaw/badge.svg?branch=develop" />
+</a>
+<a class="reference external image-reference" href="https://badge.fury.io/py/pycaw"><img alt="PyPI version" src="https://badge.fury.io/py/pycaw.svg" />
+</a>
+<p>Pycaw is a Python library designed exclusively for controlling audio devices on <strong>Windows</strong> systems.
+It allows programmatic access to audio sessions, volume control, and sound device management on the Windows platform.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Windows Only</strong>: Pycaw does not support macOS or Linux.
+It is built specifically for Windows using Core Audio APIs.
+If you’re looking for similar functionality on other platforms, you’ll need alternative libraries.</p>
+</div>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>Latest stable release:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pycaw</span>
+</pre></div>
+</div>
+<p>Development branch:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">AndreMiras</span><span class="o">/</span><span class="n">pycaw</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">develop</span><span class="o">.</span><span class="n">zip</span>
+</pre></div>
+</div>
+<p>System requirements:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">choco</span> <span class="n">install</span> <span class="n">visualcpp</span><span class="o">-</span><span class="n">build</span><span class="o">-</span><span class="n">tools</span>
+</pre></div>
+</div>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pycaw.pycaw</span><span class="w"> </span><span class="kn">import</span> <span class="n">AudioUtilities</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">AudioUtilities</span><span class="o">.</span><span class="n">GetSpeakers</span><span class="p">()</span>
+<span class="n">volume</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">EndpointVolume</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Audio output: </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- Muted: </span><span class="si">{</span><span class="nb">bool</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">GetMute</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- Volume level: </span><span class="si">{</span><span class="n">volume</span><span class="o">.</span><span class="n">GetMasterVolumeLevel</span><span class="p">()</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- Volume range: </span><span class="si">{</span><span class="n">volume</span><span class="o">.</span><span class="n">GetVolumeRange</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> dB - </span><span class="si">{</span><span class="n">volume</span><span class="o">.</span><span class="n">GetVolumeRange</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+<span class="n">volume</span><span class="o">.</span><span class="n">SetMasterVolumeLevel</span><span class="p">(</span><span class="o">-</span><span class="mf">20.0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#audio-endpoint-volume-control">Audio Endpoint Volume Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#volume-control-by-process">Volume Control by Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#list-and-switch-devices">List and Switch Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#more-examples">More Examples</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#high-level-api">High-Level API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#module-pycaw.constants">Constants and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#module-pycaw.callbacks">Callbacks</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-right" title="Quick Start Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Andre Miras.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

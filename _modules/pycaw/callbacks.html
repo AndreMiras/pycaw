@@ -1,0 +1,689 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pycaw.callbacks &mdash; Pycaw Documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Pycaw
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#basic-usage">Basic Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#getting-the-default-speakers">Getting the Default Speakers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#controlling-volume">Controlling Volume</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/index.html#audio-endpoint-volume-control">Audio Endpoint Volume Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/index.html#volume-control-by-process">Volume Control by Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/index.html#list-and-switch-devices">List and Switch Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/index.html#more-examples">More Examples</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/index.html#high-level-api">High-Level API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#audioutilities">AudioUtilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.pycaw.AudioUtilities"><code class="docutils literal notranslate"><span class="pre">AudioUtilities</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#audiodevice">AudioDevice</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.pycaw.AudioDevice"><code class="docutils literal notranslate"><span class="pre">AudioDevice</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#audiosession">AudioSession</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.pycaw.AudioSession"><code class="docutils literal notranslate"><span class="pre">AudioSession</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/index.html#module-pycaw.constants">Constants and Enums</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#pycaw.constants.AUDCLNT_SHAREMODE"><code class="docutils literal notranslate"><span class="pre">AUDCLNT_SHAREMODE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_EXCLUSIVE"><code class="docutils literal notranslate"><span class="pre">AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_EXCLUSIVE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_SHARED"><code class="docutils literal notranslate"><span class="pre">AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_SHARED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#pycaw.constants.AudioDeviceState"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.AudioDeviceState.Active"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState.Active</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.AudioDeviceState.Disabled"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState.Disabled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.AudioDeviceState.NotPresent"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState.NotPresent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.AudioDeviceState.Unplugged"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState.Unplugged</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#pycaw.constants.AudioSessionState"><code class="docutils literal notranslate"><span class="pre">AudioSessionState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.AudioSessionState.Active"><code class="docutils literal notranslate"><span class="pre">AudioSessionState.Active</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.AudioSessionState.Expired"><code class="docutils literal notranslate"><span class="pre">AudioSessionState.Expired</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.AudioSessionState.Inactive"><code class="docutils literal notranslate"><span class="pre">AudioSessionState.Inactive</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#pycaw.constants.DEVICE_STATE"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.DEVICE_STATE.ACTIVE"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.ACTIVE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.DEVICE_STATE.DISABLED"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.DISABLED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.DEVICE_STATE.MASK_ALL"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.MASK_ALL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.DEVICE_STATE.NOTPRESENT"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.NOTPRESENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.DEVICE_STATE.UNPLUGGED"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.UNPLUGGED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#pycaw.constants.EDataFlow"><code class="docutils literal notranslate"><span class="pre">EDataFlow</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.EDataFlow.EDataFlow_enum_count"><code class="docutils literal notranslate"><span class="pre">EDataFlow.EDataFlow_enum_count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.EDataFlow.eAll"><code class="docutils literal notranslate"><span class="pre">EDataFlow.eAll</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.EDataFlow.eCapture"><code class="docutils literal notranslate"><span class="pre">EDataFlow.eCapture</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.EDataFlow.eRender"><code class="docutils literal notranslate"><span class="pre">EDataFlow.eRender</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#pycaw.constants.ERole"><code class="docutils literal notranslate"><span class="pre">ERole</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.ERole.ERole_enum_count"><code class="docutils literal notranslate"><span class="pre">ERole.ERole_enum_count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.ERole.eCommunications"><code class="docutils literal notranslate"><span class="pre">ERole.eCommunications</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.ERole.eConsole"><code class="docutils literal notranslate"><span class="pre">ERole.eConsole</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.ERole.eMultimedia"><code class="docutils literal notranslate"><span class="pre">ERole.eMultimedia</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#pycaw.constants.STGM"><code class="docutils literal notranslate"><span class="pre">STGM</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.constants.STGM.STGM_READ"><code class="docutils literal notranslate"><span class="pre">STGM.STGM_READ</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/index.html#module-pycaw.callbacks">Callbacks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioEndpointVolumeCallback"><code class="docutils literal notranslate"><span class="pre">AudioEndpointVolumeCallback</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioEndpointVolumeCallback.OnNotify"><code class="docutils literal notranslate"><span class="pre">AudioEndpointVolumeCallback.OnNotify()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioEndpointVolumeCallback.on_notify"><code class="docutils literal notranslate"><span class="pre">AudioEndpointVolumeCallback.on_notify()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.AudioSessionDisconnectReason"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.AudioSessionDisconnectReason</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.AudioSessionState"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.AudioSessionState</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnChannelVolumeChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnChannelVolumeChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnDisplayNameChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnDisplayNameChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnGroupingParamChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnGroupingParamChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnIconPathChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnIconPathChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnSessionDisconnected"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnSessionDisconnected()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnSimpleVolumeChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnSimpleVolumeChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnStateChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnStateChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_channel_volume_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_channel_volume_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_display_name_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_display_name_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_grouping_param_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_grouping_param_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_icon_path_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_icon_path_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_session_disconnected"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_session_disconnected()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_simple_volume_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_simple_volume_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_state_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_state_changed()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionNotification"><code class="docutils literal notranslate"><span class="pre">AudioSessionNotification</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionNotification.OnSessionCreated"><code class="docutils literal notranslate"><span class="pre">AudioSessionNotification.OnSessionCreated()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.AudioSessionNotification.on_session_created"><code class="docutils literal notranslate"><span class="pre">AudioSessionNotification.on_session_created()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.DataFlow"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.DataFlow</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.DeviceStates"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.DeviceStates</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.OnDefaultDeviceChanged"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnDefaultDeviceChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.OnDeviceAdded"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnDeviceAdded()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.OnDeviceRemoved"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnDeviceRemoved()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.OnDeviceStateChanged"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnDeviceStateChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.OnPropertyValueChanged"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnPropertyValueChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.Roles"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.Roles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.on_default_device_changed"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_default_device_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.on_device_added"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_device_added()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.on_device_removed"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_device_removed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.on_device_state_changed"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_device_state_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.on_property_value_changed"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_property_value_changed()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pycaw</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pycaw.callbacks</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pycaw.callbacks</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ctypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">pointer</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">comtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">COMObject</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycaw.api.audiopolicy</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">IAudioSessionControl2</span><span class="p">,</span>
+    <span class="n">IAudioSessionEvents</span><span class="p">,</span>
+    <span class="n">IAudioSessionNotification</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycaw.api.endpointvolume</span><span class="w"> </span><span class="kn">import</span> <span class="n">IAudioEndpointVolumeCallback</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycaw.api.mmdeviceapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">IMMNotificationClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycaw.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">AudioSession</span>
+
+
+<div class="viewcode-block" id="AudioSessionNotification">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionNotification">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AudioSessionNotification</span><span class="p">(</span><span class="n">COMObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper for audio session created callbacks.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    In order for the AudioSessionNotification to work you need to play nicely</span>
+<span class="sd">    by following these Windows rules:</span>
+<span class="sd">    1.  Com needs to be in MTA. That is archived by defining</span>
+<span class="sd">        the following flag before pycaw or comtypes are imported:</span>
+<span class="sd">            sys.coinit_flags = 0</span>
+<span class="sd">    2.  Get the AudioSessionManager:</span>
+<span class="sd">            mgr = AudioUtilities.GetAudioSessionManager()</span>
+<span class="sd">    3.  Create and register callback:</span>
+<span class="sd">            MyCustomCallback(AudioSessionNotification):</span>
+<span class="sd">                def on_session_created(self, new_session):</span>
+<span class="sd">                    print(&quot;on_session_created&quot;)</span>
+<span class="sd">            callback = MyCustomCallback()</span>
+<span class="sd">            mgr.RegisterSessionNotification(callback)</span>
+<span class="sd">    4.  Call the session enumerator (otherwise on_session_created wont work)</span>
+<span class="sd">            mgr.GetSessionEnumerator()</span>
+<span class="sd">    5.  Unregister, when you are finished:</span>
+<span class="sd">            mgr.UnregisterSessionNotification(callback)</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    Override the following method:</span>
+
+<span class="sd">    def on_session_created(self, new_volume, new_mute, event_context):</span>
+<span class="sd">        Is fired, when a new audio session is created.</span>
+<span class="sd">            new_session : pycaw.utils.AudioSession</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_com_interfaces_</span> <span class="o">=</span> <span class="p">(</span><span class="n">IAudioSessionNotification</span><span class="p">,)</span>
+
+<div class="viewcode-block" id="AudioSessionNotification.OnSessionCreated">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionNotification.OnSessionCreated">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnSessionCreated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_session</span><span class="p">):</span>
+        <span class="n">ctl2</span> <span class="o">=</span> <span class="n">new_session</span><span class="o">.</span><span class="n">QueryInterface</span><span class="p">(</span><span class="n">IAudioSessionControl2</span><span class="p">)</span>
+        <span class="n">new_session</span> <span class="o">=</span> <span class="n">AudioSession</span><span class="p">(</span><span class="n">ctl2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_session_created</span><span class="p">(</span><span class="n">new_session</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionNotification.on_session_created">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionNotification.on_session_created">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_session_created</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_session</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AudioSessionEvents">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AudioSessionEvents</span><span class="p">(</span><span class="n">COMObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper for audio session callbacks.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    Override the following method(s):</span>
+
+<span class="sd">    def on_display_name_changed(self, new_display_name, event_context):</span>
+<span class="sd">        Is fired, when the audio session name is changed.</span>
+<span class="sd">            new_display_name : str</span>
+<span class="sd">                The new name that is displayed.</span>
+<span class="sd">            event_context : comtypes.GUID</span>
+<span class="sd">                the guid &quot;should&quot; be unique to who made the changes.</span>
+<span class="sd">                access guid str with event_context.contents.</span>
+
+<span class="sd">    def OnIconPathChanged(self, new_icon_path, event_context):</span>
+<span class="sd">        Is fired, when the audio session icon path is changed.</span>
+<span class="sd">            new_icon_path : str</span>
+<span class="sd">                The new path of the icon that is displayed.</span>
+<span class="sd">            event_context : comtypes.GUID</span>
+<span class="sd">                the guid &quot;should&quot; be unique to who made the changes.</span>
+<span class="sd">                access guid str with event_context.contents.</span>
+
+<span class="sd">    def on_simple_volume_changed(self, new_volume, new_mute, event_context):</span>
+<span class="sd">        Is fired, when the audio session volume/mute changed.</span>
+<span class="sd">            new_volume : float</span>
+<span class="sd">                in range(0, 1)</span>
+<span class="sd">            new_mute : int</span>
+<span class="sd">                0, 1</span>
+<span class="sd">            event_context : comtypes.GUID</span>
+<span class="sd">                the guid &quot;should&quot; be unique to who made the changes.</span>
+<span class="sd">                access guid str with event_context.contents.</span>
+
+<span class="sd">    def OnChannelVolumeChanged(self, channel_count, new_channel_volume_array,</span>
+<span class="sd">                                                changed_channel, event_context):</span>
+<span class="sd">        Is fired, when the audio session channels volume changed.</span>
+<span class="sd">            channel_count: int</span>
+<span class="sd">                This parameter specifies the number of audio channels in the session</span>
+<span class="sd">                submix.</span>
+<span class="sd">            new_channel_volume_array : float array</span>
+<span class="sd">                values in range(0, 1)</span>
+<span class="sd">            changed_channel : int</span>
+<span class="sd">                The number (x) of the channel whose volume level changed.</span>
+<span class="sd">                Use (x-1) as index of new_channel_volume_array</span>
+<span class="sd">                to get the new volume for the changed_channel (x)</span>
+<span class="sd">            event_context : comtypes.GUID</span>
+<span class="sd">                the guid &quot;should&quot; be unique to who made the changes.</span>
+<span class="sd">                access guid str with event_context.contents.</span>
+
+<span class="sd">    def OnGroupingParamChanged(self, new_grouping_param, event_context):</span>
+<span class="sd">        Is fired, when the grouping parameter for the session has changed.</span>
+<span class="sd">            new_grouping_param : comtypes.GUID</span>
+<span class="sd">                points to a grouping-parameter GUID.</span>
+<span class="sd">            event_context : comtypes.GUID</span>
+<span class="sd">                the guid &quot;should&quot; be unique to who made the changes.</span>
+<span class="sd">                access guid str with event_context.contents.</span>
+
+<span class="sd">    def on_state_changed(self, new_state, new_state_id):</span>
+<span class="sd">        Is fired, when the audio session state changed.</span>
+<span class="sd">            new_state : str</span>
+<span class="sd">                &quot;Inactive&quot;, &quot;Active&quot;, &quot;Expired&quot;</span>
+<span class="sd">            new_state_id : int</span>
+<span class="sd">                0, 1, 2</span>
+
+<span class="sd">    def on_session_disconnected(self, disconnect_reason, disconnect_reason_id):</span>
+<span class="sd">        Is fired, when the audio session disconnected &quot;hard&quot;.</span>
+<span class="sd">            Mostly on_state_changed == &quot;Expired&quot; is what you are looking for.</span>
+<span class="sd">            see self.AudioSessionDisconnectReason for disconnect_reason.</span>
+<span class="sd">            The use is similar to on_state_changed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_com_interfaces_</span> <span class="o">=</span> <span class="p">(</span><span class="n">IAudioSessionEvents</span><span class="p">,)</span>
+
+    <span class="c1"># ======= DECODE RETURNED INT VALUE =======</span>
+    <span class="c1"># see audiosessiontypes.h and audiopolicy.h</span>
+    <span class="n">AudioSessionState</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Inactive&quot;</span><span class="p">,</span> <span class="s2">&quot;Active&quot;</span><span class="p">,</span> <span class="s2">&quot;Expired&quot;</span><span class="p">)</span>
+
+    <span class="n">AudioSessionDisconnectReason</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;DeviceRemoval&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ServerShutdown&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FormatChanged&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;SessionLogoff&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;SessionDisconnected&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ExclusiveModeOverride&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="AudioSessionEvents.OnDisplayNameChanged">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnDisplayNameChanged">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnDisplayNameChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_display_name</span><span class="p">,</span> <span class="n">event_context</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_display_name_changed</span><span class="p">(</span><span class="n">new_display_name</span><span class="p">,</span> <span class="n">event_context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionEvents.OnIconPathChanged">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnIconPathChanged">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnIconPathChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_icon_path</span><span class="p">,</span> <span class="n">event_context</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_icon_path_changed</span><span class="p">(</span><span class="n">new_icon_path</span><span class="p">,</span> <span class="n">event_context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionEvents.OnSimpleVolumeChanged">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnSimpleVolumeChanged">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnSimpleVolumeChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_volume</span><span class="p">,</span> <span class="n">new_mute</span><span class="p">,</span> <span class="n">event_context</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_simple_volume_changed</span><span class="p">(</span><span class="n">new_volume</span><span class="p">,</span> <span class="n">new_mute</span><span class="p">,</span> <span class="n">event_context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionEvents.OnChannelVolumeChanged">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnChannelVolumeChanged">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnChannelVolumeChanged</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">channel_count</span><span class="p">,</span> <span class="n">new_channel_volume_array</span><span class="p">,</span> <span class="n">changed_channel</span><span class="p">,</span> <span class="n">event_context</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_channel_volume_changed</span><span class="p">(</span>
+            <span class="n">channel_count</span><span class="p">,</span> <span class="n">new_channel_volume_array</span><span class="p">,</span> <span class="n">changed_channel</span><span class="p">,</span> <span class="n">event_context</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionEvents.OnGroupingParamChanged">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnGroupingParamChanged">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnGroupingParamChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_grouping_param</span><span class="p">,</span> <span class="n">event_context</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_grouping_param_changed</span><span class="p">(</span><span class="n">new_grouping_param</span><span class="p">,</span> <span class="n">event_context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionEvents.OnStateChanged">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnStateChanged">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnStateChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_state_id</span><span class="p">):</span>
+        <span class="n">new_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AudioSessionState</span><span class="p">[</span><span class="n">new_state_id</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_state_changed</span><span class="p">(</span><span class="n">new_state</span><span class="p">,</span> <span class="n">new_state_id</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionEvents.OnSessionDisconnected">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.OnSessionDisconnected">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnSessionDisconnected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disconnect_reason_id</span><span class="p">):</span>
+        <span class="n">disconnect_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AudioSessionDisconnectReason</span><span class="p">[</span><span class="n">disconnect_reason_id</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_session_disconnected</span><span class="p">(</span><span class="n">disconnect_reason</span><span class="p">,</span> <span class="n">disconnect_reason_id</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionEvents.on_display_name_changed">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_display_name_changed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_display_name_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_display_name</span><span class="p">,</span> <span class="n">event_context</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionEvents.on_icon_path_changed">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_icon_path_changed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_icon_path_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_icon_path</span><span class="p">,</span> <span class="n">event_context</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionEvents.on_simple_volume_changed">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_simple_volume_changed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_simple_volume_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_volume</span><span class="p">,</span> <span class="n">new_mute</span><span class="p">,</span> <span class="n">event_context</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionEvents.on_channel_volume_changed">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_channel_volume_changed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_channel_volume_changed</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">channel_count</span><span class="p">,</span> <span class="n">new_channel_volume_array</span><span class="p">,</span> <span class="n">changed_channel</span><span class="p">,</span> <span class="n">event_context</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionEvents.on_grouping_param_changed">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_grouping_param_changed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_grouping_param_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_grouping_param</span><span class="p">,</span> <span class="n">event_context</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionEvents.on_state_changed">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_state_changed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_state_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_state</span><span class="p">,</span> <span class="n">new_state_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="AudioSessionEvents.on_session_disconnected">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioSessionEvents.on_session_disconnected">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_session_disconnected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disconnect_reason</span><span class="p">,</span> <span class="n">disconnect_reason_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AudioEndpointVolumeCallback">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioEndpointVolumeCallback">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AudioEndpointVolumeCallback</span><span class="p">(</span><span class="n">COMObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper for audio device volume callbacks.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    Override the following method:</span>
+
+<span class="sd">    def on_notify(self, new_volume, new_mute, event_context,</span>
+<span class="sd">                  channels, channel_volumes):</span>
+<span class="sd">        Is fired, when the audio device volume/mute changed.</span>
+<span class="sd">            new_volume : float</span>
+<span class="sd">                in range(0, 1)</span>
+<span class="sd">            new_mute : int</span>
+<span class="sd">                0, 1</span>
+<span class="sd">            event_context : comtypes.GUID</span>
+<span class="sd">                the guid &quot;should&quot; be unique to who made the changes.</span>
+<span class="sd">                access guid str with event_context.contents</span>
+<span class="sd">            channels : int</span>
+<span class="sd">                count of channels</span>
+<span class="sd">            channel_volumes : list : float</span>
+<span class="sd">                the channel volumes in range(0, 1)</span>
+<span class="sd">                len(channel_volumes) == channels</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_com_interfaces_</span> <span class="o">=</span> <span class="p">(</span><span class="n">IAudioEndpointVolumeCallback</span><span class="p">,)</span>
+
+<div class="viewcode-block" id="AudioEndpointVolumeCallback.OnNotify">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioEndpointVolumeCallback.OnNotify">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnNotify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pNotify</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fired by Windows, when the audio device volume/mute changed&quot;&quot;&quot;</span>
+
+        <span class="c1"># get the data of the PAUDIO_VOLUME_NOTIFICATION_DATA Structure</span>
+        <span class="n">notify_data</span> <span class="o">=</span> <span class="n">pNotify</span><span class="o">.</span><span class="n">contents</span>
+
+        <span class="n">channels</span> <span class="o">=</span> <span class="n">notify_data</span><span class="o">.</span><span class="n">nChannels</span>
+        <span class="c1"># _.afChannelVolumes is a c_float_Array_8 -&gt; convert to list</span>
+        <span class="n">channel_volumes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">notify_data</span><span class="o">.</span><span class="n">afChannelVolumes</span><span class="p">)</span>
+        <span class="c1"># remove from 8 value list everything out of channel range</span>
+        <span class="n">channel_volumes</span> <span class="o">=</span> <span class="n">channel_volumes</span><span class="p">[:</span><span class="n">channels</span><span class="p">]</span>
+
+        <span class="n">event_context</span> <span class="o">=</span> <span class="n">pointer</span><span class="p">(</span><span class="n">notify_data</span><span class="o">.</span><span class="n">guidEventContext</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_notify</span><span class="p">(</span>
+            <span class="n">notify_data</span><span class="o">.</span><span class="n">fMasterVolume</span><span class="p">,</span>
+            <span class="n">notify_data</span><span class="o">.</span><span class="n">bMuted</span><span class="p">,</span>
+            <span class="n">event_context</span><span class="p">,</span>
+            <span class="n">channels</span><span class="p">,</span>
+            <span class="n">channel_volumes</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AudioEndpointVolumeCallback.on_notify">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.AudioEndpointVolumeCallback.on_notify">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_volume</span><span class="p">,</span> <span class="n">new_mute</span><span class="p">,</span> <span class="n">event_context</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">channel_volumes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="MMNotificationClient">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.MMNotificationClient">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MMNotificationClient</span><span class="p">(</span><span class="n">COMObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper for audio endpoint device callbacks.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    Override the following method(s):</span>
+
+<span class="sd">    def on_default_device_changed(flow, flow_id, role, role_id, default_device_id):</span>
+<span class="sd">        Is fired, when the default endpoint device for a role changed.</span>
+<span class="sd">            flow : str</span>
+<span class="sd">                String explaining the data-flow direction.</span>
+<span class="sd">            flow_id: int</span>
+<span class="sd">                Id of the data-flow direction.</span>
+<span class="sd">            role : str</span>
+<span class="sd">                String explaining the role of the device.</span>
+<span class="sd">            role_id: int</span>
+<span class="sd">                Id of the role.</span>
+<span class="sd">            default-device_id: str</span>
+<span class="sd">                String containing the default device id.</span>
+
+<span class="sd">    def on_device_added(self, added_device_id):</span>
+<span class="sd">        Is fired when a new endpoint device is added.</span>
+<span class="sd">            added_device_id: str</span>
+<span class="sd">                String containing the added device id.</span>
+
+<span class="sd">    def on_device_removed(self, added_device_id):</span>
+<span class="sd">        Is fired when a new endpoint device is removed.</span>
+<span class="sd">            removed_device_id: str</span>
+<span class="sd">                String containing the removed device id.</span>
+
+<span class="sd">    def on_device_state_changed(self, device_id, new_state, new_state_id):</span>
+<span class="sd">        Is fired when the state of an endpoint device has changed.</span>
+<span class="sd">            device_id: str</span>
+<span class="sd">                String containing the id of the device that has changed state.</span>
+<span class="sd">            new_state: str</span>
+<span class="sd">                String containing the new state.</span>
+<span class="sd">            new_state_id: int</span>
+<span class="sd">                ID of the new state.</span>
+
+<span class="sd">    def on_property_value_changed(self, device_id, property_struct, fmtid, pid):</span>
+<span class="sd">        Is fired when the value of a property belonging to an audio endpoint device</span>
+<span class="sd">        has changed.</span>
+<span class="sd">            device_id: str</span>
+<span class="sd">                String containing the id of the device for which a property is changed.</span>
+<span class="sd">            property_struct: pycaw.api.mmdeviceapi.depend.structures.PROPERTYKEY</span>
+<span class="sd">                A structure containing an unique GUID for the property and a PID</span>
+<span class="sd">                (property identifier).</span>
+<span class="sd">            fmtid: comtypes.GUID</span>
+<span class="sd">                GUID of the changed property.</span>
+<span class="sd">            pid: int</span>
+<span class="sd">                PID of the changed property.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_com_interfaces_</span> <span class="o">=</span> <span class="p">(</span><span class="n">IMMNotificationClient</span><span class="p">,)</span>
+
+    <span class="n">DeviceStates</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Active&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Disabled&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;NotPresent&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;Unplugged&quot;</span><span class="p">}</span>
+    <span class="n">Roles</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;eConsole&quot;</span><span class="p">,</span> <span class="s2">&quot;eMultimedia&quot;</span><span class="p">,</span> <span class="s2">&quot;eCommunications&quot;</span><span class="p">,</span> <span class="s2">&quot;ERole_enum_count&quot;</span><span class="p">]</span>
+    <span class="n">DataFlow</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;eRender&quot;</span><span class="p">,</span> <span class="s2">&quot;eCapture&quot;</span><span class="p">,</span> <span class="s2">&quot;eAll&quot;</span><span class="p">,</span> <span class="s2">&quot;EDataFlow_enum_count&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="MMNotificationClient.OnDefaultDeviceChanged">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.OnDefaultDeviceChanged">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnDefaultDeviceChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow_id</span><span class="p">,</span> <span class="n">role_id</span><span class="p">,</span> <span class="n">default_device_id</span><span class="p">):</span>
+        <span class="n">flow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DataFlow</span><span class="p">[</span><span class="n">flow_id</span><span class="p">]</span>
+        <span class="n">role</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Roles</span><span class="p">[</span><span class="n">role_id</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_default_device_changed</span><span class="p">(</span><span class="n">flow</span><span class="p">,</span> <span class="n">flow_id</span><span class="p">,</span> <span class="n">role</span><span class="p">,</span> <span class="n">role_id</span><span class="p">,</span> <span class="n">default_device_id</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MMNotificationClient.OnDeviceAdded">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.OnDeviceAdded">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnDeviceAdded</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">added_device_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_device_added</span><span class="p">(</span><span class="n">added_device_id</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MMNotificationClient.OnDeviceRemoved">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.OnDeviceRemoved">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnDeviceRemoved</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">removed_device_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_device_removed</span><span class="p">(</span><span class="n">removed_device_id</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MMNotificationClient.OnDeviceStateChanged">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.OnDeviceStateChanged">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnDeviceStateChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device_id</span><span class="p">,</span> <span class="n">new_state_id</span><span class="p">):</span>
+        <span class="n">new_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DeviceStates</span><span class="p">[</span><span class="n">new_state_id</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_device_state_changed</span><span class="p">(</span><span class="n">device_id</span><span class="p">,</span> <span class="n">new_state</span><span class="p">,</span> <span class="n">new_state_id</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MMNotificationClient.OnPropertyValueChanged">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.OnPropertyValueChanged">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnPropertyValueChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device_id</span><span class="p">,</span> <span class="n">property_struct</span><span class="p">):</span>
+        <span class="n">fmtid</span> <span class="o">=</span> <span class="n">property_struct</span><span class="o">.</span><span class="n">fmtid</span>
+        <span class="n">pid</span> <span class="o">=</span> <span class="n">property_struct</span><span class="o">.</span><span class="n">pid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_property_value_changed</span><span class="p">(</span><span class="n">device_id</span><span class="p">,</span> <span class="n">property_struct</span><span class="p">,</span> <span class="n">fmtid</span><span class="p">,</span> <span class="n">pid</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MMNotificationClient.on_default_device_changed">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.on_default_device_changed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_default_device_changed</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">flow</span><span class="p">,</span> <span class="n">flow_id</span><span class="p">,</span> <span class="n">role</span><span class="p">,</span> <span class="n">role_id</span><span class="p">,</span> <span class="n">default_device_id</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="MMNotificationClient.on_device_added">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.on_device_added">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_device_added</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">added_device_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="MMNotificationClient.on_device_removed">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.on_device_removed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_device_removed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">removed_device_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="MMNotificationClient.on_device_state_changed">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.on_device_state_changed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_device_state_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device_id</span><span class="p">,</span> <span class="n">new_state</span><span class="p">,</span> <span class="n">new_state_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="MMNotificationClient.on_property_value_changed">
+<a class="viewcode-back" href="../../api/index.html#pycaw.callbacks.MMNotificationClient.on_property_value_changed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_property_value_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device_id</span><span class="p">,</span> <span class="n">property_struct</span><span class="p">,</span> <span class="n">fmtid</span><span class="p">,</span> <span class="n">pid</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pycaw user interface&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Andre Miras.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

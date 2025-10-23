@@ -1,0 +1,1074 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference &mdash; Pycaw Documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Examples" href="../examples/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Pycaw
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#basic-usage">Basic Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quickstart.html#getting-the-default-speakers">Getting the Default Speakers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quickstart.html#controlling-volume">Controlling Volume</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#audio-endpoint-volume-control">Audio Endpoint Volume Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#volume-control-by-process">Volume Control by Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#list-and-switch-devices">List and Switch Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#more-examples">More Examples</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#high-level-api">High-Level API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#audioutilities">AudioUtilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.pycaw.AudioUtilities"><code class="docutils literal notranslate"><span class="pre">AudioUtilities</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#audiodevice">AudioDevice</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.pycaw.AudioDevice"><code class="docutils literal notranslate"><span class="pre">AudioDevice</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#audiosession">AudioSession</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.pycaw.AudioSession"><code class="docutils literal notranslate"><span class="pre">AudioSession</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pycaw.constants">Constants and Enums</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pycaw.constants.AUDCLNT_SHAREMODE"><code class="docutils literal notranslate"><span class="pre">AUDCLNT_SHAREMODE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_EXCLUSIVE"><code class="docutils literal notranslate"><span class="pre">AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_EXCLUSIVE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_SHARED"><code class="docutils literal notranslate"><span class="pre">AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_SHARED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pycaw.constants.AudioDeviceState"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.AudioDeviceState.Active"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState.Active</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.AudioDeviceState.Disabled"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState.Disabled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.AudioDeviceState.NotPresent"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState.NotPresent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.AudioDeviceState.Unplugged"><code class="docutils literal notranslate"><span class="pre">AudioDeviceState.Unplugged</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pycaw.constants.AudioSessionState"><code class="docutils literal notranslate"><span class="pre">AudioSessionState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.AudioSessionState.Active"><code class="docutils literal notranslate"><span class="pre">AudioSessionState.Active</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.AudioSessionState.Expired"><code class="docutils literal notranslate"><span class="pre">AudioSessionState.Expired</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.AudioSessionState.Inactive"><code class="docutils literal notranslate"><span class="pre">AudioSessionState.Inactive</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pycaw.constants.DEVICE_STATE"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.DEVICE_STATE.ACTIVE"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.ACTIVE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.DEVICE_STATE.DISABLED"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.DISABLED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.DEVICE_STATE.MASK_ALL"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.MASK_ALL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.DEVICE_STATE.NOTPRESENT"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.NOTPRESENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.DEVICE_STATE.UNPLUGGED"><code class="docutils literal notranslate"><span class="pre">DEVICE_STATE.UNPLUGGED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pycaw.constants.EDataFlow"><code class="docutils literal notranslate"><span class="pre">EDataFlow</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.EDataFlow.EDataFlow_enum_count"><code class="docutils literal notranslate"><span class="pre">EDataFlow.EDataFlow_enum_count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.EDataFlow.eAll"><code class="docutils literal notranslate"><span class="pre">EDataFlow.eAll</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.EDataFlow.eCapture"><code class="docutils literal notranslate"><span class="pre">EDataFlow.eCapture</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.EDataFlow.eRender"><code class="docutils literal notranslate"><span class="pre">EDataFlow.eRender</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pycaw.constants.ERole"><code class="docutils literal notranslate"><span class="pre">ERole</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.ERole.ERole_enum_count"><code class="docutils literal notranslate"><span class="pre">ERole.ERole_enum_count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.ERole.eCommunications"><code class="docutils literal notranslate"><span class="pre">ERole.eCommunications</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.ERole.eConsole"><code class="docutils literal notranslate"><span class="pre">ERole.eConsole</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.ERole.eMultimedia"><code class="docutils literal notranslate"><span class="pre">ERole.eMultimedia</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pycaw.constants.STGM"><code class="docutils literal notranslate"><span class="pre">STGM</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.constants.STGM.STGM_READ"><code class="docutils literal notranslate"><span class="pre">STGM.STGM_READ</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pycaw.callbacks">Callbacks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pycaw.callbacks.AudioEndpointVolumeCallback"><code class="docutils literal notranslate"><span class="pre">AudioEndpointVolumeCallback</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioEndpointVolumeCallback.OnNotify"><code class="docutils literal notranslate"><span class="pre">AudioEndpointVolumeCallback.OnNotify()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioEndpointVolumeCallback.on_notify"><code class="docutils literal notranslate"><span class="pre">AudioEndpointVolumeCallback.on_notify()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.AudioSessionDisconnectReason"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.AudioSessionDisconnectReason</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.AudioSessionState"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.AudioSessionState</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.OnChannelVolumeChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnChannelVolumeChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.OnDisplayNameChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnDisplayNameChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.OnGroupingParamChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnGroupingParamChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.OnIconPathChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnIconPathChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.OnSessionDisconnected"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnSessionDisconnected()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.OnSimpleVolumeChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnSimpleVolumeChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.OnStateChanged"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.OnStateChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.on_channel_volume_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_channel_volume_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.on_display_name_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_display_name_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.on_grouping_param_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_grouping_param_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.on_icon_path_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_icon_path_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.on_session_disconnected"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_session_disconnected()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.on_simple_volume_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_simple_volume_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionEvents.on_state_changed"><code class="docutils literal notranslate"><span class="pre">AudioSessionEvents.on_state_changed()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pycaw.callbacks.AudioSessionNotification"><code class="docutils literal notranslate"><span class="pre">AudioSessionNotification</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionNotification.OnSessionCreated"><code class="docutils literal notranslate"><span class="pre">AudioSessionNotification.OnSessionCreated()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.AudioSessionNotification.on_session_created"><code class="docutils literal notranslate"><span class="pre">AudioSessionNotification.on_session_created()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient.DataFlow"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.DataFlow</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient.DeviceStates"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.DeviceStates</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient.OnDefaultDeviceChanged"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnDefaultDeviceChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient.OnDeviceAdded"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnDeviceAdded()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient.OnDeviceRemoved"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnDeviceRemoved()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient.OnDeviceStateChanged"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnDeviceStateChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient.OnPropertyValueChanged"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.OnPropertyValueChanged()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient.Roles"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.Roles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient.on_default_device_changed"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_default_device_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient.on_device_added"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_device_added()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient.on_device_removed"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_device_removed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient.on_device_state_changed"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_device_state_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pycaw.callbacks.MMNotificationClient.on_property_value_changed"><code class="docutils literal notranslate"><span class="pre">MMNotificationClient.on_property_value_changed()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pycaw</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
+<p>This section documents the Pycaw API.</p>
+<section id="high-level-api">
+<h2>High-Level API<a class="headerlink" href="#high-level-api" title="Link to this heading"></a></h2>
+<p>These classes provide the main interface for working with audio devices and sessions.</p>
+<section id="audioutilities">
+<h3>AudioUtilities<a class="headerlink" href="#audioutilities" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioUtilities">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.pycaw.</span></span><span class="sig-name descname"><span class="pre">AudioUtilities</span></span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioUtilities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioUtilities" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p><a class="reference external" href="https://stackoverflow.com/a/20982715/185510">https://stackoverflow.com/a/20982715/185510</a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioUtilities.CreateDevice">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CreateDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dev</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioUtilities.CreateDevice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioUtilities.CreateDevice" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioUtilities.GetAllDevices">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetAllDevices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioUtilities.GetAllDevices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioUtilities.GetAllDevices" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioUtilities.GetAllSessions">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetAllSessions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioUtilities.GetAllSessions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioUtilities.GetAllSessions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioUtilities.GetAudioSessionManager">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetAudioSessionManager</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioUtilities.GetAudioSessionManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioUtilities.GetAudioSessionManager" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioUtilities.GetDeviceEnumerator">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetDeviceEnumerator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioUtilities.GetDeviceEnumerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioUtilities.GetDeviceEnumerator" title="Link to this definition"></a></dt>
+<dd><p>Get an instance of IMMDeviceEnumerator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioUtilities.GetEndpointDataFlow">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetEndpointDataFlow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">devId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioUtilities.GetEndpointDataFlow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioUtilities.GetEndpointDataFlow" title="Link to this definition"></a></dt>
+<dd><p>Get data flow information of a given endpoint.
+Two input arguments:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>devId: id of the device</p></li>
+<li><p>outputType: 0 (default) for text, 1 for code.</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioUtilities.GetMicrophone">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetMicrophone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioUtilities.GetMicrophone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioUtilities.GetMicrophone" title="Link to this definition"></a></dt>
+<dd><p>get the microphone (1st capture + multimedia) device</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioUtilities.GetProcessSession">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetProcessSession</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioUtilities.GetProcessSession"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioUtilities.GetProcessSession" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioUtilities.GetSpeakers">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetSpeakers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioUtilities.GetSpeakers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioUtilities.GetSpeakers" title="Link to this definition"></a></dt>
+<dd><p>get the speakers (1st render + multimedia) device</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioUtilities.SetDefaultDevice">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SetDefaultDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">devId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioUtilities.SetDefaultDevice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioUtilities.SetDefaultDevice" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="audiodevice">
+<h3>AudioDevice<a class="headerlink" href="#audiodevice" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioDevice">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.pycaw.</span></span><span class="sig-name descname"><span class="pre">AudioDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioDevice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioDevice" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p><a class="reference external" href="https://stackoverflow.com/a/20982715/185510">https://stackoverflow.com/a/20982715/185510</a></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioDevice.AudioSessionManager">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AudioSessionManager</span></span><a class="headerlink" href="#pycaw.pycaw.AudioDevice.AudioSessionManager" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioDevice.EndpointVolume">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EndpointVolume</span></span><a class="headerlink" href="#pycaw.pycaw.AudioDevice.EndpointVolume" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioDevice.FriendlyName">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FriendlyName</span></span><a class="headerlink" href="#pycaw.pycaw.AudioDevice.FriendlyName" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="audiosession">
+<h3>AudioSession<a class="headerlink" href="#audiosession" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioSession">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.pycaw.</span></span><span class="sig-name descname"><span class="pre">AudioSession</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_session_control2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioSession"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioSession" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p><a class="reference external" href="https://stackoverflow.com/a/20982715/185510">https://stackoverflow.com/a/20982715/185510</a></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.DisplayName">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DisplayName</span></span><a class="headerlink" href="#pycaw.pycaw.AudioSession.DisplayName" title="Link to this definition"></a></dt>
+<dd><p>Please, note that this returns an empty string if
+the client hadn’t called the setter method before.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.GroupingParam">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GroupingParam</span></span><a class="headerlink" href="#pycaw.pycaw.AudioSession.GroupingParam" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.IconPath">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">IconPath</span></span><a class="headerlink" href="#pycaw.pycaw.AudioSession.IconPath" title="Link to this definition"></a></dt>
+<dd><p>Please, note that this returns an empty string if
+the client hadn’t called the setter method before.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.Identifier">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Identifier</span></span><a class="headerlink" href="#pycaw.pycaw.AudioSession.Identifier" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.InstanceIdentifier">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InstanceIdentifier</span></span><a class="headerlink" href="#pycaw.pycaw.AudioSession.InstanceIdentifier" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.Process">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Process</span></span><a class="headerlink" href="#pycaw.pycaw.AudioSession.Process" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.ProcessId">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ProcessId</span></span><a class="headerlink" href="#pycaw.pycaw.AudioSession.ProcessId" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.SimpleAudioVolume">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SimpleAudioVolume</span></span><a class="headerlink" href="#pycaw.pycaw.AudioSession.SimpleAudioVolume" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.State">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">State</span></span><a class="headerlink" href="#pycaw.pycaw.AudioSession.State" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.channelAudioVolume">
+<span class="sig-name descname"><span class="pre">channelAudioVolume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioSession.channelAudioVolume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioSession.channelAudioVolume" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.register_notification">
+<span class="sig-name descname"><span class="pre">register_notification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioSession.register_notification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioSession.register_notification" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.unregister_notification">
+<span class="sig-name descname"><span class="pre">unregister_notification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioSession.unregister_notification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioSession.unregister_notification" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="module-pycaw.constants">
+<span id="constants-and-enums"></span><h2>Constants and Enums<a class="headerlink" href="#module-pycaw.constants" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.constants.AUDCLNT_SHAREMODE">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.constants.</span></span><span class="sig-name descname"><span class="pre">AUDCLNT_SHAREMODE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/constants.html#AUDCLNT_SHAREMODE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.constants.AUDCLNT_SHAREMODE" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_EXCLUSIVE">
+<span class="sig-name descname"><span class="pre">AUDCLNT_SHAREMODE_EXCLUSIVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#pycaw.constants.AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_EXCLUSIVE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_SHARED">
+<span class="sig-name descname"><span class="pre">AUDCLNT_SHAREMODE_SHARED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pycaw.constants.AUDCLNT_SHAREMODE.AUDCLNT_SHAREMODE_SHARED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.constants.AudioDeviceState">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.constants.</span></span><span class="sig-name descname"><span class="pre">AudioDeviceState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/constants.html#AudioDeviceState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.constants.AudioDeviceState" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.AudioDeviceState.Active">
+<span class="sig-name descname"><span class="pre">Active</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#pycaw.constants.AudioDeviceState.Active" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.AudioDeviceState.Disabled">
+<span class="sig-name descname"><span class="pre">Disabled</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#pycaw.constants.AudioDeviceState.Disabled" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.AudioDeviceState.NotPresent">
+<span class="sig-name descname"><span class="pre">NotPresent</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#pycaw.constants.AudioDeviceState.NotPresent" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.AudioDeviceState.Unplugged">
+<span class="sig-name descname"><span class="pre">Unplugged</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#pycaw.constants.AudioDeviceState.Unplugged" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.constants.AudioSessionState">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.constants.</span></span><span class="sig-name descname"><span class="pre">AudioSessionState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/constants.html#AudioSessionState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.constants.AudioSessionState" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.AudioSessionState.Active">
+<span class="sig-name descname"><span class="pre">Active</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#pycaw.constants.AudioSessionState.Active" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.AudioSessionState.Expired">
+<span class="sig-name descname"><span class="pre">Expired</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#pycaw.constants.AudioSessionState.Expired" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.AudioSessionState.Inactive">
+<span class="sig-name descname"><span class="pre">Inactive</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pycaw.constants.AudioSessionState.Inactive" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.constants.DEVICE_STATE">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.constants.</span></span><span class="sig-name descname"><span class="pre">DEVICE_STATE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/constants.html#DEVICE_STATE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.constants.DEVICE_STATE" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.DEVICE_STATE.ACTIVE">
+<span class="sig-name descname"><span class="pre">ACTIVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#pycaw.constants.DEVICE_STATE.ACTIVE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.DEVICE_STATE.DISABLED">
+<span class="sig-name descname"><span class="pre">DISABLED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#pycaw.constants.DEVICE_STATE.DISABLED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.DEVICE_STATE.MASK_ALL">
+<span class="sig-name descname"><span class="pre">MASK_ALL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">15</span></em><a class="headerlink" href="#pycaw.constants.DEVICE_STATE.MASK_ALL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.DEVICE_STATE.NOTPRESENT">
+<span class="sig-name descname"><span class="pre">NOTPRESENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#pycaw.constants.DEVICE_STATE.NOTPRESENT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.DEVICE_STATE.UNPLUGGED">
+<span class="sig-name descname"><span class="pre">UNPLUGGED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#pycaw.constants.DEVICE_STATE.UNPLUGGED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.constants.EDataFlow">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.constants.</span></span><span class="sig-name descname"><span class="pre">EDataFlow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/constants.html#EDataFlow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.constants.EDataFlow" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.EDataFlow.EDataFlow_enum_count">
+<span class="sig-name descname"><span class="pre">EDataFlow_enum_count</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#pycaw.constants.EDataFlow.EDataFlow_enum_count" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.EDataFlow.eAll">
+<span class="sig-name descname"><span class="pre">eAll</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#pycaw.constants.EDataFlow.eAll" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.EDataFlow.eCapture">
+<span class="sig-name descname"><span class="pre">eCapture</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#pycaw.constants.EDataFlow.eCapture" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.EDataFlow.eRender">
+<span class="sig-name descname"><span class="pre">eRender</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pycaw.constants.EDataFlow.eRender" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.constants.ERole">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.constants.</span></span><span class="sig-name descname"><span class="pre">ERole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/constants.html#ERole"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.constants.ERole" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.ERole.ERole_enum_count">
+<span class="sig-name descname"><span class="pre">ERole_enum_count</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#pycaw.constants.ERole.ERole_enum_count" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.ERole.eCommunications">
+<span class="sig-name descname"><span class="pre">eCommunications</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#pycaw.constants.ERole.eCommunications" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.ERole.eConsole">
+<span class="sig-name descname"><span class="pre">eConsole</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pycaw.constants.ERole.eConsole" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.ERole.eMultimedia">
+<span class="sig-name descname"><span class="pre">eMultimedia</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#pycaw.constants.ERole.eMultimedia" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.constants.STGM">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.constants.</span></span><span class="sig-name descname"><span class="pre">STGM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/constants.html#STGM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.constants.STGM" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.constants.STGM.STGM_READ">
+<span class="sig-name descname"><span class="pre">STGM_READ</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pycaw.constants.STGM.STGM_READ" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pycaw.callbacks">
+<span id="callbacks"></span><h2>Callbacks<a class="headerlink" href="#module-pycaw.callbacks" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioEndpointVolumeCallback">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.callbacks.</span></span><span class="sig-name descname"><span class="pre">AudioEndpointVolumeCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioEndpointVolumeCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioEndpointVolumeCallback" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">COMObject</span></code></p>
+<p>Helper for audio device volume callbacks.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Override</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">method:</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_notify(self,</span> <span class="pre">new_volume,</span> <span class="pre">new_mute,</span> <span class="pre">event_context,</span></span></dt>
+<dd><blockquote>
+<div><p>channels, channel_volumes):</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Is fired, when the audio device volume/mute changed.</dt><dd><dl class="simple">
+<dt>new_volume<span class="classifier">float</span></dt><dd><p>in range(0, 1)</p>
+</dd>
+<dt>new_mute<span class="classifier">int</span></dt><dd><p>0, 1</p>
+</dd>
+<dt>event_context<span class="classifier">comtypes.GUID</span></dt><dd><p>the guid “should” be unique to who made the changes.
+access guid str with event_context.contents</p>
+</dd>
+<dt>channels<span class="classifier">int</span></dt><dd><p>count of channels</p>
+</dd>
+<dt>channel_volumes<span class="classifier">list</span><span class="classifier">float</span></dt><dd><p>the channel volumes in range(0, 1)
+len(channel_volumes) == channels</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioEndpointVolumeCallback.OnNotify">
+<span class="sig-name descname"><span class="pre">OnNotify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pNotify</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioEndpointVolumeCallback.OnNotify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioEndpointVolumeCallback.OnNotify" title="Link to this definition"></a></dt>
+<dd><p>Fired by Windows, when the audio device volume/mute changed</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioEndpointVolumeCallback.on_notify">
+<span class="sig-name descname"><span class="pre">on_notify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_volume</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_mute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_volumes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioEndpointVolumeCallback.on_notify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioEndpointVolumeCallback.on_notify" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.callbacks.</span></span><span class="sig-name descname"><span class="pre">AudioSessionEvents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">COMObject</span></code></p>
+<p>Helper for audio session callbacks.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Override</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">method(s):</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_display_name_changed(self,</span> <span class="pre">new_display_name,</span> <span class="pre">event_context):</span></span></dt>
+<dd><dl class="simple">
+<dt>Is fired, when the audio session name is changed.</dt><dd><dl class="simple">
+<dt>new_display_name<span class="classifier">str</span></dt><dd><p>The new name that is displayed.</p>
+</dd>
+<dt>event_context<span class="classifier">comtypes.GUID</span></dt><dd><p>the guid “should” be unique to who made the changes.
+access guid str with event_context.contents.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">OnIconPathChanged(self,</span> <span class="pre">new_icon_path,</span> <span class="pre">event_context):</span></span></dt>
+<dd><dl class="simple">
+<dt>Is fired, when the audio session icon path is changed.</dt><dd><dl class="simple">
+<dt>new_icon_path<span class="classifier">str</span></dt><dd><p>The new path of the icon that is displayed.</p>
+</dd>
+<dt>event_context<span class="classifier">comtypes.GUID</span></dt><dd><p>the guid “should” be unique to who made the changes.
+access guid str with event_context.contents.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_simple_volume_changed(self,</span> <span class="pre">new_volume,</span> <span class="pre">new_mute,</span> <span class="pre">event_context):</span></span></dt>
+<dd><dl class="simple">
+<dt>Is fired, when the audio session volume/mute changed.</dt><dd><dl class="simple">
+<dt>new_volume<span class="classifier">float</span></dt><dd><p>in range(0, 1)</p>
+</dd>
+<dt>new_mute<span class="classifier">int</span></dt><dd><p>0, 1</p>
+</dd>
+<dt>event_context<span class="classifier">comtypes.GUID</span></dt><dd><p>the guid “should” be unique to who made the changes.
+access guid str with event_context.contents.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">OnChannelVolumeChanged(self,</span> <span class="pre">channel_count,</span> <span class="pre">new_channel_volume_array,</span></span></dt>
+<dd><blockquote>
+<div><p>changed_channel, event_context):</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Is fired, when the audio session channels volume changed.</dt><dd><dl class="simple">
+<dt>channel_count: int</dt><dd><p>This parameter specifies the number of audio channels in the session
+submix.</p>
+</dd>
+<dt>new_channel_volume_array<span class="classifier">float array</span></dt><dd><p>values in range(0, 1)</p>
+</dd>
+<dt>changed_channel<span class="classifier">int</span></dt><dd><p>The number (x) of the channel whose volume level changed.
+Use (x-1) as index of new_channel_volume_array
+to get the new volume for the changed_channel (x)</p>
+</dd>
+<dt>event_context<span class="classifier">comtypes.GUID</span></dt><dd><p>the guid “should” be unique to who made the changes.
+access guid str with event_context.contents.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">OnGroupingParamChanged(self,</span> <span class="pre">new_grouping_param,</span> <span class="pre">event_context):</span></span></dt>
+<dd><dl class="simple">
+<dt>Is fired, when the grouping parameter for the session has changed.</dt><dd><dl class="simple">
+<dt>new_grouping_param<span class="classifier">comtypes.GUID</span></dt><dd><p>points to a grouping-parameter GUID.</p>
+</dd>
+<dt>event_context<span class="classifier">comtypes.GUID</span></dt><dd><p>the guid “should” be unique to who made the changes.
+access guid str with event_context.contents.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_state_changed(self,</span> <span class="pre">new_state,</span> <span class="pre">new_state_id):</span></span></dt>
+<dd><dl class="simple">
+<dt>Is fired, when the audio session state changed.</dt><dd><dl class="simple">
+<dt>new_state<span class="classifier">str</span></dt><dd><p>“Inactive”, “Active”, “Expired”</p>
+</dd>
+<dt>new_state_id<span class="classifier">int</span></dt><dd><p>0, 1, 2</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_session_disconnected(self,</span> <span class="pre">disconnect_reason,</span> <span class="pre">disconnect_reason_id):</span></span></dt>
+<dd><dl class="simple">
+<dt>Is fired, when the audio session disconnected “hard”.</dt><dd><p>Mostly on_state_changed == “Expired” is what you are looking for.
+see self.AudioSessionDisconnectReason for disconnect_reason.
+The use is similar to on_state_changed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.AudioSessionDisconnectReason">
+<span class="sig-name descname"><span class="pre">AudioSessionDisconnectReason</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('DeviceRemoval',</span> <span class="pre">'ServerShutdown',</span> <span class="pre">'FormatChanged',</span> <span class="pre">'SessionLogoff',</span> <span class="pre">'SessionDisconnected',</span> <span class="pre">'ExclusiveModeOverride')</span></em><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.AudioSessionDisconnectReason" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.AudioSessionState">
+<span class="sig-name descname"><span class="pre">AudioSessionState</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('Inactive',</span> <span class="pre">'Active',</span> <span class="pre">'Expired')</span></em><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.AudioSessionState" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.OnChannelVolumeChanged">
+<span class="sig-name descname"><span class="pre">OnChannelVolumeChanged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_channel_volume_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changed_channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.OnChannelVolumeChanged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.OnChannelVolumeChanged" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.OnDisplayNameChanged">
+<span class="sig-name descname"><span class="pre">OnDisplayNameChanged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.OnDisplayNameChanged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.OnDisplayNameChanged" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.OnGroupingParamChanged">
+<span class="sig-name descname"><span class="pre">OnGroupingParamChanged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_grouping_param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.OnGroupingParamChanged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.OnGroupingParamChanged" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.OnIconPathChanged">
+<span class="sig-name descname"><span class="pre">OnIconPathChanged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_icon_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.OnIconPathChanged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.OnIconPathChanged" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.OnSessionDisconnected">
+<span class="sig-name descname"><span class="pre">OnSessionDisconnected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">disconnect_reason_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.OnSessionDisconnected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.OnSessionDisconnected" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.OnSimpleVolumeChanged">
+<span class="sig-name descname"><span class="pre">OnSimpleVolumeChanged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_volume</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_mute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.OnSimpleVolumeChanged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.OnSimpleVolumeChanged" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.OnStateChanged">
+<span class="sig-name descname"><span class="pre">OnStateChanged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_state_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.OnStateChanged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.OnStateChanged" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.on_channel_volume_changed">
+<span class="sig-name descname"><span class="pre">on_channel_volume_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_channel_volume_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changed_channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.on_channel_volume_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.on_channel_volume_changed" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.on_display_name_changed">
+<span class="sig-name descname"><span class="pre">on_display_name_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.on_display_name_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.on_display_name_changed" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.on_grouping_param_changed">
+<span class="sig-name descname"><span class="pre">on_grouping_param_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_grouping_param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.on_grouping_param_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.on_grouping_param_changed" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.on_icon_path_changed">
+<span class="sig-name descname"><span class="pre">on_icon_path_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_icon_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.on_icon_path_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.on_icon_path_changed" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.on_session_disconnected">
+<span class="sig-name descname"><span class="pre">on_session_disconnected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">disconnect_reason</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disconnect_reason_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.on_session_disconnected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.on_session_disconnected" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.on_simple_volume_changed">
+<span class="sig-name descname"><span class="pre">on_simple_volume_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_volume</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_mute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.on_simple_volume_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.on_simple_volume_changed" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.on_state_changed">
+<span class="sig-name descname"><span class="pre">on_state_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_state_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.on_state_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.on_state_changed" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionNotification">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.callbacks.</span></span><span class="sig-name descname"><span class="pre">AudioSessionNotification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionNotification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionNotification" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">COMObject</span></code></p>
+<p>Helper for audio session created callbacks.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In order for the AudioSessionNotification to work you need to play nicely
+by following these Windows rules:
+1.  Com needs to be in MTA. That is archived by defining</p>
+<blockquote>
+<div><dl class="simple">
+<dt>the following flag before pycaw or comtypes are imported:</dt><dd><p>sys.coinit_flags = 0</p>
+</dd>
+</dl>
+</div></blockquote>
+<ol class="arabic" start="2">
+<li><dl class="simple">
+<dt>Get the AudioSessionManager:</dt><dd><p>mgr = AudioUtilities.GetAudioSessionManager()</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Create and register callback:</dt><dd><dl class="simple">
+<dt>MyCustomCallback(AudioSessionNotification):</dt><dd><dl class="simple">
+<dt>def on_session_created(self, new_session):</dt><dd><p>print(“on_session_created”)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>callback = MyCustomCallback()
+mgr.RegisterSessionNotification(callback)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Call the session enumerator (otherwise on_session_created wont work)</dt><dd><p>mgr.GetSessionEnumerator()</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Unregister, when you are finished:</dt><dd><p>mgr.UnregisterSessionNotification(callback)</p>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Override</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">method:</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_session_created(self,</span> <span class="pre">new_volume,</span> <span class="pre">new_mute,</span> <span class="pre">event_context):</span></span></dt>
+<dd><dl class="simple">
+<dt>Is fired, when a new audio session is created.</dt><dd><p>new_session : pycaw.utils.AudioSession</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionNotification.OnSessionCreated">
+<span class="sig-name descname"><span class="pre">OnSessionCreated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionNotification.OnSessionCreated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionNotification.OnSessionCreated" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionNotification.on_session_created">
+<span class="sig-name descname"><span class="pre">on_session_created</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionNotification.on_session_created"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionNotification.on_session_created" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.callbacks.</span></span><span class="sig-name descname"><span class="pre">MMNotificationClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">COMObject</span></code></p>
+<p>Helper for audio endpoint device callbacks.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Override</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">method(s):</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_default_device_changed(flow,</span> <span class="pre">flow_id,</span> <span class="pre">role,</span> <span class="pre">role_id,</span> <span class="pre">default_device_id):</span></span></dt>
+<dd><dl class="simple">
+<dt>Is fired, when the default endpoint device for a role changed.</dt><dd><dl class="simple">
+<dt>flow<span class="classifier">str</span></dt><dd><p>String explaining the data-flow direction.</p>
+</dd>
+<dt>flow_id: int</dt><dd><p>Id of the data-flow direction.</p>
+</dd>
+<dt>role<span class="classifier">str</span></dt><dd><p>String explaining the role of the device.</p>
+</dd>
+<dt>role_id: int</dt><dd><p>Id of the role.</p>
+</dd>
+<dt>default-device_id: str</dt><dd><p>String containing the default device id.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_device_added(self,</span> <span class="pre">added_device_id):</span></span></dt>
+<dd><dl class="simple">
+<dt>Is fired when a new endpoint device is added.</dt><dd><dl class="simple">
+<dt>added_device_id: str</dt><dd><p>String containing the added device id.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_device_removed(self,</span> <span class="pre">added_device_id):</span></span></dt>
+<dd><dl class="simple">
+<dt>Is fired when a new endpoint device is removed.</dt><dd><dl class="simple">
+<dt>removed_device_id: str</dt><dd><p>String containing the removed device id.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_device_state_changed(self,</span> <span class="pre">device_id,</span> <span class="pre">new_state,</span> <span class="pre">new_state_id):</span></span></dt>
+<dd><dl class="simple">
+<dt>Is fired when the state of an endpoint device has changed.</dt><dd><dl class="simple">
+<dt>device_id: str</dt><dd><p>String containing the id of the device that has changed state.</p>
+</dd>
+<dt>new_state: str</dt><dd><p>String containing the new state.</p>
+</dd>
+<dt>new_state_id: int</dt><dd><p>ID of the new state.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_property_value_changed(self,</span> <span class="pre">device_id,</span> <span class="pre">property_struct,</span> <span class="pre">fmtid,</span> <span class="pre">pid):</span></span></dt>
+<dd><p>Is fired when the value of a property belonging to an audio endpoint device
+has changed.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>device_id: str</dt><dd><p>String containing the id of the device for which a property is changed.</p>
+</dd>
+<dt>property_struct: pycaw.api.mmdeviceapi.depend.structures.PROPERTYKEY</dt><dd><p>A structure containing an unique GUID for the property and a PID
+(property identifier).</p>
+</dd>
+<dt>fmtid: comtypes.GUID</dt><dd><p>GUID of the changed property.</p>
+</dd>
+<dt>pid: int</dt><dd><p>PID of the changed property.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.DataFlow">
+<span class="sig-name descname"><span class="pre">DataFlow</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['eRender',</span> <span class="pre">'eCapture',</span> <span class="pre">'eAll',</span> <span class="pre">'EDataFlow_enum_count']</span></em><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.DataFlow" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.DeviceStates">
+<span class="sig-name descname"><span class="pre">DeviceStates</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{1:</span> <span class="pre">'Active',</span> <span class="pre">2:</span> <span class="pre">'Disabled',</span> <span class="pre">4:</span> <span class="pre">'NotPresent',</span> <span class="pre">8:</span> <span class="pre">'Unplugged'}</span></em><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.DeviceStates" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.OnDefaultDeviceChanged">
+<span class="sig-name descname"><span class="pre">OnDefaultDeviceChanged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flow_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_device_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.OnDefaultDeviceChanged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.OnDefaultDeviceChanged" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.OnDeviceAdded">
+<span class="sig-name descname"><span class="pre">OnDeviceAdded</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">added_device_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.OnDeviceAdded"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.OnDeviceAdded" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.OnDeviceRemoved">
+<span class="sig-name descname"><span class="pre">OnDeviceRemoved</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">removed_device_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.OnDeviceRemoved"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.OnDeviceRemoved" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.OnDeviceStateChanged">
+<span class="sig-name descname"><span class="pre">OnDeviceStateChanged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_state_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.OnDeviceStateChanged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.OnDeviceStateChanged" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.OnPropertyValueChanged">
+<span class="sig-name descname"><span class="pre">OnPropertyValueChanged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_struct</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.OnPropertyValueChanged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.OnPropertyValueChanged" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.Roles">
+<span class="sig-name descname"><span class="pre">Roles</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['eConsole',</span> <span class="pre">'eMultimedia',</span> <span class="pre">'eCommunications',</span> <span class="pre">'ERole_enum_count']</span></em><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.Roles" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.on_default_device_changed">
+<span class="sig-name descname"><span class="pre">on_default_device_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_device_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.on_default_device_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.on_default_device_changed" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.on_device_added">
+<span class="sig-name descname"><span class="pre">on_device_added</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">added_device_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.on_device_added"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.on_device_added" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.on_device_removed">
+<span class="sig-name descname"><span class="pre">on_device_removed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">removed_device_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.on_device_removed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.on_device_removed" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.on_device_state_changed">
+<span class="sig-name descname"><span class="pre">on_device_state_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_state_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.on_device_state_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.on_device_state_changed" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.on_property_value_changed">
+<span class="sig-name descname"><span class="pre">on_property_value_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_struct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmtid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.on_property_value_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.on_property_value_changed" title="Link to this definition"></a></dt>
+<dd><p>pycaw user interface</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../examples/index.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Andre Miras.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
