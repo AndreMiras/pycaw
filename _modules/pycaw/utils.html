@@ -548,9 +548,21 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">GetEndpointDataFlow</span><span class="p">(</span><span class="n">devId</span><span class="p">,</span> <span class="n">outputType</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get data flow information of a given endpoint.</span>
-<span class="sd">        Two input arguments:</span>
-<span class="sd">            - devId: id of the device</span>
-<span class="sd">            - outputType: 0 (default) for text, 1 for code.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        devId : str</span>
+<span class="sd">            ID of the device to query</span>
+<span class="sd">        outputType : int, optional</span>
+<span class="sd">            Output format: 0 (default) returns text representation,</span>
+<span class="sd">            1 returns numeric code</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str or int</span>
+<span class="sd">            Data flow direction. If outputType=0, returns one of:</span>
+<span class="sd">            &quot;eRender&quot;, &quot;eCapture&quot;, &quot;eAll&quot;, &quot;EDataFlow_enum_count&quot;.</span>
+<span class="sd">            If outputType=1, returns the numeric value (0-3).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">DataFlow</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;eRender&quot;</span><span class="p">,</span> <span class="s2">&quot;eCapture&quot;</span><span class="p">,</span> <span class="s2">&quot;eAll&quot;</span><span class="p">,</span> <span class="s2">&quot;EDataFlow_enum_count&quot;</span><span class="p">]</span>
         <span class="n">devEnum</span> <span class="o">=</span> <span class="n">AudioUtilities</span><span class="o">.</span><span class="n">GetDeviceEnumerator</span><span class="p">()</span>

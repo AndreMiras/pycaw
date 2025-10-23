@@ -245,14 +245,24 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.pycaw.AudioUtilities.GetEndpointDataFlow">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetEndpointDataFlow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">devId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/utils.html#AudioUtilities.GetEndpointDataFlow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.pycaw.AudioUtilities.GetEndpointDataFlow" title="Link to this definition"></a></dt>
-<dd><p>Get data flow information of a given endpoint.
-Two input arguments:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>devId: id of the device</p></li>
-<li><p>outputType: 0 (default) for text, 1 for code.</p></li>
+<dd><p>Get data flow information of a given endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>devId</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – ID of the device to query</p></li>
+<li><p><strong>outputType</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – Output format: 0 (default) returns text representation,
+1 returns numeric code</p></li>
 </ul>
-</div></blockquote>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Data flow direction. If outputType=0, returns one of:
+“eRender”, “eCapture”, “eAll”, “EDataFlow_enum_count”.
+If outputType=1, returns the numeric value (0-3).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -546,37 +556,28 @@ the client hadn’t called the setter method before.</p>
 <dt class="sig sig-object py" id="pycaw.callbacks.AudioEndpointVolumeCallback">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.callbacks.</span></span><span class="sig-name descname"><span class="pre">AudioEndpointVolumeCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioEndpointVolumeCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioEndpointVolumeCallback" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">COMObject</span></code></p>
-<p>Helper for audio device volume callbacks.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Override</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">method:</span></span></dt>
-<dd></dd></dl>
+<p>Callback handler for audio endpoint (device) volume changes.</p>
+<p>Subclass this class and override the <cite>on_notify</cite> method to handle
+notifications when an audio device’s volume or mute state changes.</p>
+<p class="rubric">Examples</p>
+<p>Monitor the default audio device for volume changes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">DeviceVolumeMonitor</span><span class="p">(</span><span class="n">AudioEndpointVolumeCallback</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_volume</span><span class="p">,</span> <span class="n">new_mute</span><span class="p">,</span> <span class="n">event_context</span><span class="p">,</span>
+                  <span class="n">channels</span><span class="p">,</span> <span class="n">channel_volumes</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Device volume: </span><span class="si">{</span><span class="n">new_volume</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, muted: </span><span class="si">{</span><span class="n">new_mute</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_notify(self,</span> <span class="pre">new_volume,</span> <span class="pre">new_mute,</span> <span class="pre">event_context,</span></span></dt>
-<dd><blockquote>
-<div><p>channels, channel_volumes):</p>
-</div></blockquote>
+<span class="n">device</span> <span class="o">=</span> <span class="n">AudioUtilities</span><span class="o">.</span><span class="n">GetSpeakers</span><span class="p">()</span>
+<span class="n">callback</span> <span class="o">=</span> <span class="n">DeviceVolumeMonitor</span><span class="p">()</span>
+<span class="n">device</span><span class="o">.</span><span class="n">EndpointVolume</span><span class="o">.</span><span class="n">RegisterControlChangeNotify</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
 <dl class="simple">
-<dt>Is fired, when the audio device volume/mute changed.</dt><dd><dl class="simple">
-<dt>new_volume<span class="classifier">float</span></dt><dd><p>in range(0, 1)</p>
-</dd>
-<dt>new_mute<span class="classifier">int</span></dt><dd><p>0, 1</p>
-</dd>
-<dt>event_context<span class="classifier">comtypes.GUID</span></dt><dd><p>the guid “should” be unique to who made the changes.
-access guid str with event_context.contents</p>
-</dd>
-<dt>channels<span class="classifier">int</span></dt><dd><p>count of channels</p>
-</dd>
-<dt>channel_volumes<span class="classifier">list</span><span class="classifier">float</span></dt><dd><p>the channel volumes in range(0, 1)
-len(channel_volumes) == channels</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">AudioDevice.EndpointVolume</span></code></dt><dd><p>Access endpoint volume control interface</p>
 </dd>
 </dl>
-</dd>
-</dl>
-</dd></dl>
-
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.callbacks.AudioEndpointVolumeCallback.OnNotify">
 <span class="sig-name descname"><span class="pre">OnNotify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pNotify</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioEndpointVolumeCallback.OnNotify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioEndpointVolumeCallback.OnNotify" title="Link to this definition"></a></dt>
@@ -586,7 +587,24 @@ len(channel_volumes) == channels</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.callbacks.AudioEndpointVolumeCallback.on_notify">
 <span class="sig-name descname"><span class="pre">on_notify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_volume</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_mute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_volumes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioEndpointVolumeCallback.on_notify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioEndpointVolumeCallback.on_notify" title="Link to this definition"></a></dt>
-<dd><p>pycaw user interface</p>
+<dd><p>Called when the audio endpoint volume or mute state changes.</p>
+<p>Override this method in your subclass to handle volume change notifications.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>new_volume</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Master volume level in range [0.0, 1.0]</p></li>
+<li><p><strong>new_mute</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Mute state: 0 (unmuted) or 1 (muted)</p></li>
+<li><p><strong>event_context</strong> (<em>comtypes.GUID</em>) – GUID identifying who made the change. Access string representation
+via event_context.contents</p></li>
+<li><p><strong>channels</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Number of audio channels</p></li>
+<li><p><strong>channel_volumes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Per-channel volume levels in range [0.0, 1.0].
+Length equals the channels parameter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.14)"><strong>NotImplementedError</strong></a> – This base implementation must be overridden in subclasses</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -595,124 +613,24 @@ len(channel_volumes) == channels</p>
 <dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.callbacks.</span></span><span class="sig-name descname"><span class="pre">AudioSessionEvents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">COMObject</span></code></p>
-<p>Helper for audio session callbacks.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Override</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">method(s):</span></span></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_display_name_changed(self,</span> <span class="pre">new_display_name,</span> <span class="pre">event_context):</span></span></dt>
-<dd><dl class="simple">
-<dt>Is fired, when the audio session name is changed.</dt><dd><dl class="simple">
-<dt>new_display_name<span class="classifier">str</span></dt><dd><p>The new name that is displayed.</p>
-</dd>
-<dt>event_context<span class="classifier">comtypes.GUID</span></dt><dd><p>the guid “should” be unique to who made the changes.
-access guid str with event_context.contents.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">OnIconPathChanged(self,</span> <span class="pre">new_icon_path,</span> <span class="pre">event_context):</span></span></dt>
-<dd><dl class="simple">
-<dt>Is fired, when the audio session icon path is changed.</dt><dd><dl class="simple">
-<dt>new_icon_path<span class="classifier">str</span></dt><dd><p>The new path of the icon that is displayed.</p>
-</dd>
-<dt>event_context<span class="classifier">comtypes.GUID</span></dt><dd><p>the guid “should” be unique to who made the changes.
-access guid str with event_context.contents.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_simple_volume_changed(self,</span> <span class="pre">new_volume,</span> <span class="pre">new_mute,</span> <span class="pre">event_context):</span></span></dt>
-<dd><dl class="simple">
-<dt>Is fired, when the audio session volume/mute changed.</dt><dd><dl class="simple">
-<dt>new_volume<span class="classifier">float</span></dt><dd><p>in range(0, 1)</p>
-</dd>
-<dt>new_mute<span class="classifier">int</span></dt><dd><p>0, 1</p>
-</dd>
-<dt>event_context<span class="classifier">comtypes.GUID</span></dt><dd><p>the guid “should” be unique to who made the changes.
-access guid str with event_context.contents.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">OnChannelVolumeChanged(self,</span> <span class="pre">channel_count,</span> <span class="pre">new_channel_volume_array,</span></span></dt>
-<dd><blockquote>
-<div><p>changed_channel, event_context):</p>
-</div></blockquote>
+<p>Callback handler for audio session state and property changes.</p>
+<p>Subclass this class and override any of the callback methods to handle
+specific events related to an audio session’s state, volume, or properties.</p>
+<p class="rubric">Examples</p>
+<p>Create a custom callback to monitor session volume changes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">VolumeMonitor</span><span class="p">(</span><span class="n">AudioSessionEvents</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_simple_volume_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_volume</span><span class="p">,</span> <span class="n">new_mute</span><span class="p">,</span> <span class="n">event_context</span><span class="p">):</span>
+        <span class="n">mute_str</span> <span class="o">=</span> <span class="s2">&quot;muted&quot;</span> <span class="k">if</span> <span class="n">new_mute</span> <span class="k">else</span> <span class="s2">&quot;unmuted&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Volume changed: </span><span class="si">{</span><span class="n">new_volume</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">mute_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
 <dl class="simple">
-<dt>Is fired, when the audio session channels volume changed.</dt><dd><dl class="simple">
-<dt>channel_count: int</dt><dd><p>This parameter specifies the number of audio channels in the session
-submix.</p>
-</dd>
-<dt>new_channel_volume_array<span class="classifier">float array</span></dt><dd><p>values in range(0, 1)</p>
-</dd>
-<dt>changed_channel<span class="classifier">int</span></dt><dd><p>The number (x) of the channel whose volume level changed.
-Use (x-1) as index of new_channel_volume_array
-to get the new volume for the changed_channel (x)</p>
-</dd>
-<dt>event_context<span class="classifier">comtypes.GUID</span></dt><dd><p>the guid “should” be unique to who made the changes.
-access guid str with event_context.contents.</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">AudioSession</span></code></dt><dd><p>Represents an audio session that can be monitored</p>
 </dd>
 </dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">OnGroupingParamChanged(self,</span> <span class="pre">new_grouping_param,</span> <span class="pre">event_context):</span></span></dt>
-<dd><dl class="simple">
-<dt>Is fired, when the grouping parameter for the session has changed.</dt><dd><dl class="simple">
-<dt>new_grouping_param<span class="classifier">comtypes.GUID</span></dt><dd><p>points to a grouping-parameter GUID.</p>
-</dd>
-<dt>event_context<span class="classifier">comtypes.GUID</span></dt><dd><p>the guid “should” be unique to who made the changes.
-access guid str with event_context.contents.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_state_changed(self,</span> <span class="pre">new_state,</span> <span class="pre">new_state_id):</span></span></dt>
-<dd><dl class="simple">
-<dt>Is fired, when the audio session state changed.</dt><dd><dl class="simple">
-<dt>new_state<span class="classifier">str</span></dt><dd><p>“Inactive”, “Active”, “Expired”</p>
-</dd>
-<dt>new_state_id<span class="classifier">int</span></dt><dd><p>0, 1, 2</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_session_disconnected(self,</span> <span class="pre">disconnect_reason,</span> <span class="pre">disconnect_reason_id):</span></span></dt>
-<dd><dl class="simple">
-<dt>Is fired, when the audio session disconnected “hard”.</dt><dd><p>Mostly on_state_changed == “Expired” is what you are looking for.
-see self.AudioSessionDisconnectReason for disconnect_reason.
-The use is similar to on_state_changed.</p>
-</dd>
-</dl>
-</dd></dl>
-
+</div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.AudioSessionDisconnectReason">
 <span class="sig-name descname"><span class="pre">AudioSessionDisconnectReason</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('DeviceRemoval',</span> <span class="pre">'ServerShutdown',</span> <span class="pre">'FormatChanged',</span> <span class="pre">'SessionLogoff',</span> <span class="pre">'SessionDisconnected',</span> <span class="pre">'ExclusiveModeOverride')</span></em><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.AudioSessionDisconnectReason" title="Link to this definition"></a></dt>
@@ -767,7 +685,16 @@ The use is similar to on_state_changed.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.on_display_name_changed">
 <span class="sig-name descname"><span class="pre">on_display_name_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.on_display_name_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.on_display_name_changed" title="Link to this definition"></a></dt>
-<dd><p>pycaw user interface</p>
+<dd><p>Called when the audio session display name changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>new_display_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The new display name for the audio session</p></li>
+<li><p><strong>event_context</strong> (<em>comtypes.GUID</em>) – GUID identifying who made the change. Access string representation
+via event_context.contents</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -785,19 +712,47 @@ The use is similar to on_state_changed.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.on_session_disconnected">
 <span class="sig-name descname"><span class="pre">on_session_disconnected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">disconnect_reason</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disconnect_reason_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.on_session_disconnected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.on_session_disconnected" title="Link to this definition"></a></dt>
-<dd><p>pycaw user interface</p>
+<dd><p>Called when the audio session is disconnected.</p>
+<p>Note: In most cases, you should use on_state_changed with state “Expired”
+instead, as it provides more reliable notification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>disconnect_reason</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Reason for disconnection as string (see AudioSessionDisconnectReason)</p></li>
+<li><p><strong>disconnect_reason_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Numeric disconnect reason code</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.on_simple_volume_changed">
 <span class="sig-name descname"><span class="pre">on_simple_volume_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_volume</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_mute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.on_simple_volume_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.on_simple_volume_changed" title="Link to this definition"></a></dt>
-<dd><p>pycaw user interface</p>
+<dd><p>Called when the audio session volume or mute state changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>new_volume</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – New master volume level in range [0.0, 1.0]</p></li>
+<li><p><strong>new_mute</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Mute state: 0 (unmuted) or 1 (muted)</p></li>
+<li><p><strong>event_context</strong> (<em>comtypes.GUID</em>) – GUID identifying who made the change. Access string representation
+via event_context.contents</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionEvents.on_state_changed">
 <span class="sig-name descname"><span class="pre">on_state_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_state_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionEvents.on_state_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionEvents.on_state_changed" title="Link to this definition"></a></dt>
-<dd><p>pycaw user interface</p>
+<dd><p>Called when the audio session state changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>new_state</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – New state as string: “Inactive”, “Active”, or “Expired”</p></li>
+<li><p><strong>new_state_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Numeric state code: 0 (Inactive), 1 (Active), or 2 (Expired)</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -806,63 +761,52 @@ The use is similar to on_state_changed.</p>
 <dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionNotification">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.callbacks.</span></span><span class="sig-name descname"><span class="pre">AudioSessionNotification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionNotification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionNotification" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">COMObject</span></code></p>
-<p>Helper for audio session created callbacks.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>In order for the AudioSessionNotification to work you need to play nicely
-by following these Windows rules:
-1.  Com needs to be in MTA. That is archived by defining</p>
-<blockquote>
-<div><dl class="simple">
-<dt>the following flag before pycaw or comtypes are imported:</dt><dd><p>sys.coinit_flags = 0</p>
-</dd>
-</dl>
-</div></blockquote>
-<ol class="arabic" start="2">
-<li><dl class="simple">
-<dt>Get the AudioSessionManager:</dt><dd><p>mgr = AudioUtilities.GetAudioSessionManager()</p>
-</dd>
-</dl>
+<p>Callback handler for audio session creation events.</p>
+<p>To use this class, subclass it and override the <cite>on_session_created</cite> method.</p>
+<p class="rubric">Notes</p>
+<p>AudioSessionNotification requires Multi-Threaded Apartment (MTA) COM
+initialization. Follow these steps:</p>
+<ol class="arabic">
+<li><p>Set COM to MTA mode before importing pycaw or comtypes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">coinit_flags</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
 </li>
-<li><dl>
-<dt>Create and register callback:</dt><dd><dl class="simple">
-<dt>MyCustomCallback(AudioSessionNotification):</dt><dd><dl class="simple">
-<dt>def on_session_created(self, new_session):</dt><dd><p>print(“on_session_created”)</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p>callback = MyCustomCallback()
-mgr.RegisterSessionNotification(callback)</p>
-</dd>
-</dl>
+<li><p>Get the AudioSessionManager:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pycaw.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">AudioUtilities</span>
+<span class="n">mgr</span> <span class="o">=</span> <span class="n">AudioUtilities</span><span class="o">.</span><span class="n">GetAudioSessionManager</span><span class="p">()</span>
+</pre></div>
+</div>
 </li>
-<li><dl class="simple">
-<dt>Call the session enumerator (otherwise on_session_created wont work)</dt><dd><p>mgr.GetSessionEnumerator()</p>
-</dd>
-</dl>
+<li><p>Create and register your callback subclass:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyCallback</span><span class="p">(</span><span class="n">AudioSessionNotification</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_session_created</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_session</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;New session created: </span><span class="si">{</span><span class="n">new_session</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">callback</span> <span class="o">=</span> <span class="n">MyCallback</span><span class="p">()</span>
+<span class="n">mgr</span><span class="o">.</span><span class="n">RegisterSessionNotification</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span>
+</pre></div>
+</div>
 </li>
-<li><dl class="simple">
-<dt>Unregister, when you are finished:</dt><dd><p>mgr.UnregisterSessionNotification(callback)</p>
-</dd>
-</dl>
+<li><p>Activate notifications by calling GetSessionEnumerator:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mgr</span><span class="o">.</span><span class="n">GetSessionEnumerator</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p>Unregister when finished:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mgr</span><span class="o">.</span><span class="n">UnregisterSessionNotification</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span>
+</pre></div>
+</div>
 </li>
 </ol>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Override</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">method:</span></span></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_session_created(self,</span> <span class="pre">new_volume,</span> <span class="pre">new_mute,</span> <span class="pre">event_context):</span></span></dt>
-<dd><dl class="simple">
-<dt>Is fired, when a new audio session is created.</dt><dd><p>new_session : pycaw.utils.AudioSession</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">AudioUtilities.GetAudioSessionManager</span></code></dt><dd><p>Get the session manager instance</p>
 </dd>
 </dl>
-</dd></dl>
-
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionNotification.OnSessionCreated">
 <span class="sig-name descname"><span class="pre">OnSessionCreated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionNotification.OnSessionCreated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionNotification.OnSessionCreated" title="Link to this definition"></a></dt>
@@ -871,7 +815,16 @@ mgr.RegisterSessionNotification(callback)</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.callbacks.AudioSessionNotification.on_session_created">
 <span class="sig-name descname"><span class="pre">on_session_created</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#AudioSessionNotification.on_session_created"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.AudioSessionNotification.on_session_created" title="Link to this definition"></a></dt>
-<dd><p>pycaw user interface</p>
+<dd><p>Called when a new audio session is created.</p>
+<p>Override this method in your subclass to handle session creation events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_session</strong> (<a class="reference internal" href="#pycaw.pycaw.AudioSession" title="pycaw.pycaw.AudioSession"><em>AudioSession</em></a>) – The newly created audio session object</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.14)"><strong>NotImplementedError</strong></a> – This base implementation must be overridden in subclasses</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -880,92 +833,30 @@ mgr.RegisterSessionNotification(callback)</p>
 <dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycaw.callbacks.</span></span><span class="sig-name descname"><span class="pre">MMNotificationClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">COMObject</span></code></p>
-<p>Helper for audio endpoint device callbacks.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Override</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">method(s):</span></span></dt>
-<dd></dd></dl>
+<p>Callback handler for audio endpoint device events.</p>
+<p>Subclass this class and override any callback methods to handle events
+such as device addition, removal, state changes, or default device changes.</p>
+<p class="rubric">Examples</p>
+<p>Monitor for device additions and removals:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">DeviceMonitor</span><span class="p">(</span><span class="n">MMNotificationClient</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_device_added</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">added_device_id</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Device added: </span><span class="si">{</span><span class="n">added_device_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_default_device_changed(flow,</span> <span class="pre">flow_id,</span> <span class="pre">role,</span> <span class="pre">role_id,</span> <span class="pre">default_device_id):</span></span></dt>
-<dd><dl class="simple">
-<dt>Is fired, when the default endpoint device for a role changed.</dt><dd><dl class="simple">
-<dt>flow<span class="classifier">str</span></dt><dd><p>String explaining the data-flow direction.</p>
-</dd>
-<dt>flow_id: int</dt><dd><p>Id of the data-flow direction.</p>
-</dd>
-<dt>role<span class="classifier">str</span></dt><dd><p>String explaining the role of the device.</p>
-</dd>
-<dt>role_id: int</dt><dd><p>Id of the role.</p>
-</dd>
-<dt>default-device_id: str</dt><dd><p>String containing the default device id.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_device_removed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">removed_device_id</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Device removed: </span><span class="si">{</span><span class="n">removed_device_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_device_added(self,</span> <span class="pre">added_device_id):</span></span></dt>
-<dd><dl class="simple">
-<dt>Is fired when a new endpoint device is added.</dt><dd><dl class="simple">
-<dt>added_device_id: str</dt><dd><p>String containing the added device id.</p>
+<span class="n">enumerator</span> <span class="o">=</span> <span class="n">AudioUtilities</span><span class="o">.</span><span class="n">GetDeviceEnumerator</span><span class="p">()</span>
+<span class="n">monitor</span> <span class="o">=</span> <span class="n">DeviceMonitor</span><span class="p">()</span>
+<span class="n">enumerator</span><span class="o">.</span><span class="n">RegisterEndpointNotificationCallback</span><span class="p">(</span><span class="n">monitor</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">AudioUtilities.GetDeviceEnumerator</span></code></dt><dd><p>Get the device enumerator</p>
 </dd>
 </dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_device_removed(self,</span> <span class="pre">added_device_id):</span></span></dt>
-<dd><dl class="simple">
-<dt>Is fired when a new endpoint device is removed.</dt><dd><dl class="simple">
-<dt>removed_device_id: str</dt><dd><p>String containing the removed device id.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_device_state_changed(self,</span> <span class="pre">device_id,</span> <span class="pre">new_state,</span> <span class="pre">new_state_id):</span></span></dt>
-<dd><dl class="simple">
-<dt>Is fired when the state of an endpoint device has changed.</dt><dd><dl class="simple">
-<dt>device_id: str</dt><dd><p>String containing the id of the device that has changed state.</p>
-</dd>
-<dt>new_state: str</dt><dd><p>String containing the new state.</p>
-</dd>
-<dt>new_state_id: int</dt><dd><p>ID of the new state.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">def</span> <span class="pre">on_property_value_changed(self,</span> <span class="pre">device_id,</span> <span class="pre">property_struct,</span> <span class="pre">fmtid,</span> <span class="pre">pid):</span></span></dt>
-<dd><p>Is fired when the value of a property belonging to an audio endpoint device
-has changed.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>device_id: str</dt><dd><p>String containing the id of the device for which a property is changed.</p>
-</dd>
-<dt>property_struct: pycaw.api.mmdeviceapi.depend.structures.PROPERTYKEY</dt><dd><p>A structure containing an unique GUID for the property and a PID
-(property identifier).</p>
-</dd>
-<dt>fmtid: comtypes.GUID</dt><dd><p>GUID of the changed property.</p>
-</dd>
-<dt>pid: int</dt><dd><p>PID of the changed property.</p>
-</dd>
-</dl>
-</div></blockquote>
-</dd></dl>
-
+</div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.DataFlow">
 <span class="sig-name descname"><span class="pre">DataFlow</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['eRender',</span> <span class="pre">'eCapture',</span> <span class="pre">'eAll',</span> <span class="pre">'EDataFlow_enum_count']</span></em><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.DataFlow" title="Link to this definition"></a></dt>
@@ -1009,31 +900,71 @@ has changed.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.on_default_device_changed">
 <span class="sig-name descname"><span class="pre">on_default_device_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_device_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.on_default_device_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.on_default_device_changed" title="Link to this definition"></a></dt>
-<dd><p>pycaw user interface</p>
+<dd><p>Called when the default audio device for a role changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flow</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Data flow direction as string (e.g., “eRender”, “eCapture”)</p></li>
+<li><p><strong>flow_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Numeric data flow direction code</p></li>
+<li><p><strong>role</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Device role as string (e.g., “eConsole”, “eMultimedia”)</p></li>
+<li><p><strong>role_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Numeric role code</p></li>
+<li><p><strong>default_device_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Device ID of the new default device</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.on_device_added">
 <span class="sig-name descname"><span class="pre">on_device_added</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">added_device_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.on_device_added"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.on_device_added" title="Link to this definition"></a></dt>
-<dd><p>pycaw user interface</p>
+<dd><p>Called when a new audio endpoint device is added.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>added_device_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Device ID of the newly added device</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.on_device_removed">
 <span class="sig-name descname"><span class="pre">on_device_removed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">removed_device_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.on_device_removed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.on_device_removed" title="Link to this definition"></a></dt>
-<dd><p>pycaw user interface</p>
+<dd><p>Called when an audio endpoint device is removed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>removed_device_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Device ID of the removed device</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.on_device_state_changed">
 <span class="sig-name descname"><span class="pre">on_device_state_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_state_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.on_device_state_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.on_device_state_changed" title="Link to this definition"></a></dt>
-<dd><p>pycaw user interface</p>
+<dd><p>Called when an audio endpoint device state changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Device ID of the device that changed state</p></li>
+<li><p><strong>new_state</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – New state as string (e.g., “Active”, “Disabled”, “NotPresent”)</p></li>
+<li><p><strong>new_state_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Numeric state code (see DeviceStates class attribute)</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycaw.callbacks.MMNotificationClient.on_property_value_changed">
 <span class="sig-name descname"><span class="pre">on_property_value_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_struct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmtid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycaw/callbacks.html#MMNotificationClient.on_property_value_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycaw.callbacks.MMNotificationClient.on_property_value_changed" title="Link to this definition"></a></dt>
-<dd><p>pycaw user interface</p>
+<dd><p>Called when a device property value changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Device ID of the device with changed property</p></li>
+<li><p><strong>property_struct</strong> (<em>pycaw.api.mmdeviceapi.depend.structures.PROPERTYKEY</em>) – Structure containing the property GUID and PID</p></li>
+<li><p><strong>fmtid</strong> (<em>comtypes.GUID</em>) – GUID of the changed property</p></li>
+<li><p><strong>pid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Property identifier (PID) of the changed property</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
