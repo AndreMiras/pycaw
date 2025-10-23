@@ -4,6 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/AndreMiras/pycaw/badge.svg?branch=develop)](https://coveralls.io/github/AndreMiras/pycaw?branch=develop)
 [![PyPI release](https://github.com/AndreMiras/pycaw/workflows/PyPI%20release/badge.svg)](https://github.com/AndreMiras/pycaw/actions/workflows/pypi-release.yml)
 [![PyPI version](https://badge.fury.io/py/pycaw.svg)](https://badge.fury.io/py/pycaw)
+[![Documentation](https://img.shields.io/badge/docs-github%20pages-blue)](https://andremiras.github.io/pycaw/)
 
 
 Pycaw is a Python library designed exclusively for controlling audio devices on **Windows** systems.
@@ -44,7 +45,7 @@ print(f"- Volume range: {volume.GetVolumeRange()[0]} dB - {volume.GetVolumeRange
 volume.SetMasterVolumeLevel(-20.0, None)
 ```
 
-See more in the [examples](examples/) directory.
+See more in the [examples](examples/) directory or visit the [documentation](https://andremiras.github.io/pycaw/).
 
 ## Tests
 
