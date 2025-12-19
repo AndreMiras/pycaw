@@ -43,6 +43,14 @@ class AudioDevice:
             "{a45c254e-df1c-4efd-8020-67d146a850e0} 14".upper()
         )
         value = self.properties.get(DEVPKEY_Device_FriendlyName)
+
+        # Fallback to DeviceDesc if FriendlyName is unavailable
+        if value is None or (isinstance(value, str) and not value):
+            DEVPKEY_Device_DeviceDesc = (
+                "{a45c254e-df1c-4efd-8020-67d146a850e0} 2".upper()
+            )
+            value = self.properties.get(DEVPKEY_Device_DeviceDesc)
+
         return value
 
     @property
@@ -330,9 +338,30 @@ class AudioUtilities:
     def SetDefaultDevice(devId, roles=None):
         if roles is None:
             roles = [ERole.eConsole]
-        policy_config = comtypes.CoCreateInstance(
-            CLSID_CPolicyConfigClient, IPolicyConfig, comtypes.CLSCTX_ALL
-        )
+
+        # Try newer IPolicyConfig first, fall back to Vista interface if unavailable
+        policy_config = None
+        try:
+            policy_config = comtypes.CoCreateInstance(
+                CLSID_CPolicyConfigClient, IPolicyConfig, comtypes.CLSCTX_ALL
+            )
+        except (OSError, comtypes.COMError):
+            # Windows Vista/7 may only have IPolicyConfigVista
+            try:
+                from pycaw.api.policyconfig import IPolicyConfigVista
+
+                policy_config = comtypes.CoCreateInstance(
+                    CLSID_CPolicyConfigClient,
+                    IPolicyConfigVista,
+                    comtypes.CLSCTX_ALL,
+                )
+            except (OSError, comtypes.COMError) as e:
+                raise OSError(
+                    f"Failed to create PolicyConfig interface. "
+                    f"This feature requires Windows Vista or later. "
+                    f"Original error: {e}"
+                )
+
         for role in roles:
             hr = policy_config.SetDefaultEndpoint(devId, role.value)
             if hr != 0:

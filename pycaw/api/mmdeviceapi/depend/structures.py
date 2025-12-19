@@ -29,7 +29,28 @@ class PROPVARIANT(Structure):
         if vt == VT_BOOL:
             return self.union.boolVal != 0
         elif vt == VT_LPWSTR:
-            return self.union.pwszVal
+            # Try multiple access patterns for comtypes compatibility
+            # Pattern 1: Direct union access
+            result = getattr(self.union, "pwszVal", None)
+            if result is not None:
+                return result
+            # Pattern 2: Nested value object
+            value_obj = getattr(self, "value", None)
+            if value_obj is not None:
+                result = getattr(value_obj, "pwszVal", None)
+                if result is not None:
+                    return result
+            # Pattern 3: Anonymous union access
+            result = getattr(self, "pwszVal", None)
+            if result is not None:
+                return result
+            # Pattern 4: Data object access
+            data_obj = getattr(self, "data", None)
+            if data_obj is not None:
+                result = getattr(data_obj, "pwszVal", None)
+                if result is not None:
+                    return result
+            return None
         elif vt == VT_UI4:
             return self.union.lVal
         elif vt == VT_CLSID:
