@@ -43,6 +43,9 @@ print(f"- Muted: {bool(volume.GetMute())}")
 print(f"- Volume level: {volume.GetMasterVolumeLevel()} dB")
 print(f"- Volume range: {volume.GetVolumeRange()[0]} dB - {volume.GetVolumeRange()[1]} dB")
 volume.SetMasterVolumeLevel(-20.0, None)
+# or work with the 0-100 scale the Windows volume mixer uses:
+print(f"- Volume: {device.volume_percent:.0f}%")
+device.volume_percent = 50
 ```
 
 See more in the [examples](examples/) directory or visit the [documentation](https://andremiras.github.io/pycaw/).

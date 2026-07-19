@@ -1,6 +1,7 @@
 # Change Log
 
 ## [Unreleased]
+    - Add AudioDevice.volume_percent property for percentage based master volume, refs #13 (@ahmetberber)
     - Add SetDefaultDevice functionality to switch default audio devices, refs #49, #103 (@bdieudonne)
     - Add policyconfig API module (IPolicyConfig) for device management, refs #103 (@bdieudonne)
     - Add GetAllDevices() filters for data_flow and device_state, refs #103 (@bdieudonne)
