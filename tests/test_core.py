@@ -11,6 +11,7 @@ from unittest import mock
 import _ctypes
 
 from pycaw.pycaw import AudioDeviceState, AudioUtilities
+from pycaw.utils import AudioDevice
 
 
 @contextmanager
@@ -66,3 +67,21 @@ class TestCore:
         for _ in range(100):
             sessions = AudioUtilities.GetAllSessions()
             assert len(sessions) > 0
+
+    def test_volume_percent(self):
+        """
+        volume_percent maps to the endpoint volume scalar (0-100 <-> 0.0-1.0)
+        and the setter clamps out of range values, refs:
+        https://github.com/AndreMiras/pycaw/issues/13
+        """
+        device = AudioDevice("id", AudioDeviceState.Active, {}, mock.Mock())
+        endpoint = mock.Mock()
+        endpoint.GetMasterVolumeLevelScalar = mock.Mock(return_value=0.25)
+        device._volume = endpoint
+        assert device.volume_percent == 25.0
+        device.volume_percent = 50
+        endpoint.SetMasterVolumeLevelScalar.assert_called_with(0.5, None)
+        device.volume_percent = 150
+        endpoint.SetMasterVolumeLevelScalar.assert_called_with(1.0, None)
+        device.volume_percent = -10
+        endpoint.SetMasterVolumeLevelScalar.assert_called_with(0.0, None)

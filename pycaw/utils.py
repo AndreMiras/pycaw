@@ -63,6 +63,24 @@ class AudioDevice:
         return self._volume
 
     @property
+    def volume_percent(self):
+        """
+        Master volume of this device as a percentage (0.0-100.0), the same
+        scale the Windows volume mixer shows.
+
+        Convenience wrapper around `GetMasterVolumeLevelScalar()` /
+        `SetMasterVolumeLevelScalar()`, so users don't reach for the decibel
+        based `SetMasterVolumeLevel()` by mistake. The setter clamps the
+        value to the 0-100 range.
+        """
+        return self.EndpointVolume.GetMasterVolumeLevelScalar() * 100
+
+    @volume_percent.setter
+    def volume_percent(self, percent):
+        percent = max(0.0, min(100.0, percent))
+        self.EndpointVolume.SetMasterVolumeLevelScalar(percent / 100, None)
+
+    @property
     def AudioSessionManager(self):
         if self._audio_session_manager is None:
             # win7+ only
