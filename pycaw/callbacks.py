@@ -1,4 +1,4 @@
-from ctypes import pointer
+from ctypes import addressof, c_float, pointer
 
 from comtypes import COMObject
 
@@ -8,6 +8,7 @@ from pycaw.api.audiopolicy import (
     IAudioSessionNotification,
 )
 from pycaw.api.endpointvolume import IAudioEndpointVolumeCallback
+from pycaw.api.endpointvolume.depend import AUDIO_VOLUME_NOTIFICATION_DATA
 from pycaw.api.mmdeviceapi import IMMNotificationClient
 from pycaw.utils import AudioSession
 
@@ -129,8 +130,9 @@ class AudioSessionEvents(COMObject):
     def OnChannelVolumeChanged(
         self, channel_count, new_channel_volume_array, changed_channel, event_context
     ):
+        channel_volumes = list(new_channel_volume_array[:channel_count])
         self.on_channel_volume_changed(
-            channel_count, new_channel_volume_array, changed_channel, event_context
+            channel_count, channel_volumes, changed_channel, event_context
         )
 
     def OnGroupingParamChanged(self, new_grouping_param, event_context):
@@ -181,7 +183,22 @@ class AudioSessionEvents(COMObject):
     def on_channel_volume_changed(
         self, channel_count, new_channel_volume_array, changed_channel, event_context
     ):
-        """pycaw user interface"""
+        """
+        Called when an audio session channel volume changes.
+
+        Parameters
+        ----------
+        channel_count : int
+            Number of audio channels
+        new_channel_volume_array : list of float
+            Per-channel volume levels in range [0.0, 1.0]. Length equals
+            channel_count
+        changed_channel : int
+            Index of the channel whose volume changed
+        event_context : comtypes.GUID
+            GUID identifying who made the change. Access string representation
+            via event_context.contents
+        """
         pass
 
     def on_grouping_param_changed(self, new_grouping_param, event_context):
@@ -252,10 +269,11 @@ class AudioEndpointVolumeCallback(COMObject):
         notify_data = pNotify.contents
 
         channels = notify_data.nChannels
-        # _.afChannelVolumes is a c_float_Array_8 -> convert to list
-        channel_volumes = list(notify_data.afChannelVolumes)
-        # remove from 8 value list everything out of channel range
-        channel_volumes = channel_volumes[:channels]
+        channel_array = (c_float * channels).from_address(
+            addressof(notify_data)
+            + AUDIO_VOLUME_NOTIFICATION_DATA.afChannelVolumes.offset
+        )
+        channel_volumes = list(channel_array)
 
         event_context = pointer(notify_data.guidEventContext)
 

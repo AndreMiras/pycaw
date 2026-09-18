@@ -10,7 +10,7 @@ class AUDIO_VOLUME_NOTIFICATION_DATA(Structure):
         ("bMuted", BOOL),
         ("fMasterVolume", c_float),
         ("nChannels", UINT),
-        ("afChannelVolumes", c_float * 8),
+        ("afChannelVolumes", c_float * 1),
     ]
 
 

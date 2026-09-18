@@ -1,8 +1,8 @@
 import warnings
+from _ctypes import COMError
 
 import comtypes
 import psutil
-from _ctypes import COMError
 
 from pycaw.api.audioclient import IChannelAudioVolume, ISimpleAudioVolume
 from pycaw.api.audiopolicy import IAudioSessionControl2, IAudioSessionManager2

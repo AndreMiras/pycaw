@@ -2,13 +2,12 @@
 Verifies core features run as expected.
 """
 
+import _ctypes
 import sys
 import warnings
 from contextlib import contextmanager
 from io import StringIO
 from unittest import mock
-
-import _ctypes
 
 from pycaw.pycaw import AudioDeviceState, AudioUtilities
 from pycaw.utils import AudioDevice

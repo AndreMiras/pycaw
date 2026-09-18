@@ -51,7 +51,7 @@ class IAudioSessionEvents(IUnknown):
             HRESULT,
             "OnChannelVolumeChanged",
             (["in"], DWORD, "ChannelCount"),
-            (["in"], (c_float * 8), "NewChannelVolumeArray"),
+            (["in"], POINTER(c_float), "NewChannelVolumeArray"),
             (["in"], DWORD, "ChangedChannel"),
             (["in"], POINTER(GUID), "EventContext"),
         ),
