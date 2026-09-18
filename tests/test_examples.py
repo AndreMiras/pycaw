@@ -2,6 +2,8 @@
 Verifies examples run as expected.
 """
 
+from unittest import mock
+
 import pytest
 
 from examples import (
@@ -38,11 +40,33 @@ class TestExamples:
             assert "volume.GetMute(): 0" in line or "volume.GetMute(): 1" in line
 
     def test_volume_by_process_example(self):
-        volume_by_process_example.main()
-        sessions = AudioUtilities.GetAllSessions()
-        for session in sessions:
-            volume = session.SimpleAudioVolume
-            if session.Process and session.Process.name() == "chrome.exe":
-                assert volume.GetMute() == 0
-            else:
-                assert volume.GetMute() == 1
+        chrome_volume = mock.Mock(spec_set=["SetMute"])
+        chrome_process = mock.Mock(spec_set=["name"])
+        chrome_process.name.return_value = "chrome.exe"
+        chrome = mock.Mock(spec_set=["Process", "SimpleAudioVolume"])
+        chrome.Process = chrome_process
+        chrome.SimpleAudioVolume = chrome_volume
+
+        other_volume = mock.Mock(spec_set=["SetMute"])
+        other_process = mock.Mock(spec_set=["name"])
+        other_process.name.return_value = "music.exe"
+        other = mock.Mock(spec_set=["Process", "SimpleAudioVolume"])
+        other.Process = other_process
+        other.SimpleAudioVolume = other_volume
+
+        system_volume = mock.Mock(spec_set=["SetMute"])
+        system = mock.Mock(spec_set=["Process", "SimpleAudioVolume"])
+        system.Process = None
+        system.SimpleAudioVolume = system_volume
+
+        with mock.patch.object(
+            volume_by_process_example.AudioUtilities,
+            "GetAllSessions",
+            return_value=[chrome, other, system],
+        ) as get_all_sessions:
+            volume_by_process_example.main()
+
+        get_all_sessions.assert_called_once_with()
+        chrome_volume.SetMute.assert_called_once_with(0, None)
+        other_volume.SetMute.assert_called_once_with(1, None)
+        system_volume.SetMute.assert_called_once_with(1, None)
