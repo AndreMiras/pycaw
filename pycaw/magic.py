@@ -713,7 +713,7 @@ class _MagicRootSession(COMObject):
             self._send_callback(
                 self.magic_session, "volume_callback", event_context, new_volume
             )
-            return
+
         # check old mute vs new:
         if self.mute != new_mute:
             # self.mute will keep the none state
@@ -728,7 +728,6 @@ class _MagicRootSession(COMObject):
             self._send_callback(
                 self.magic_session, "mute_callback", event_context, new_mute
             )
-            return
 
     @staticmethod
     def _send_callback(master, callback, changer_guid, value):
