@@ -211,26 +211,26 @@
 <section id="audio-endpoint-volume-control">
 <h2>Audio Endpoint Volume Control<a class="headerlink" href="#audio-endpoint-volume-control" title="Link to this heading"></a></h2>
 <p>Basic master volume control using the default speakers.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="sd">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="sd">"""</span>
 <span class="linenos"> 2</span><span class="sd">Get and set access to master volume example.</span>
-<span class="linenos"> 3</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 3</span><span class="sd">"""</span>
 <span class="linenos"> 4</span>
 <span class="linenos"> 5</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycaw.pycaw</span><span class="w"> </span><span class="kn">import</span> <span class="n">AudioUtilities</span>
 <span class="linenos"> 6</span>
 <span class="linenos"> 7</span>
 <span class="linenos"> 8</span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
 <span class="linenos"> 9</span>    <span class="n">device</span> <span class="o">=</span> <span class="n">AudioUtilities</span><span class="o">.</span><span class="n">GetSpeakers</span><span class="p">()</span>
-<span class="linenos">10</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Device found: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="p">)</span>
+<span class="linenos">10</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Device found: </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="p">)</span>
 <span class="linenos">11</span>    <span class="n">volume</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">EndpointVolume</span>
-<span class="linenos">12</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;volume.GetMute(): </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">volume</span><span class="o">.</span><span class="n">GetMute</span><span class="p">())</span>
-<span class="linenos">13</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;volume.GetMasterVolumeLevel(): </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">volume</span><span class="o">.</span><span class="n">GetMasterVolumeLevel</span><span class="p">())</span>
-<span class="linenos">14</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;volume.GetVolumeRange(): (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">volume</span><span class="o">.</span><span class="n">GetVolumeRange</span><span class="p">())</span>
-<span class="linenos">15</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;volume.SetMasterVolumeLevel()&quot;</span><span class="p">)</span>
+<span class="linenos">12</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"volume.GetMute(): </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">volume</span><span class="o">.</span><span class="n">GetMute</span><span class="p">())</span>
+<span class="linenos">13</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"volume.GetMasterVolumeLevel(): </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">volume</span><span class="o">.</span><span class="n">GetMasterVolumeLevel</span><span class="p">())</span>
+<span class="linenos">14</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"volume.GetVolumeRange(): (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)"</span> <span class="o">%</span> <span class="n">volume</span><span class="o">.</span><span class="n">GetVolumeRange</span><span class="p">())</span>
+<span class="linenos">15</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"volume.SetMasterVolumeLevel()"</span><span class="p">)</span>
 <span class="linenos">16</span>    <span class="n">volume</span><span class="o">.</span><span class="n">SetMasterVolumeLevel</span><span class="p">(</span><span class="o">-</span><span class="mf">20.0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-<span class="linenos">17</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;volume.GetMasterVolumeLevel(): </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">volume</span><span class="o">.</span><span class="n">GetMasterVolumeLevel</span><span class="p">())</span>
+<span class="linenos">17</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"volume.GetMasterVolumeLevel(): </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">volume</span><span class="o">.</span><span class="n">GetMasterVolumeLevel</span><span class="p">())</span>
 <span class="linenos">18</span>
 <span class="linenos">19</span>
-<span class="linenos">20</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">20</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
 <span class="linenos">21</span>    <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -238,9 +238,9 @@
 <section id="volume-control-by-process">
 <h2>Volume Control by Process<a class="headerlink" href="#volume-control-by-process" title="Link to this heading"></a></h2>
 <p>Control volume for individual applications/processes.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="sd">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="sd">"""</span>
 <span class="linenos"> 2</span><span class="sd">Mutes the volume of all processes, but unmutes chrome.exe process.</span>
-<span class="linenos"> 3</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 3</span><span class="sd">"""</span>
 <span class="linenos"> 4</span>
 <span class="linenos"> 5</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycaw.pycaw</span><span class="w"> </span><span class="kn">import</span> <span class="n">AudioUtilities</span>
 <span class="linenos"> 6</span>
@@ -249,13 +249,13 @@
 <span class="linenos"> 9</span>    <span class="n">sessions</span> <span class="o">=</span> <span class="n">AudioUtilities</span><span class="o">.</span><span class="n">GetAllSessions</span><span class="p">()</span>
 <span class="linenos">10</span>    <span class="k">for</span> <span class="n">session</span> <span class="ow">in</span> <span class="n">sessions</span><span class="p">:</span>
 <span class="linenos">11</span>        <span class="n">volume</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">SimpleAudioVolume</span>
-<span class="linenos">12</span>        <span class="k">if</span> <span class="n">session</span><span class="o">.</span><span class="n">Process</span> <span class="ow">and</span> <span class="n">session</span><span class="o">.</span><span class="n">Process</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;chrome.exe&quot;</span><span class="p">:</span>
+<span class="linenos">12</span>        <span class="k">if</span> <span class="n">session</span><span class="o">.</span><span class="n">Process</span> <span class="ow">and</span> <span class="n">session</span><span class="o">.</span><span class="n">Process</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"chrome.exe"</span><span class="p">:</span>
 <span class="linenos">13</span>            <span class="n">volume</span><span class="o">.</span><span class="n">SetMute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 <span class="linenos">14</span>        <span class="k">else</span><span class="p">:</span>
 <span class="linenos">15</span>            <span class="n">volume</span><span class="o">.</span><span class="n">SetMute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 <span class="linenos">16</span>
 <span class="linenos">17</span>
-<span class="linenos">18</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">18</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
 <span class="linenos">19</span>    <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -263,9 +263,9 @@
 <section id="list-and-switch-devices">
 <h2>List and Switch Devices<a class="headerlink" href="#list-and-switch-devices" title="Link to this heading"></a></h2>
 <p>Enumerate available audio devices and switch between them.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="sd">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="sd">"""</span>
 <span class="linenos"> 2</span><span class="sd">Example to list and switch devices.</span>
-<span class="linenos"> 3</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 3</span><span class="sd">"""</span>
 <span class="linenos"> 4</span>
 <span class="linenos"> 5</span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="linenos"> 6</span>
@@ -276,7 +276,7 @@
 <span class="linenos">11</span>
 <span class="linenos">12</span><span class="k">def</span><span class="w"> </span><span class="nf">get_active_output_devices</span><span class="p">():</span>
 <span class="linenos">13</span>    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>  <span class="c1"># suppress COMError warnings</span>
-<span class="linenos">14</span>        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+<span class="linenos">14</span>        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
 <span class="linenos">15</span>        <span class="k">return</span> <span class="n">AudioUtilities</span><span class="o">.</span><span class="n">GetAllDevices</span><span class="p">(</span>
 <span class="linenos">16</span>            <span class="n">data_flow</span><span class="o">=</span><span class="n">EDataFlow</span><span class="o">.</span><span class="n">eRender</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">device_state</span><span class="o">=</span><span class="n">DEVICE_STATE</span><span class="o">.</span><span class="n">ACTIVE</span><span class="o">.</span><span class="n">value</span>
 <span class="linenos">17</span>        <span class="p">)</span>
@@ -290,33 +290,33 @@
 <span class="linenos">25</span>    <span class="n">AudioUtilities</span><span class="o">.</span><span class="n">SetDefaultDevice</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 <span class="linenos">26</span>
 <span class="linenos">27</span>
-<span class="linenos">28</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">28</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
 <span class="linenos">29</span>    <span class="c1"># List devices</span>
-<span class="linenos">30</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;List of available output devices (* = default): &quot;</span><span class="p">)</span>
+<span class="linenos">30</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"List of available output devices (* = default): "</span><span class="p">)</span>
 <span class="linenos">31</span>    <span class="n">active_output_devices</span> <span class="o">=</span> <span class="n">get_active_output_devices</span><span class="p">()</span>
 <span class="linenos">32</span>    <span class="n">default_device</span> <span class="o">=</span> <span class="n">get_default_device</span><span class="p">()</span>
 <span class="linenos">33</span>    <span class="n">other_device</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="linenos">34</span>    <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">active_output_devices</span><span class="p">:</span>
 <span class="linenos">35</span>        <span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">default_device</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
-<span class="linenos">36</span>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; * </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">36</span>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" * </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="linenos">37</span>        <span class="k">else</span><span class="p">:</span>
-<span class="linenos">38</span>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">38</span>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="linenos">39</span>            <span class="n">other_device</span> <span class="o">=</span> <span class="n">device</span>
 <span class="linenos">40</span>
 <span class="linenos">41</span>    <span class="k">if</span> <span class="n">other_device</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 <span class="linenos">42</span>        <span class="c1"># Change default to other device</span>
-<span class="linenos">43</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Changing default device to </span><span class="si">{</span><span class="n">other_device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+<span class="linenos">43</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Changing default device to </span><span class="si">{</span><span class="n">other_device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
 <span class="linenos">44</span>        <span class="n">set_default_device</span><span class="p">(</span><span class="n">other_device</span><span class="p">)</span>
 <span class="linenos">45</span>
 <span class="linenos">46</span>        <span class="c1"># List devices again</span>
-<span class="linenos">47</span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Updated list of available output devices (* = default): &quot;</span><span class="p">)</span>
+<span class="linenos">47</span>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Updated list of available output devices (* = default): "</span><span class="p">)</span>
 <span class="linenos">48</span>        <span class="n">active_output_devices</span> <span class="o">=</span> <span class="n">get_active_output_devices</span><span class="p">()</span>
 <span class="linenos">49</span>        <span class="n">default_device</span> <span class="o">=</span> <span class="n">get_default_device</span><span class="p">()</span>
 <span class="linenos">50</span>        <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">active_output_devices</span><span class="p">:</span>
 <span class="linenos">51</span>            <span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">default_device</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
-<span class="linenos">52</span>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;* </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">52</span>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"* </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="linenos">53</span>            <span class="k">else</span><span class="p">:</span>
-<span class="linenos">54</span>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">54</span>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

@@ -234,7 +234,7 @@
 
 <span class="c1"># Get the default speakers</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">AudioUtilities</span><span class="o">.</span><span class="n">GetSpeakers</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Default speakers: </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Default speakers: </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">FriendlyName</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -247,18 +247,18 @@
 
 <span class="c1"># Get current volume info</span>
 <span class="n">current_volume</span> <span class="o">=</span> <span class="n">volume</span><span class="o">.</span><span class="n">GetMasterVolumeLevel</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current volume: </span><span class="si">{</span><span class="n">current_volume</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Current volume: </span><span class="si">{</span><span class="n">current_volume</span><span class="si">}</span><span class="s2"> dB"</span><span class="p">)</span>
 
 <span class="c1"># Get volume range</span>
 <span class="n">vol_range</span> <span class="o">=</span> <span class="n">volume</span><span class="o">.</span><span class="n">GetVolumeRange</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Volume range: </span><span class="si">{</span><span class="n">vol_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> dB to </span><span class="si">{</span><span class="n">vol_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Volume range: </span><span class="si">{</span><span class="n">vol_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> dB to </span><span class="si">{</span><span class="n">vol_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> dB"</span><span class="p">)</span>
 
 <span class="c1"># Set volume to -20 dB</span>
 <span class="n">volume</span><span class="o">.</span><span class="n">SetMasterVolumeLevel</span><span class="p">(</span><span class="o">-</span><span class="mf">20.0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
 <span class="c1"># Check mute status</span>
 <span class="n">is_muted</span> <span class="o">=</span> <span class="n">volume</span><span class="o">.</span><span class="n">GetMute</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Muted: </span><span class="si">{</span><span class="n">is_muted</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Muted: </span><span class="si">{</span><span class="n">is_muted</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># Mute/unmute</span>
 <span class="n">volume</span><span class="o">.</span><span class="n">SetMute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># Mute</span>

@@ -228,9 +228,9 @@
 <div class="viewcode-block" id="AudioDevice">
 <a class="viewcode-back" href="../../api/index.html#pycaw.pycaw.AudioDevice">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AudioDevice</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    https://stackoverflow.com/a/20982715/185510</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">dev</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
@@ -241,19 +241,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_audio_session_manager</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;AudioDevice: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FriendlyName</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">"AudioDevice: </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FriendlyName</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">FriendlyName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">DEVPKEY_Device_FriendlyName</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s2">&quot;{a45c254e-df1c-4efd-8020-67d146a850e0} 14&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+            <span class="s2">"{a45c254e-df1c-4efd-8020-67d146a850e0} 14"</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="p">)</span>
         <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DEVPKEY_Device_FriendlyName</span><span class="p">)</span>
 
         <span class="c1"># Fallback to DeviceDesc if FriendlyName is unavailable</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">value</span><span class="p">):</span>
             <span class="n">DEVPKEY_Device_DeviceDesc</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;{a45c254e-df1c-4efd-8020-67d146a850e0} 2&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                <span class="s2">"{a45c254e-df1c-4efd-8020-67d146a850e0} 2"</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
             <span class="p">)</span>
             <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DEVPKEY_Device_DeviceDesc</span><span class="p">)</span>
 
@@ -270,15 +270,15 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">volume_percent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Master volume of this device as a percentage (0.0-100.0), the same</span>
 <span class="sd">        scale the Windows volume mixer shows.</span>
 
 <span class="sd">        Convenience wrapper around `GetMasterVolumeLevelScalar()` /</span>
-<span class="sd">        `SetMasterVolumeLevelScalar()`, so users don&#39;t reach for the decibel</span>
+<span class="sd">        `SetMasterVolumeLevelScalar()`, so users don't reach for the decibel</span>
 <span class="sd">        based `SetMasterVolumeLevel()` by mistake. The setter clamps the</span>
 <span class="sd">        value to the 0-100 range.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">EndpointVolume</span><span class="o">.</span><span class="n">GetMasterVolumeLevelScalar</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
 
     <span class="nd">@volume_percent</span><span class="o">.</span><span class="n">setter</span>
@@ -301,9 +301,9 @@
 <div class="viewcode-block" id="AudioSession">
 <a class="viewcode-back" href="../../api/index.html#pycaw.pycaw.AudioSession">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AudioSession</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    https://stackoverflow.com/a/20982715/185510</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">audio_session_control2</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ctl</span> <span class="o">=</span> <span class="n">audio_session_control2</span>
@@ -315,10 +315,10 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DisplayName</span>
         <span class="k">if</span> <span class="n">s</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;DisplayName: &quot;</span> <span class="o">+</span> <span class="n">s</span>
+            <span class="k">return</span> <span class="s2">"DisplayName: "</span> <span class="o">+</span> <span class="n">s</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Process</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;Process: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Process</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
-        <span class="k">return</span> <span class="s2">&quot;Pid: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ProcessId</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">"Process: "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Process</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s2">"Pid: </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ProcessId</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -360,10 +360,10 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">DisplayName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Please, note that this returns an empty string if</span>
-<span class="sd">        the client hadn&#39;t called the setter method before.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        the client hadn't called the setter method before.</span>
+<span class="sd">        """</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ctl</span><span class="o">.</span><span class="n">GetDisplayName</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">s</span>
 
@@ -375,10 +375,10 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">IconPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Please, note that this returns an empty string if</span>
-<span class="sd">        the client hadn&#39;t called the setter method before.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        the client hadn't called the setter method before.</span>
+<span class="sd">        """</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ctl</span><span class="o">.</span><span class="n">GetIconPath</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">s</span>
 
@@ -422,17 +422,17 @@
 <div class="viewcode-block" id="AudioUtilities">
 <a class="viewcode-back" href="../../api/index.html#pycaw.pycaw.AudioUtilities">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AudioUtilities</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    https://stackoverflow.com/a/20982715/185510</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="AudioUtilities.GetSpeakers">
 <a class="viewcode-back" href="../../api/index.html#pycaw.pycaw.AudioUtilities.GetSpeakers">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">GetSpeakers</span><span class="p">():</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        get the speakers (1st render + multimedia) device</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">deviceEnumerator</span> <span class="o">=</span> <span class="n">comtypes</span><span class="o">.</span><span class="n">CoCreateInstance</span><span class="p">(</span>
             <span class="n">CLSID_MMDeviceEnumerator</span><span class="p">,</span> <span class="n">IMMDeviceEnumerator</span><span class="p">,</span> <span class="n">comtypes</span><span class="o">.</span><span class="n">CLSCTX_INPROC_SERVER</span>
         <span class="p">)</span>
@@ -446,9 +446,9 @@
 <a class="viewcode-back" href="../../api/index.html#pycaw.pycaw.AudioUtilities.GetMicrophone">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">GetMicrophone</span><span class="p">():</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        get the microphone (1st capture + multimedia) device</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">deviceEnumerator</span> <span class="o">=</span> <span class="n">comtypes</span><span class="o">.</span><span class="n">CoCreateInstance</span><span class="p">(</span>
             <span class="n">CLSID_MMDeviceEnumerator</span><span class="p">,</span> <span class="n">IMMDeviceEnumerator</span><span class="p">,</span> <span class="n">comtypes</span><span class="o">.</span><span class="n">CLSCTX_INPROC_SERVER</span>
         <span class="p">)</span>
@@ -519,8 +519,8 @@
                     <span class="n">v</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">GetValue</span><span class="p">()</span>
                 <span class="k">except</span> <span class="n">COMError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
                     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                        <span class="s2">&quot;COMError attempting to get property </span><span class="si">%r</span><span class="s2"> &quot;</span>
-                        <span class="s2">&quot;from device </span><span class="si">%r</span><span class="s2">: </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">dev</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+                        <span class="s2">"COMError attempting to get property </span><span class="si">%r</span><span class="s2"> "</span>
+                        <span class="s2">"from device </span><span class="si">%r</span><span class="s2">: </span><span class="si">%r</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">dev</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
                     <span class="p">)</span>
                     <span class="k">continue</span>
                 <span class="n">value</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
@@ -559,9 +559,9 @@
 <a class="viewcode-back" href="../../api/index.html#pycaw.pycaw.AudioUtilities.GetDeviceEnumerator">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">GetDeviceEnumerator</span><span class="p">():</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get an instance of IMMDeviceEnumerator.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">device_enumerator</span> <span class="o">=</span> <span class="n">comtypes</span><span class="o">.</span><span class="n">CoCreateInstance</span><span class="p">(</span>
             <span class="n">CLSID_MMDeviceEnumerator</span><span class="p">,</span> <span class="n">IMMDeviceEnumerator</span><span class="p">,</span> <span class="n">comtypes</span><span class="o">.</span><span class="n">CLSCTX_INPROC_SERVER</span>
         <span class="p">)</span>
@@ -572,7 +572,7 @@
 <a class="viewcode-back" href="../../api/index.html#pycaw.pycaw.AudioUtilities.GetEndpointDataFlow">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">GetEndpointDataFlow</span><span class="p">(</span><span class="n">devId</span><span class="p">,</span> <span class="n">outputType</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get data flow information of a given endpoint.</span>
 
 <span class="sd">        Parameters</span>
@@ -587,10 +587,10 @@
 <span class="sd">        -------</span>
 <span class="sd">        str or int</span>
 <span class="sd">            Data flow direction. If outputType=0, returns one of:</span>
-<span class="sd">            &quot;eRender&quot;, &quot;eCapture&quot;, &quot;eAll&quot;, &quot;EDataFlow_enum_count&quot;.</span>
+<span class="sd">            "eRender", "eCapture", "eAll", "EDataFlow_enum_count".</span>
 <span class="sd">            If outputType=1, returns the numeric value (0-3).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">DataFlow</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;eRender&quot;</span><span class="p">,</span> <span class="s2">&quot;eCapture&quot;</span><span class="p">,</span> <span class="s2">&quot;eAll&quot;</span><span class="p">,</span> <span class="s2">&quot;EDataFlow_enum_count&quot;</span><span class="p">]</span>
+<span class="sd">        """</span>
+        <span class="n">DataFlow</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"eRender"</span><span class="p">,</span> <span class="s2">"eCapture"</span><span class="p">,</span> <span class="s2">"eAll"</span><span class="p">,</span> <span class="s2">"EDataFlow_enum_count"</span><span class="p">]</span>
         <span class="n">devEnum</span> <span class="o">=</span> <span class="n">AudioUtilities</span><span class="o">.</span><span class="n">GetDeviceEnumerator</span><span class="p">()</span>
         <span class="n">dev</span> <span class="o">=</span> <span class="n">devEnum</span><span class="o">.</span><span class="n">GetDevice</span><span class="p">(</span><span class="n">devId</span><span class="p">)</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">dev</span><span class="o">.</span><span class="n">QueryInterface</span><span class="p">(</span><span class="n">IMMEndpoint</span><span class="p">)</span><span class="o">.</span><span class="n">GetDataFlow</span><span class="p">()</span>
@@ -625,17 +625,17 @@
                 <span class="p">)</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="n">comtypes</span><span class="o">.</span><span class="n">COMError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Failed to create PolicyConfig interface. &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;This feature requires Windows Vista or later. &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;Original error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Failed to create PolicyConfig interface. "</span>
+                    <span class="sa">f</span><span class="s2">"This feature requires Windows Vista or later. "</span>
+                    <span class="sa">f</span><span class="s2">"Original error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">role</span> <span class="ow">in</span> <span class="n">roles</span><span class="p">:</span>
             <span class="n">hr</span> <span class="o">=</span> <span class="n">policy_config</span><span class="o">.</span><span class="n">SetDefaultEndpoint</span><span class="p">(</span><span class="n">devId</span><span class="p">,</span> <span class="n">role</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">hr</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;SetDefaultEndpoint failed for role </span><span class="si">{</span><span class="n">role</span><span class="si">}</span><span class="s2"> &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;with HRESULT </span><span class="si">{</span><span class="n">hr</span><span class="si">:</span><span class="s2">#x</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"SetDefaultEndpoint failed for role </span><span class="si">{</span><span class="n">role</span><span class="si">}</span><span class="s2"> "</span>
+                    <span class="sa">f</span><span class="s2">"with HRESULT </span><span class="si">{</span><span class="n">hr</span><span class="si">:</span><span class="s2">#x</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span></div>
 </div>
 
