@@ -4,8 +4,6 @@ Verifies examples run as expected.
 
 from unittest import mock
 
-import pytest
-
 from examples import (
     audio_endpoint_volume_example,
     simple_audio_volume_example,
@@ -16,18 +14,40 @@ from tests.test_core import captured_output
 
 
 class TestExamples:
-    @pytest.mark.skip(reason="Currently failing in the CI")
     def test_audio_endpoint_volume_example(self):
-        with captured_output() as (out, err):
-            audio_endpoint_volume_example.main()
-        output = out.getvalue()
-        lines = output.split("\n")
-        assert lines[0].startswith("Device found: ")
-        assert lines[1] == "volume.GetMute(): 0"
-        assert lines[2] == "volume.GetMasterVolumeLevel(): -20.0"
-        assert lines[3] == "volume.GetVolumeRange(): (-95.25, 0.0, 0.75)"
-        assert lines[4] == "volume.SetMasterVolumeLevel()"
-        assert lines[5] == "volume.GetMasterVolumeLevel(): -20.0"
+        volume = mock.Mock(
+            spec_set=[
+                "GetMute",
+                "GetMasterVolumeLevel",
+                "GetVolumeRange",
+                "SetMasterVolumeLevel",
+            ]
+        )
+        volume.GetMute.return_value = 0
+        volume.GetMasterVolumeLevel.side_effect = [-10.0, -20.0]
+        volume.GetVolumeRange.return_value = (-96.0, 0.0, 1.5)
+        device = mock.Mock(spec_set=["FriendlyName", "EndpointVolume"])
+        device.FriendlyName = "Mock speakers"
+        device.EndpointVolume = volume
+
+        with mock.patch.object(
+            audio_endpoint_volume_example.AudioUtilities,
+            "GetSpeakers",
+            return_value=device,
+        ) as get_speakers:
+            with captured_output() as (out, err):
+                audio_endpoint_volume_example.main()
+
+        assert out.getvalue().splitlines() == [
+            "Device found: Mock speakers",
+            "volume.GetMute(): 0",
+            "volume.GetMasterVolumeLevel(): -10.0",
+            "volume.GetVolumeRange(): (-96.0, 0.0, 1.5)",
+            "volume.SetMasterVolumeLevel()",
+            "volume.GetMasterVolumeLevel(): -20.0",
+        ]
+        get_speakers.assert_called_once_with()
+        volume.SetMasterVolumeLevel.assert_called_once_with(-20.0, None)
 
     def test_simple_audio_volume_example(self):
         with captured_output() as (out, err):
