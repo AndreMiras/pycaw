@@ -365,7 +365,10 @@ the client hadn’t called the setter method before.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.Process">
 <span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Process</span></span><a class="headerlink" href="#pycaw.pycaw.AudioSession.Process" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Return the session’s process, or <code class="docutils literal notranslate"><span class="pre">None</span></code> when it has no process.</p>
+<p>The special Windows System Sounds session has process ID 0, so it does
+not have an associated <code class="xref py py-class docutils literal notranslate"><span class="pre">psutil.Process</span></code>.</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pycaw.pycaw.AudioSession.ProcessId">
