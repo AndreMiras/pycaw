@@ -113,6 +113,11 @@ class AudioSession:
 
     @property
     def Process(self):
+        """Return the session's process, or ``None`` when it has no process.
+
+        The special Windows System Sounds session has process ID 0, so it does
+        not have an associated :class:`psutil.Process`.
+        """
         if self._process is None and self.ProcessId != 0:
             try:
                 self._process = psutil.Process(self.ProcessId)
