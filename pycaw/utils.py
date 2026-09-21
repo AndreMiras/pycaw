@@ -1,8 +1,8 @@
 import warnings
+from _ctypes import COMError
 
 import comtypes
 import psutil
-from _ctypes import COMError
 
 from pycaw.api.audioclient import IChannelAudioVolume, ISimpleAudioVolume
 from pycaw.api.audiopolicy import IAudioSessionControl2, IAudioSessionManager2
@@ -13,11 +13,11 @@ from pycaw.constants import (
     DEVICE_STATE,
     STGM,
     AudioDeviceState,
+    CLSID_CPolicyConfigClient,
     CLSID_MMDeviceEnumerator,
     EDataFlow,
     ERole,
     IID_Empty,
-    CLSID_CPolicyConfigClient,
 )
 
 
@@ -43,6 +43,14 @@ class AudioDevice:
             "{a45c254e-df1c-4efd-8020-67d146a850e0} 14".upper()
         )
         value = self.properties.get(DEVPKEY_Device_FriendlyName)
+
+        # Fallback to DeviceDesc if FriendlyName is unavailable
+        if value is None or (isinstance(value, str) and not value):
+            DEVPKEY_Device_DeviceDesc = (
+                "{a45c254e-df1c-4efd-8020-67d146a850e0} 2".upper()
+            )
+            value = self.properties.get(DEVPKEY_Device_DeviceDesc)
+
         return value
 
     @property
@@ -53,6 +61,24 @@ class AudioDevice:
             )
             self._volume = iface.QueryInterface(IAudioEndpointVolume)
         return self._volume
+
+    @property
+    def volume_percent(self):
+        """
+        Master volume of this device as a percentage (0.0-100.0), the same
+        scale the Windows volume mixer shows.
+
+        Convenience wrapper around `GetMasterVolumeLevelScalar()` /
+        `SetMasterVolumeLevelScalar()`, so users don't reach for the decibel
+        based `SetMasterVolumeLevel()` by mistake. The setter clamps the
+        value to the 0-100 range.
+        """
+        return self.EndpointVolume.GetMasterVolumeLevelScalar() * 100
+
+    @volume_percent.setter
+    def volume_percent(self, percent):
+        percent = max(0.0, min(100.0, percent))
+        self.EndpointVolume.SetMasterVolumeLevelScalar(percent / 100, None)
 
     @property
     def AudioSessionManager(self):
@@ -87,6 +113,11 @@ class AudioSession:
 
     @property
     def Process(self):
+        """Return the session's process, or ``None`` when it has no process.
+
+        The special Windows System Sounds session has process ID 0, so it does
+        not have an associated :class:`psutil.Process`.
+        """
         if self._process is None and self.ProcessId != 0:
             try:
                 self._process = psutil.Process(self.ProcessId)
@@ -170,8 +201,9 @@ class AudioSession:
             self._ctl.RegisterAudioSessionNotification(self._callback)
 
     def unregister_notification(self):
-        if self._callback:
+        if self._callback is not None:
             self._ctl.UnregisterAudioSessionNotification(self._callback)
+            self._callback = None
 
 
 class AudioUtilities:
@@ -266,8 +298,9 @@ class AudioUtilities:
         return AudioDevice(id, audioState, properties, dev)
 
     @staticmethod
-    def GetAllDevices(data_flow=EDataFlow.eAll.value,
-                      device_state=DEVICE_STATE.MASK_ALL.value):
+    def GetAllDevices(
+        data_flow=EDataFlow.eAll.value, device_state=DEVICE_STATE.MASK_ALL.value
+    ):
         devices = []
         deviceEnumerator = comtypes.CoCreateInstance(
             CLSID_MMDeviceEnumerator, IMMDeviceEnumerator, comtypes.CLSCTX_INPROC_SERVER
@@ -275,9 +308,7 @@ class AudioUtilities:
         if deviceEnumerator is None:
             return devices
 
-        collection = deviceEnumerator.EnumAudioEndpoints(
-            data_flow, device_state
-        )
+        collection = deviceEnumerator.EnumAudioEndpoints(data_flow, device_state)
         if collection is None:
             return devices
 
@@ -302,9 +333,21 @@ class AudioUtilities:
     def GetEndpointDataFlow(devId, outputType=0):
         """
         Get data flow information of a given endpoint.
-        Two input arguments:
-            - devId: id of the device
-            - outputType: 0 (default) for text, 1 for code.
+
+        Parameters
+        ----------
+        devId : str
+            ID of the device to query
+        outputType : int, optional
+            Output format: 0 (default) returns text representation,
+            1 returns numeric code
+
+        Returns
+        -------
+        str or int
+            Data flow direction. If outputType=0, returns one of:
+            "eRender", "eCapture", "eAll", "EDataFlow_enum_count".
+            If outputType=1, returns the numeric value (0-3).
         """
         DataFlow = ["eRender", "eCapture", "eAll", "EDataFlow_enum_count"]
         devEnum = AudioUtilities.GetDeviceEnumerator()
@@ -319,11 +362,34 @@ class AudioUtilities:
     def SetDefaultDevice(devId, roles=None):
         if roles is None:
             roles = [ERole.eConsole]
-        policy_config = comtypes.CoCreateInstance(
-            CLSID_CPolicyConfigClient, IPolicyConfig, comtypes.CLSCTX_ALL
-        )
+
+        # Try newer IPolicyConfig first, fall back to Vista interface if unavailable
+        policy_config = None
+        try:
+            policy_config = comtypes.CoCreateInstance(
+                CLSID_CPolicyConfigClient, IPolicyConfig, comtypes.CLSCTX_ALL
+            )
+        except (OSError, comtypes.COMError):
+            # Windows Vista/7 may only have IPolicyConfigVista
+            try:
+                from pycaw.api.policyconfig import IPolicyConfigVista
+
+                policy_config = comtypes.CoCreateInstance(
+                    CLSID_CPolicyConfigClient,
+                    IPolicyConfigVista,
+                    comtypes.CLSCTX_ALL,
+                )
+            except (OSError, comtypes.COMError) as e:
+                raise OSError(
+                    f"Failed to create PolicyConfig interface. "
+                    f"This feature requires Windows Vista or later. "
+                    f"Original error: {e}"
+                )
+
         for role in roles:
             hr = policy_config.SetDefaultEndpoint(devId, role.value)
             if hr != 0:
-                raise OSError(f"SetDefaultEndpoint failed for role {role} "
-                              f"with HRESULT {hr:#x}")
+                raise OSError(
+                    f"SetDefaultEndpoint failed for role {role} "
+                    f"with HRESULT {hr:#x}"
+                )

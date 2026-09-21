@@ -1,12 +1,139 @@
 import warnings
 from unittest import mock
 
-from pycaw.magic import MagicApp, MagicManager, MagicSession
+import psutil
+import pytest
+
+from pycaw.magic import MagicApp, MagicManager, MagicSession, _MagicRootSession
 
 
 def patch_atexit_register():
     """Prevent MagicManager.clean_up() call as it seems to misbehave with tests."""
     return mock.patch("atexit.register")
+
+
+def make_root_session_receiver(activated=True, volume=0.25, mute=0):
+    receiver = mock.Mock(
+        spec_set=[
+            "_activated",
+            "volume",
+            "mute",
+            "app_exec",
+            "magic_app",
+            "magic_session",
+            "_send_callback",
+        ]
+    )
+    receiver._activated = activated
+    receiver.volume = volume
+    receiver.mute = mute
+    receiver.app_exec = "test.exe"
+    receiver.magic_app = mock.sentinel.magic_app
+    receiver.magic_session = mock.sentinel.magic_session
+    receiver._send_callback = mock.Mock()
+    return receiver
+
+
+class TestMagicRootSession:
+    def test_get_app_exec(self):
+        receiver = mock.Mock(_ctl2=mock.Mock())
+        receiver._ctl2.GetProcessId.return_value = 42
+
+        with mock.patch("pycaw.magic.psutil.Process") as process:
+            process.return_value.name.return_value = "test.exe"
+            app_exec = _MagicRootSession._get_app_exec(receiver)
+
+        assert app_exec == "test.exe"
+        process.assert_called_once_with(42)
+
+    def test_get_app_exec_process_exited(self):
+        receiver = mock.Mock(_ctl2=mock.Mock())
+        receiver._ctl2.GetProcessId.return_value = 42
+
+        with mock.patch(
+            "pycaw.magic.psutil.Process", side_effect=psutil.NoSuchProcess(42)
+        ):
+            app_exec = _MagicRootSession._get_app_exec(receiver)
+
+        assert app_exec is None
+
+    def test_get_app_exec_system_sounds(self):
+        receiver = mock.Mock(_ctl2=mock.Mock())
+        receiver._ctl2.GetProcessId.return_value = 0
+        receiver._ctl2.IsSystemSoundsSession.return_value = 0
+
+        app_exec = _MagicRootSession._get_app_exec(receiver)
+
+        assert app_exec == "SndVol.exe"
+
+    def test_get_app_exec_unidentified_processless_session(self):
+        receiver = mock.Mock(_ctl2=mock.Mock())
+        receiver._ctl2.GetProcessId.return_value = 0
+        receiver._ctl2.IsSystemSoundsSession.return_value = 1
+
+        with pytest.raises(ValueError, match="unidentified app"):
+            _MagicRootSession._get_app_exec(receiver)
+
+    def test_volume_change(self):
+        receiver = make_root_session_receiver()
+        event_context = mock.sentinel.event_context
+
+        _MagicRootSession.OnSimpleVolumeChanged(receiver, 0.75, 0, event_context)
+
+        assert receiver.volume == 0.75
+        assert receiver.mute == 0
+        assert receiver._send_callback.call_args_list == [
+            mock.call(receiver.magic_app, "volume_callback", event_context, 0.75),
+            mock.call(receiver.magic_session, "volume_callback", event_context, 0.75),
+        ]
+
+    def test_mute_change(self):
+        receiver = make_root_session_receiver()
+        event_context = mock.sentinel.event_context
+
+        _MagicRootSession.OnSimpleVolumeChanged(receiver, 0.25, 1, event_context)
+
+        assert receiver.volume == 0.25
+        assert receiver.mute == 1
+        assert receiver._send_callback.call_args_list == [
+            mock.call(receiver.magic_app, "mute_callback", event_context, 1),
+            mock.call(receiver.magic_session, "mute_callback", event_context, 1),
+        ]
+
+    def test_combined_volume_and_mute_change(self):
+        receiver = make_root_session_receiver()
+        event_context = mock.sentinel.event_context
+
+        _MagicRootSession.OnSimpleVolumeChanged(receiver, 0.75, 1, event_context)
+
+        assert receiver.volume == 0.75
+        assert receiver.mute == 1
+        assert receiver._send_callback.call_args_list == [
+            mock.call(receiver.magic_app, "volume_callback", event_context, 0.75),
+            mock.call(receiver.magic_session, "volume_callback", event_context, 0.75),
+            mock.call(receiver.magic_app, "mute_callback", event_context, 1),
+            mock.call(receiver.magic_session, "mute_callback", event_context, 1),
+        ]
+
+    def test_unchanged_volume_and_mute(self):
+        receiver = make_root_session_receiver()
+
+        _MagicRootSession.OnSimpleVolumeChanged(
+            receiver, 0.25, 0, mock.sentinel.event_context
+        )
+
+        receiver._send_callback.assert_not_called()
+
+    def test_inactive_session_ignores_changes(self):
+        receiver = make_root_session_receiver(activated=False)
+
+        _MagicRootSession.OnSimpleVolumeChanged(
+            receiver, 0.75, 1, mock.sentinel.event_context
+        )
+
+        assert receiver.volume == 0.25
+        assert receiver.mute == 0
+        receiver._send_callback.assert_not_called()
 
 
 class TestMagic:

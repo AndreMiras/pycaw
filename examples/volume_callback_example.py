@@ -4,6 +4,7 @@ The OnNotify() callback method gets called on volume change.
 """
 
 from comtypes import COMObject
+
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolumeCallback
 
 

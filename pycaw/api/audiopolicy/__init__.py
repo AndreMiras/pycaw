@@ -51,7 +51,7 @@ class IAudioSessionEvents(IUnknown):
             HRESULT,
             "OnChannelVolumeChanged",
             (["in"], DWORD, "ChannelCount"),
-            (["in"], (c_float * 8), "NewChannelVolumeArray"),
+            (["in"], POINTER(c_float), "NewChannelVolumeArray"),
             (["in"], DWORD, "ChangedChannel"),
             (["in"], POINTER(GUID), "EventContext"),
         ),
@@ -153,6 +153,7 @@ class IAudioSessionControl2(IAudioSessionControl):
         # HRESULT GetProcessId([out] DWORD *pRetVal);
         COMMETHOD([], HRESULT, "GetProcessId", (["out"], POINTER(DWORD), "pRetVal")),
         # HRESULT IsSystemSoundsSession();
+        # S_OK (0) means this is the System Sounds session; S_FALSE (1) means it is not.
         COMMETHOD([], HRESULT, "IsSystemSoundsSession"),
         # HRESULT SetDuckingPreference([in] BOOL optOut);
         COMMETHOD([], HRESULT, "SetDuckingPreferences", (["in"], BOOL, "optOut")),

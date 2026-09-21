@@ -2,17 +2,19 @@
 Example to list and switch devices.
 """
 
-from pycaw.constants import EDataFlow, DEVICE_STATE
+import warnings
+
+from pycaw.constants import DEVICE_STATE, EDataFlow
 from pycaw.pycaw import AudioUtilities
 from pycaw.utils import AudioDevice
-import warnings
 
 
 def get_active_output_devices():
     with warnings.catch_warnings():  # suppress COMError warnings
         warnings.simplefilter("ignore", UserWarning)
-        return AudioUtilities.GetAllDevices(data_flow=EDataFlow.eRender.value,
-                                            device_state=DEVICE_STATE.ACTIVE.value)
+        return AudioUtilities.GetAllDevices(
+            data_flow=EDataFlow.eRender.value, device_state=DEVICE_STATE.ACTIVE.value
+        )
 
 
 def get_default_device():

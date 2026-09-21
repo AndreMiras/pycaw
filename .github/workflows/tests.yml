@@ -6,8 +6,8 @@ jobs:
   linter:
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
       - run: pip install tox
       - run: tox -e lint-check
   test:
@@ -17,12 +17,21 @@ jobs:
         python: ['3.8', '3.9', '3.10', '3.11', '3.12']
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Start audio server
         run: net start audiosrv
+      - name: Download virtual audio device (Scream)
+        timeout-minutes: 3
+        env:
+          VERSION: '4.0'
+        shell: powershell
+        run: |
+          Invoke-WebRequest https://github.com/duncanthrax/scream/releases/download/${{ env.VERSION }}/Scream${{ env.VERSION }}.zip -OutFile Scream${{ env.VERSION }}.zip
+          Expand-Archive -Path Scream${{ env.VERSION }}.zip -DestinationPath Scream
       - name: Disable time sync with Hyper-V & setting system date time
         # TODO: Remove the time workaround when virtual audio device certificate is valid again, refs:
         # https://github.com/duncanthrax/scream/issues/202
+        # Note: Time is only manipulated for driver installation. Download occurs before time manipulation.
         run: |
           Set-Service -Name vmictimesync -Status stopped -StartupType disabled
           Set-ItemProperty HKLM:\SYSTEM\CurrentControlSet\services\W32Time\Parameters -Name 'Type' -Value 'NoSync'
@@ -33,8 +42,6 @@ jobs:
           VERSION: '4.0'
         shell: powershell
         run: |
-          Invoke-WebRequest https://github.com/duncanthrax/scream/releases/download/${{ env.VERSION }}/Scream${{ env.VERSION }}.zip -OutFile Scream${{ env.VERSION }}.zip
-          Expand-Archive -Path Scream${{ env.VERSION }}.zip -DestinationPath Scream
           Import-Certificate -FilePath Scream\Install\driver\x64\scream.cat -CertStoreLocation Cert:\LocalMachine\TrustedPublisher
           Scream\Install\helpers\devcon-x64.exe install Scream\Install\driver\x64\Scream.inf *Scream
       - name: Resetting system date time
@@ -42,7 +49,7 @@ jobs:
           Set-Service -Name vmictimesync -Status running -StartupType automatic
           Set-ItemProperty HKLM:\SYSTEM\CurrentControlSet\services\W32Time\Parameters -Name 'Type' -Value 'NTP'
           net start w32time; w32tm /resync /force; $currentDate = Get-Date; Write-Host "Current System Date: $currentDate";
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python }}
       - run: pip install tox

@@ -2,15 +2,17 @@
 Verifies core features run as expected.
 """
 
+import _ctypes
 import sys
 import warnings
 from contextlib import contextmanager
 from io import StringIO
 from unittest import mock
 
-import _ctypes
+import pytest
 
 from pycaw.pycaw import AudioDeviceState, AudioUtilities
+from pycaw.utils import AudioDevice, AudioSession
 
 
 @contextmanager
@@ -66,3 +68,66 @@ class TestCore:
         for _ in range(100):
             sessions = AudioUtilities.GetAllSessions()
             assert len(sessions) > 0
+
+    def test_volume_percent(self):
+        """
+        volume_percent maps to the endpoint volume scalar (0-100 <-> 0.0-1.0)
+        and the setter clamps out of range values, refs:
+        https://github.com/AndreMiras/pycaw/issues/13
+        """
+        device = AudioDevice("id", AudioDeviceState.Active, {}, mock.Mock())
+        endpoint = mock.Mock()
+        endpoint.GetMasterVolumeLevelScalar = mock.Mock(return_value=0.25)
+        device._volume = endpoint
+        assert device.volume_percent == 25.0
+        device.volume_percent = 50
+        endpoint.SetMasterVolumeLevelScalar.assert_called_with(0.5, None)
+        device.volume_percent = 150
+        endpoint.SetMasterVolumeLevelScalar.assert_called_with(1.0, None)
+        device.volume_percent = -10
+        endpoint.SetMasterVolumeLevelScalar.assert_called_with(0.0, None)
+
+    def test_audio_session_notification_lifecycle(self):
+        control = mock.Mock()
+        session = AudioSession(control)
+        first_callback = mock.sentinel.first_callback
+        second_callback = mock.sentinel.second_callback
+
+        assert session._callback is None
+
+        session.register_notification(first_callback)
+        control.RegisterAudioSessionNotification.assert_called_once_with(first_callback)
+        assert session._callback is first_callback
+
+        session.unregister_notification()
+        control.UnregisterAudioSessionNotification.assert_called_once_with(
+            first_callback
+        )
+        assert session._callback is None
+
+        session.unregister_notification()
+        control.UnregisterAudioSessionNotification.assert_called_once_with(
+            first_callback
+        )
+
+        session.register_notification(second_callback)
+        assert control.RegisterAudioSessionNotification.call_args_list == [
+            mock.call(first_callback),
+            mock.call(second_callback),
+        ]
+        assert session._callback is second_callback
+
+    def test_audio_session_keeps_callback_when_unregister_fails(self):
+        control = mock.Mock()
+        session = AudioSession(control)
+        callback = mock.sentinel.callback
+        session.register_notification(callback)
+        control.UnregisterAudioSessionNotification.side_effect = RuntimeError(
+            "unregister failed"
+        )
+
+        with pytest.raises(RuntimeError, match="unregister failed"):
+            session.unregister_notification()
+
+        control.UnregisterAudioSessionNotification.assert_called_once_with(callback)
+        assert session._callback is callback
