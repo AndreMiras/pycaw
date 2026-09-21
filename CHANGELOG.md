@@ -1,7 +1,19 @@
 # Change Log
 
-## [Unreleased]
-    - Add AudioDevice.volume_percent property for percentage based master volume, refs #13 (@ahmetberber)
+## [20260921]
+    - Add AudioDevice.volume_percent property for percentage-based master volume, refs #13, #109 (@ahmetberber)
+    - Improve PROPVARIANT compatibility, device friendly-name fallback, and default-device switching on older Windows versions, refs #108 (@AndreMiras)
+    - Fix endpoint and session callbacks for devices with variable channel counts, including more than eight channels (@AndreMiras)
+    - Fix Magic callbacks when volume and mute change in the same notification (@AndreMiras)
+    - Fix audio session callback unregistration and re-registration, refs #99 (@AndreMiras)
+    - Handle audio session processes that exit during Magic session discovery (@AndreMiras)
+    - Add Sphinx documentation, API and example references, and GitHub Pages publishing (@AndreMiras)
+    - Document System Sounds sessions having no associated process, refs #14 (@AndreMiras)
+    - Make example tests deterministic and prevent them from changing host audio state, refs #65 (@AndreMiras)
+    - Improve CI reliability, linting, and automated dependency maintenance (@AndreMiras)
+    - Update documentation and GitHub Actions dependencies, refs #110, #111, #113, #114, #116, #117 (@dependabot)
+
+## [20251023]
     - Add SetDefaultDevice functionality to switch default audio devices, refs #49, #103 (@bdieudonne)
     - Add policyconfig API module (IPolicyConfig) for device management, refs #103 (@bdieudonne)
     - Add GetAllDevices() filters for data_flow and device_state, refs #103 (@bdieudonne)
