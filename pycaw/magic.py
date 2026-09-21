@@ -816,15 +816,10 @@ class _MagicRootSession(COMObject):
         self.pid = self._ctl2.GetProcessId()
 
         if self.pid != 0:
-            # try:
-            return psutil.Process(self.pid).name()
-            # except psutil.NoSuchProcess:
-            # for some reason GetProcessId returned an non existing pid
-
-            # TODO:
-            # i didnt wrote the initial try, except psutil.NoSuchProcess:
-            # but that should not happen right?
-            # i never had an issue with a non existing process (besides the 0)
+            try:
+                return psutil.Process(self.pid).name()
+            except psutil.NoSuchProcess:
+                return None
 
         # System Sound:
         # self._ctl2.GetDisplayName() returns:

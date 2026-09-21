@@ -1,6 +1,9 @@
 import warnings
 from unittest import mock
 
+import psutil
+import pytest
+
 from pycaw.magic import MagicApp, MagicManager, MagicSession, _MagicRootSession
 
 
@@ -32,6 +35,45 @@ def make_root_session_receiver(activated=True, volume=0.25, mute=0):
 
 
 class TestMagicRootSession:
+    def test_get_app_exec(self):
+        receiver = mock.Mock(_ctl2=mock.Mock())
+        receiver._ctl2.GetProcessId.return_value = 42
+
+        with mock.patch("pycaw.magic.psutil.Process") as process:
+            process.return_value.name.return_value = "test.exe"
+            app_exec = _MagicRootSession._get_app_exec(receiver)
+
+        assert app_exec == "test.exe"
+        process.assert_called_once_with(42)
+
+    def test_get_app_exec_process_exited(self):
+        receiver = mock.Mock(_ctl2=mock.Mock())
+        receiver._ctl2.GetProcessId.return_value = 42
+
+        with mock.patch(
+            "pycaw.magic.psutil.Process", side_effect=psutil.NoSuchProcess(42)
+        ):
+            app_exec = _MagicRootSession._get_app_exec(receiver)
+
+        assert app_exec is None
+
+    def test_get_app_exec_system_sounds(self):
+        receiver = mock.Mock(_ctl2=mock.Mock())
+        receiver._ctl2.GetProcessId.return_value = 0
+        receiver._ctl2.IsSystemSoundsSession.return_value = 0
+
+        app_exec = _MagicRootSession._get_app_exec(receiver)
+
+        assert app_exec == "SndVol.exe"
+
+    def test_get_app_exec_unidentified_processless_session(self):
+        receiver = mock.Mock(_ctl2=mock.Mock())
+        receiver._ctl2.GetProcessId.return_value = 0
+        receiver._ctl2.IsSystemSoundsSession.return_value = 1
+
+        with pytest.raises(ValueError, match="unidentified app"):
+            _MagicRootSession._get_app_exec(receiver)
+
     def test_volume_change(self):
         receiver = make_root_session_receiver()
         event_context = mock.sentinel.event_context
