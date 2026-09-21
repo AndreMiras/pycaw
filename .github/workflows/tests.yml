@@ -6,7 +6,7 @@ jobs:
   linter:
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
       - run: pip install tox
       - run: tox -e lint-check
@@ -17,7 +17,7 @@ jobs:
         python: ['3.8', '3.9', '3.10', '3.11', '3.12']
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Start audio server
         run: net start audiosrv
       - name: Download virtual audio device (Scream)
