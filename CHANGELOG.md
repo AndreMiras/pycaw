@@ -1,5 +1,8 @@
 # Change Log
 
+## [Unreleased]
+    - Drop Python 3.8 and 3.9, support Python 3.10-3.12, and declare tested comtypes and psutil minimum versions (@AndreMiras)
+
 ## [20260921]
     - Add AudioDevice.volume_percent property for percentage-based master volume, refs #13, #109 (@ahmetberber)
     - Improve PROPVARIANT compatibility, device friendly-name fallback, and default-device switching on older Windows versions, refs #108 (@AndreMiras)

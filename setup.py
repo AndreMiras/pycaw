@@ -5,11 +5,11 @@ from setuptools import find_packages, setup
 
 
 def read(fname):
-    with open(os.path.join(os.path.dirname(__file__), fname)) as f:
+    with open(os.path.join(os.path.dirname(__file__), fname), encoding="utf-8") as f:
         return f.read()
 
 
-install_requires = ["comtypes", "psutil"]
+install_requires = ["comtypes>=1.1.11", "psutil>=5.9.0"]
 setup(
     name="pycaw",
     version="20260921.dev0",
@@ -19,5 +19,15 @@ setup(
     author="Andre Miras",
     url="https://github.com/AndreMiras/pycaw",
     packages=find_packages(exclude=("tests", "examples")),
+    python_requires=">=3.10",
+    platforms=["Windows"],
+    classifiers=[
+        "Operating System :: Microsoft :: Windows",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+    ],
     install_requires=install_requires,
 )
