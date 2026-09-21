@@ -201,8 +201,9 @@ class AudioSession:
             self._ctl.RegisterAudioSessionNotification(self._callback)
 
     def unregister_notification(self):
-        if self._callback:
+        if self._callback is not None:
             self._ctl.UnregisterAudioSessionNotification(self._callback)
+            self._callback = None
 
 
 class AudioUtilities:
