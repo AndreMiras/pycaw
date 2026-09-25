@@ -7,7 +7,7 @@ Requirements
 ------------
 
 - **Operating System**: Windows (7, 8, 10, 11, Server editions)
-- **Python**: 3.10 through 3.12
+- **Python**: 3.10 through 3.14
 - **Visual C++ Build Tools**: Required for comtypes compilation
 
 Installation

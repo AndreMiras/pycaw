@@ -13,8 +13,9 @@ jobs:
   test:
     runs-on: windows-2022
     strategy:
+      fail-fast: false
       matrix:
-        python: ['3.10', '3.11', '3.12']
+        python: ['3.10', '3.11', '3.12', '3.13', '3.14']
 
     steps:
       - uses: actions/checkout@v7
@@ -53,9 +54,9 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: pip install tox
-      - run: tox -e py
+      - run: tox -e py-minimum,py-current
       - name: Run Coverage
-        if: matrix.python == '3.12'
+        if: matrix.python == '3.14'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: tox -e coveralls

@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@v7
     - uses: actions/setup-python@v7
       with:
-        python-version: '3.12'
+        python-version: '3.14'
     - name: Install dependencies
       run: python -m pip install --upgrade setuptools wheel twine
     - name: Build

@@ -9,7 +9,7 @@ def read(fname):
         return f.read()
 
 
-install_requires = ["comtypes>=1.1.11", "psutil>=5.9.0"]
+install_requires = ["comtypes>=1.4.8", "psutil>=5.9.0"]
 setup(
     name="pycaw",
     version="20260921.dev0",
@@ -28,6 +28,8 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
     ],
     install_requires=install_requires,
 )

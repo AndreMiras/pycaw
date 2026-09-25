@@ -14,7 +14,7 @@ It allows programmatic access to audio sessions, volume control, and sound devic
 > It is built specifically for Windows using Core Audio APIs.
 > If you're looking for similar functionality on other platforms, you'll need alternative libraries.
 
-Pycaw currently supports Python 3.10 through 3.12 on Windows. Supported
+Pycaw currently supports Python 3.10 through 3.14 on Windows. Supported
 Python versions are stable, non-EOL releases that have passed the project's
 Windows test matrix; newer Python releases are added after compatibility
 validation.
