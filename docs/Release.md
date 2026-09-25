@@ -1,34 +1,57 @@
 # How to release
 
-This is documenting the release process.
+This document describes the release process.
 
 
-## Git flow & CHANGELOG.md
+## Main branch & CHANGELOG.md
 
-Make sure the CHANGELOG.md is up to date and follows the https://keepachangelog.com guidelines.
-Start the release with git flow:
+Releases use calendar versions in `YYYYMMDD` format. Start from an up-to-date
+`main` branch:
+
 ```batch
-git flow release start vYYYYMMDD
+git switch main
+git pull --ff-only origin main
 ```
-Now update the [CHANGELOG.md](/CHANGELOG.md) `[Unreleased]` section to match the new release version.
-Also update the `version` string in the [setup.py](/setup.py) file. Then commit and finish release.
+
+Make sure [CHANGELOG.md](/CHANGELOG.md) is up to date and follows the
+https://keepachangelog.com guidelines. Rename its `[Unreleased]` section to
+`[YYYYMMDD]`, then set the `version` string in [setup.py](/setup.py) to
+`YYYYMMDD`.
+
+Run the test, lint, and package checks before committing:
+
 ```batch
-git commit -a -m ":bookmark: vYYYYMMDD"
-git flow release finish
+tox
+tox -e lint-check
+python setup.py sdist bdist_wheel
+python -m twine check dist/*
 ```
-Push everything, make sure tags are also pushed:
+
+Commit and push the release preparation to `main`:
+
 ```batch
-git push
-git push origin main:main
-git push --tags
+git add CHANGELOG.md setup.py
+git commit -m ":bookmark: vYYYYMMDD"
+git push origin main
+```
+
+Wait for the `main` branch workflows to pass. Tag that verified commit with an
+annotated tag, then push only the new tag:
+
+```batch
+git tag -a vYYYYMMDD -m "vYYYYMMDD"
+git push origin vYYYYMMDD
 ```
 
 ## Publish to PyPI
-This process is handled automatically by [GitHub Actions](https://github.com/AndreMiras/pycaw/actions/workflows/pypi-release.yml).
+Pushing the version tag triggers publication automatically through
+[GitHub Actions](https://github.com/AndreMiras/pycaw/actions/workflows/pypi-release.yml).
+Confirm that its build, Twine check, and upload steps pass.
 If needed below are the instructions to perform it manually.
 Build it:
 ```batch
 python setup.py sdist bdist_wheel
+python -m twine check dist/*
 ```
 Check archive content:
 ```batch
@@ -36,13 +59,23 @@ tar -tvf dist\pycaw-*.tar.gz
 ```
 Upload:
 ```batch
-twine upload dist\pycaw-*.tar.gz
+python -m twine upload dist/*
 ```
 
 ## GitHub
 
-Got to GitHub [Release/Tags](https://github.com/AndreMiras/pycaw/tags), click "Add release notes" for the tag just created.
-Add the tag name in the "Release title" field and the relevant CHANGELOG.md section in the "Describe this release" textarea field.
+Go to GitHub [Release/Tags](https://github.com/AndreMiras/pycaw/tags) and click
+"Add release notes" for the tag just created. Add the tag name in the "Release
+title" field and the relevant CHANGELOG.md section in the "Describe this
+release" field.
 
 ## Post release
-Update the [setup.py](/setup.py) `version string` with `YYYYMMDD.dev0`.
+Add a new `[Unreleased]` section to [CHANGELOG.md](/CHANGELOG.md), update the
+[setup.py](/setup.py) version string to `YYYYMMDD.dev0`, then commit and push
+the next development version:
+
+```batch
+git add CHANGELOG.md setup.py
+git commit -m ":construction: Post release dev0"
+git push origin main
+```
