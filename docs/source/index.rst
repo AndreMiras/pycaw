@@ -5,8 +5,8 @@ Pycaw - Python Core Audio Windows
    :target: https://github.com/AndreMiras/pycaw/actions/workflows/tests.yml
    :alt: Tests
 
-.. image:: https://coveralls.io/repos/github/AndreMiras/pycaw/badge.svg?branch=develop
-   :target: https://coveralls.io/github/AndreMiras/pycaw?branch=develop
+.. image:: https://coveralls.io/repos/github/AndreMiras/pycaw/badge.svg?branch=main
+   :target: https://coveralls.io/github/AndreMiras/pycaw?branch=main
    :alt: Coverage
 
 .. image:: https://badge.fury.io/py/pycaw.svg
@@ -30,7 +30,7 @@ Latest stable release::
 
 Development branch::
 
-    pip install https://github.com/AndreMiras/pycaw/archive/develop.zip
+    pip install https://github.com/AndreMiras/pycaw/archive/main.zip
 
 System requirements::
 

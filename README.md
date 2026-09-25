@@ -1,7 +1,7 @@
 # Pycaw (Python Core Audio Windows)
 
 [![Tests](https://github.com/AndreMiras/pycaw/actions/workflows/tests.yml/badge.svg)](https://github.com/AndreMiras/pycaw/actions/workflows/tests.yml)
-[![Coverage Status](https://coveralls.io/repos/github/AndreMiras/pycaw/badge.svg?branch=develop)](https://coveralls.io/github/AndreMiras/pycaw?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/AndreMiras/pycaw/badge.svg?branch=main)](https://coveralls.io/github/AndreMiras/pycaw?branch=main)
 [![PyPI release](https://github.com/AndreMiras/pycaw/workflows/PyPI%20release/badge.svg)](https://github.com/AndreMiras/pycaw/actions/workflows/pypi-release.yml)
 [![PyPI version](https://badge.fury.io/py/pycaw.svg)](https://badge.fury.io/py/pycaw)
 [![Documentation](https://img.shields.io/badge/docs-github%20pages-blue)](https://andremiras.github.io/pycaw/)
@@ -29,7 +29,7 @@ pip install pycaw
 
 Development branch:
 ```bat
-pip install https://github.com/AndreMiras/pycaw/archive/develop.zip
+pip install https://github.com/AndreMiras/pycaw/archive/main.zip
 ```
 
 System requirements:

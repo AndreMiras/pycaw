@@ -19,7 +19,7 @@ Install from PyPI::
 
 Install development version::
 
-    pip install https://github.com/AndreMiras/pycaw/archive/develop.zip
+    pip install https://github.com/AndreMiras/pycaw/archive/main.zip
 
 Basic Usage
 -----------
