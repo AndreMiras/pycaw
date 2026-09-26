@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pycaw"
-version = "20260927"
+version = "20260927.dev0"
 description = "Python Core Audio Windows Library"
 readme = "README.md"
 requires-python = ">=3.10"

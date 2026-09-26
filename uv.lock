@@ -873,7 +873,7 @@ wheels = [
 
 [[package]]
 name = "pycaw"
-version = "20260927"
+version = "20260927.dev0"
 source = { editable = "." }
 dependencies = [
     { name = "comtypes" },
