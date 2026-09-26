@@ -9,18 +9,20 @@ Releases use calendar versions in `YYYYMMDD` format. Start from an up-to-date
 `main` branch:
 
 ```batch
+set VERSION=YYYYMMDD
 git switch main
 git pull --ff-only origin main
 ```
 
 Make sure [CHANGELOG.md](/CHANGELOG.md) is up to date and follows the
-https://keepachangelog.com guidelines. Rename its `[Unreleased]` section to
-`[YYYYMMDD]`, then set `[project].version` in
-[pyproject.toml](/pyproject.toml) to `YYYYMMDD`.
+https://keepachangelog.com guidelines. Replace `YYYYMMDD` in `VERSION` with the
+release date, rename the changelog's `[Unreleased]` section to that value, then
+set `[project].version` in [pyproject.toml](/pyproject.toml) to the same value.
 
 Install the locked contributor environment, then run the test and lint checks:
 
 ```batch
+uv lock
 uv sync --locked
 uv run tox
 uv run tox -e lint-check
@@ -38,8 +40,8 @@ tar -tvf dist\pycaw-*.tar.gz
 Commit and push the release preparation to `main`:
 
 ```batch
-git add CHANGELOG.md pyproject.toml
-git commit -m ":bookmark: vYYYYMMDD"
+git add CHANGELOG.md pyproject.toml uv.lock
+git commit -m ":bookmark: v%VERSION%"
 git push origin main
 ```
 
@@ -47,8 +49,8 @@ Wait for the `main` branch workflows to pass. Tag that verified commit with an
 annotated tag, then push only the new tag:
 
 ```batch
-git tag -a vYYYYMMDD -m "vYYYYMMDD"
-git push origin vYYYYMMDD
+git tag -a v%VERSION% -m "v%VERSION%"
+git push origin v%VERSION%
 ```
 
 ## Publish to PyPI
@@ -85,11 +87,12 @@ release" field.
 
 ## Post release
 Add a new `[Unreleased]` section to [CHANGELOG.md](/CHANGELOG.md), update the
-`[project].version` in [pyproject.toml](/pyproject.toml) to `YYYYMMDD.dev0`,
+`[project].version` in [pyproject.toml](/pyproject.toml) to `%VERSION%.dev0`,
 then commit and push the next development version:
 
 ```batch
-git add CHANGELOG.md pyproject.toml
+uv lock
+git add CHANGELOG.md pyproject.toml uv.lock
 git commit -m ":construction: Post release dev0"
 git push origin main
 ```
