@@ -3,7 +3,7 @@ Examples
 
 This page provides examples of common Pycaw usage patterns.
 
-All example source files are available in the `examples/ directory <https://github.com/AndreMiras/pycaw/tree/develop/examples>`_ of the repository.
+All example source files are available in the `examples/ directory <https://github.com/AndreMiras/pycaw/tree/main/examples>`_ of the repository.
 
 Audio Endpoint Volume Control
 ------------------------------
@@ -45,4 +45,4 @@ Additional examples are available in the repository:
 - **Magic App Example**: ``magic_app_example.py`` - MTA COM initialization for notifications
 - **Audio Controller Class**: ``audio_controller_class_example.py`` - Object-oriented wrapper example
 
-You can view all examples on `GitHub <https://github.com/AndreMiras/pycaw/tree/develop/examples>`_.
+You can view all examples on `GitHub <https://github.com/AndreMiras/pycaw/tree/main/examples>`_.
