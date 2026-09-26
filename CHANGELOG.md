@@ -2,6 +2,7 @@
 
 ## [Unreleased]
     - Drop Python 3.8 and 3.9, support Python 3.10-3.14, and declare tested comtypes 1.4.8 and psutil 5.9.0 minimum versions (@AndreMiras)
+    - Modernize packaging and development with PEP 621, Ruff, locked uv/Tox tooling, installed-wheel validation, and PyPI Trusted Publishing (@AndreMiras)
 
 ## [20260921]
     - Add AudioDevice.volume_percent property for percentage-based master volume, refs #13, #109 (@ahmetberber)

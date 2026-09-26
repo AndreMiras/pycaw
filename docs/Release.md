@@ -18,13 +18,21 @@ https://keepachangelog.com guidelines. Rename its `[Unreleased]` section to
 `[YYYYMMDD]`, then set `[project].version` in
 [pyproject.toml](/pyproject.toml) to `YYYYMMDD`.
 
-Run the test, lint, and package checks before committing:
+Install the locked contributor environment, then run the test and lint checks:
 
 ```batch
-tox
-tox -e lint-check
-python -m build
-python -m twine check dist/*
+uv sync --locked
+uv run tox
+uv run tox -e lint-check
+```
+
+Build and inspect the distributions with the locked release tools:
+
+```batch
+uv sync --locked --only-group release
+uv run --no-sync python -m build
+uv run --no-sync python -m twine check dist/*
+tar -tvf dist\pycaw-*.tar.gz
 ```
 
 Commit and push the release preparation to `main`:
@@ -44,23 +52,29 @@ git push origin vYYYYMMDD
 ```
 
 ## Publish to PyPI
-Pushing the version tag triggers publication automatically through
-[GitHub Actions](https://github.com/AndreMiras/pycaw/actions/workflows/pypi-release.yml).
-Confirm that its build, Twine check, and upload steps pass.
-If needed below are the instructions to perform it manually.
-Build it:
-```batch
-python -m build
-python -m twine check dist/*
-```
-Check archive content:
-```batch
-tar -tvf dist\pycaw-*.tar.gz
-```
-Upload:
-```batch
-python -m twine upload dist/*
-```
+
+Pushing an exact `vYYYYMMDD` tag triggers the
+[PyPI release workflow](https://github.com/AndreMiras/pycaw/actions/workflows/pypi-release.yml).
+The workflow rejects malformed tags and versions that do not match
+`[project].version`. Its unprivileged Windows job builds and checks one wheel
+and one source archive, then uploads them as the
+`python-package-distributions` Actions artifact. A separate Linux job downloads
+those unchanged files and publishes through PyPI Trusted Publishing. Only that
+job receives an OIDC identity, and it does not check out or execute repository
+code.
+
+Approve the protected `pypi` GitHub environment if required. After publication:
+
+1. Download the `python-package-distributions` artifact from the workflow run.
+2. Compare its SHA-256 hashes with the files and hashes shown on PyPI.
+3. Confirm the PyPI version, Python requirement, dependencies, classifiers, and
+   project links.
+4. Confirm PyPI displays attestations for both files.
+
+Do not work around a Trusted Publishing failure with a long-lived token. Fix
+the publisher identity, environment, workflow permission, tag, or version as
+indicated by the failed job. If PyPI accepted any file, do not overwrite or
+reuse that immutable version; prepare a new calendar version instead.
 
 ## GitHub
 

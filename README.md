@@ -58,7 +58,7 @@ See more in the [examples](examples/) directory or visit the [documentation](htt
 ## Tests
 
 Create the locked contributor environment and run the compatibility suite. uv
-uses `.python-version` to install/select Python 3.14 and supplies the locked
+uses `.python-version` to install/select Python 3.14 and supplies reproducible
 tools; Tox handles compatibility isolation.
 
 ```bat
@@ -76,10 +76,28 @@ uv run tox -e py314-minimum,py314-current
 Documentation and release tools are opt-in groups:
 
 ```bat
-uv sync --locked --group docs
-uv run --group release --no-default-groups python -m build
+uv sync --locked --no-default-groups --group docs
+uv run --no-sync sphinx-build -M html docs/source docs/_build
+
+uv sync --locked --only-group release
+uv run --no-sync python -m build
+uv run --no-sync python -m twine check dist/*
+```
+
+Check or apply Ruff through the locked Tox environments:
+
+```bat
+uv run tox -e lint-check
+uv run tox -e lint-format
 ```
 
 Maintainers with a separately installed Tox and the tox-uv plugin can still run
 the equivalent `tox` commands directly. See the [tests](tests/) directory for
 the test suite.
+
+The dependency files serve distinct purposes. `[project].dependencies` in
+`pyproject.toml` declares inclusive lower bounds for consumers;
+`requirements.txt` exactly pins the supported minimum test lane; Tox's current
+lane deliberately resolves the newest runtime dependencies; and `uv.lock`
+reproduces normal contributor tools. The lock supplements rather than replaces
+the minimum/current compatibility matrix.
