@@ -8,8 +8,13 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
-      - run: pip install tox
-      - run: tox -e lint-check
+        with:
+          python-version: '3.14'
+      - uses: astral-sh/setup-uv@v10.2.0
+        with:
+          enable-cache: true
+      - run: uv sync --locked --only-group tox --python 3.14
+      - run: uv run --no-sync tox -e lint-check
   test:
     runs-on: windows-2022
     strategy:
@@ -53,10 +58,22 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python }}
-      - run: pip install tox
-      - run: tox -e py-minimum,py-current
+      - uses: astral-sh/setup-uv@v10.2.0
+        with:
+          enable-cache: true
+      - run: uv sync --locked --only-group tox --python ${{ matrix.python }}
+      - run: uv run --no-sync tox -e py-minimum
+      - name: Run current dependencies
+        if: matrix.python != '3.14'
+        run: uv run --no-sync tox -e py-current
+      - name: Run current dependencies with coverage
+        if: matrix.python == '3.14'
+        run: uv run --no-sync tox -e py314-current
+      - name: Run wheel smoke
+        if: matrix.python == '3.14'
+        run: uv run --no-sync tox -e wheel-smoke
       - name: Run Coverage
         if: matrix.python == '3.14'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: tox -e coveralls
+        run: uv run --no-sync tox -e coveralls

@@ -1,4 +1,0 @@
-ruff
-pytest
-pytest-cov
-coveralls

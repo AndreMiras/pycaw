@@ -26,6 +26,25 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 
+[dependency-groups]
+test = ["pytest"]
+coverage = ["pytest-cov"]
+coverage-upload = ["coveralls"]
+lint = ["ruff"]
+docs = [
+  "sphinx>=9.1.0",
+  "sphinx-rtd-theme>=3.1.0",
+  "sphinx-autodoc-typehints>=3.13.7",
+]
+release = ["build", "twine"]
+tox = ["tox", "tox-uv-bare"]
+dev = [
+  { include-group = "test" },
+  { include-group = "coverage" },
+  { include-group = "lint" },
+  { include-group = "tox" },
+]
+
 [project.urls]
 Homepage = "https://github.com/AndreMiras/pycaw"
 Documentation = "https://andremiras.github.io/pycaw/"
@@ -45,3 +64,16 @@ select = ["E4", "E7", "E9", "F", "I"]
 
 [tool.ruff.lint.per-file-ignores]
 "pycaw/magic.py" = ["E402", "I001"]
+
+[tool.coverage.run]
+relative_files = true
+source = ["pycaw"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.uv]
+default-groups = ["dev"]
+
+[tool.uv.dependency-groups]
+docs = { requires-python = ">=3.14" }

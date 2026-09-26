@@ -57,4 +57,29 @@ See more in the [examples](examples/) directory or visit the [documentation](htt
 
 ## Tests
 
-See in the [tests](tests/) directory.
+Create the locked contributor environment and run the compatibility suite. uv
+uses `.python-version` to install/select Python 3.14 and supplies the locked
+tools; Tox handles compatibility isolation.
+
+```bat
+uv sync --locked
+uv run tox
+```
+
+Tox remains responsible for isolating the Python 3.10-3.14 minimum/current
+dependency matrix. To run one interpreter's lanes, use for example:
+
+```bat
+uv run tox -e py314-minimum,py314-current
+```
+
+Documentation and release tools are opt-in groups:
+
+```bat
+uv sync --locked --group docs
+uv run --group release --no-default-groups python -m build
+```
+
+Maintainers with a separately installed Tox and the tox-uv plugin can still run
+the equivalent `tox` commands directly. See the [tests](tests/) directory for
+the test suite.
