@@ -25,9 +25,13 @@ git pull --ff-only origin main
 ```
 
 Make sure [CHANGELOG.md](/CHANGELOG.md) is up to date and follows the
-https://keepachangelog.com guidelines. Replace `YYYYMMDD` in `VERSION` with the
-release date, rename the changelog's `[Unreleased]` section to that value, then
-set `[project].version` in [pyproject.toml](/pyproject.toml) to the same value.
+https://keepachangelog.com guidelines. Set `VERSION` above to the release date
+and rename the changelog's `[Unreleased]` section to that value. Then update
+`[project].version` and the lockfile together:
+
+```console
+uv version "$VERSION" --no-sync
+```
 
 Install the locked contributor environment, then run the test and lint checks:
 
@@ -96,12 +100,11 @@ title" field and the relevant CHANGELOG.md section in the "Describe this
 release" field.
 
 ## Post release
-Add a new `[Unreleased]` section to [CHANGELOG.md](/CHANGELOG.md), update the
-`[project].version` in [pyproject.toml](/pyproject.toml) to `${VERSION}.dev0`,
-then commit and push the next development version:
+Add a new `[Unreleased]` section to [CHANGELOG.md](/CHANGELOG.md), then update
+`[project].version` and the lockfile to the next development version:
 
 ```console
-uv lock
+uv version "${VERSION}.dev0" --no-sync
 git add CHANGELOG.md pyproject.toml uv.lock
 git commit -m ":construction: Post release dev0"
 git push origin main
