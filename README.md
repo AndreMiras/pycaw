@@ -91,6 +91,15 @@ uv run tox -e lint-check
 uv run tox -e lint-format
 ```
 
+Run the initial static type-checking boundary with:
+
+```bat
+uv run tox -e type-check
+```
+
+This check currently covers `pycaw/constants.py`, `pycaw/utils.py`, and the
+static contract fixture under `tests/typecheck`.
+
 Maintainers with a separately installed Tox and the tox-uv plugin can still run
 the equivalent `tox` commands directly. See the [tests](tests/) directory for
 the test suite.

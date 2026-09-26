@@ -1,5 +1,7 @@
 import warnings
 from _ctypes import COMError
+from collections.abc import Iterable
+from typing import Any, Literal, overload
 
 import comtypes
 import psutil
@@ -26,19 +28,25 @@ class AudioDevice:
     https://stackoverflow.com/a/20982715/185510
     """
 
-    def __init__(self, id, state, properties, dev):
+    def __init__(
+        self,
+        id: str,
+        state: AudioDeviceState,
+        properties: dict[str, Any],
+        dev: Any,
+    ) -> None:
         self.id = id
         self.state = state
         self.properties = properties
         self._dev = dev
-        self._volume = None
-        self._audio_session_manager = None
+        self._volume: Any = None
+        self._audio_session_manager: Any = None
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "AudioDevice: %s" % (self.FriendlyName)
 
     @property
-    def FriendlyName(self):
+    def FriendlyName(self) -> str | None:
         DEVPKEY_Device_FriendlyName = (
             "{a45c254e-df1c-4efd-8020-67d146a850e0} 14".upper()
         )
@@ -54,7 +62,7 @@ class AudioDevice:
         return value
 
     @property
-    def EndpointVolume(self):
+    def EndpointVolume(self) -> Any:
         if self._volume is None:
             iface = self._dev.Activate(
                 IAudioEndpointVolume._iid_, comtypes.CLSCTX_ALL, None
@@ -63,7 +71,7 @@ class AudioDevice:
         return self._volume
 
     @property
-    def volume_percent(self):
+    def volume_percent(self) -> float:
         """
         Master volume of this device as a percentage (0.0-100.0), the same
         scale the Windows volume mixer shows.
@@ -76,12 +84,12 @@ class AudioDevice:
         return self.EndpointVolume.GetMasterVolumeLevelScalar() * 100
 
     @volume_percent.setter
-    def volume_percent(self, percent):
+    def volume_percent(self, percent: float) -> None:
         percent = max(0.0, min(100.0, percent))
         self.EndpointVolume.SetMasterVolumeLevelScalar(percent / 100, None)
 
     @property
-    def AudioSessionManager(self):
+    def AudioSessionManager(self) -> Any:
         if self._audio_session_manager is None:
             # win7+ only
             iface = self._dev.Activate(
@@ -96,14 +104,14 @@ class AudioSession:
     https://stackoverflow.com/a/20982715/185510
     """
 
-    def __init__(self, audio_session_control2):
+    def __init__(self, audio_session_control2: Any) -> None:
         self._ctl = audio_session_control2
-        self._process = None
-        self._volume = None
-        self._channelVolume = None
-        self._callback = None
+        self._process: psutil.Process | None = None
+        self._volume: Any = None
+        self._channelVolume: Any = None
+        self._callback: Any = None
 
-    def __str__(self):
+    def __str__(self) -> str:
         s = self.DisplayName
         if s:
             return "DisplayName: " + s
@@ -112,7 +120,7 @@ class AudioSession:
         return "Pid: %s" % (self.ProcessId)
 
     @property
-    def Process(self):
+    def Process(self) -> psutil.Process | None:
         """Return the session's process, or ``None`` when it has no process.
 
         The special Windows System Sounds session has process ID 0, so it does
@@ -127,35 +135,35 @@ class AudioSession:
         return self._process
 
     @property
-    def ProcessId(self):
+    def ProcessId(self) -> int:
         return self._ctl.GetProcessId()
 
     @property
-    def Identifier(self):
+    def Identifier(self) -> str:
         s = self._ctl.GetSessionIdentifier()
         return s
 
     @property
-    def InstanceIdentifier(self):
+    def InstanceIdentifier(self) -> str:
         s = self._ctl.GetSessionInstanceIdentifier()
         return s
 
     @property
-    def State(self):
+    def State(self) -> int:
         s = self._ctl.GetState()
         return s
 
     @property
-    def GroupingParam(self):
+    def GroupingParam(self) -> Any:
         g = self._ctl.GetGroupingParam()
         return g
 
     @GroupingParam.setter
-    def GroupingParam(self, value):
+    def GroupingParam(self, value: Any) -> None:
         self._ctl.SetGroupingParam(value, IID_Empty)
 
     @property
-    def DisplayName(self):
+    def DisplayName(self) -> str:
         """
         Please, note that this returns an empty string if
         the client hadn't called the setter method before.
@@ -164,13 +172,13 @@ class AudioSession:
         return s
 
     @DisplayName.setter
-    def DisplayName(self, value):
+    def DisplayName(self, value: str) -> None:
         s = self._ctl.GetDisplayName()
         if s != value:
             self._ctl.SetDisplayName(value, IID_Empty)
 
     @property
-    def IconPath(self):
+    def IconPath(self) -> str:
         """
         Please, note that this returns an empty string if
         the client hadn't called the setter method before.
@@ -179,28 +187,28 @@ class AudioSession:
         return s
 
     @IconPath.setter
-    def IconPath(self, value):
+    def IconPath(self, value: str) -> None:
         s = self._ctl.GetIconPath()
         if s != value:
             self._ctl.SetIconPath(value, IID_Empty)
 
     @property
-    def SimpleAudioVolume(self):
+    def SimpleAudioVolume(self) -> Any:
         if self._volume is None:
             self._volume = self._ctl.QueryInterface(ISimpleAudioVolume)
         return self._volume
 
-    def channelAudioVolume(self):
+    def channelAudioVolume(self) -> Any:
         if self._channelVolume is None:
             self._channelVolume = self._ctl.QueryInterface(IChannelAudioVolume)
         return self._channelVolume
 
-    def register_notification(self, callback):
+    def register_notification(self, callback: Any) -> None:
         if self._callback is None:
             self._callback = callback
             self._ctl.RegisterAudioSessionNotification(self._callback)
 
-    def unregister_notification(self):
+    def unregister_notification(self) -> None:
         if self._callback is not None:
             self._ctl.UnregisterAudioSessionNotification(self._callback)
             self._callback = None
@@ -212,7 +220,7 @@ class AudioUtilities:
     """
 
     @staticmethod
-    def GetSpeakers():
+    def GetSpeakers() -> AudioDevice | None:
         """
         get the speakers (1st render + multimedia) device
         """
@@ -225,7 +233,7 @@ class AudioUtilities:
         return AudioUtilities.CreateDevice(speakers)
 
     @staticmethod
-    def GetMicrophone():
+    def GetMicrophone() -> Any:
         """
         get the microphone (1st capture + multimedia) device
         """
@@ -238,15 +246,15 @@ class AudioUtilities:
         return microphone
 
     @staticmethod
-    def GetAudioSessionManager():
+    def GetAudioSessionManager() -> Any:
         speakers = AudioUtilities.GetSpeakers()
         if speakers is None:
             return None
         return speakers.AudioSessionManager
 
     @staticmethod
-    def GetAllSessions():
-        audio_sessions = []
+    def GetAllSessions() -> list[AudioSession]:
+        audio_sessions: list[AudioSession] = []
         mgr = AudioUtilities.GetAudioSessionManager()
         if mgr is None:
             return audio_sessions
@@ -263,7 +271,7 @@ class AudioUtilities:
         return audio_sessions
 
     @staticmethod
-    def GetProcessSession(id):
+    def GetProcessSession(id: int) -> AudioSession | None:
         for session in AudioUtilities.GetAllSessions():
             if session.ProcessId == id:
                 return session
@@ -271,7 +279,7 @@ class AudioUtilities:
         return None
 
     @staticmethod
-    def CreateDevice(dev):
+    def CreateDevice(dev: Any | None) -> AudioDevice | None:
         if dev is None:
             return None
         id = dev.GetId()
@@ -299,9 +307,10 @@ class AudioUtilities:
 
     @staticmethod
     def GetAllDevices(
-        data_flow=EDataFlow.eAll.value, device_state=DEVICE_STATE.MASK_ALL.value
-    ):
-        devices = []
+        data_flow: int = EDataFlow.eAll.value,
+        device_state: int = DEVICE_STATE.MASK_ALL.value,
+    ) -> list[AudioDevice]:
+        devices: list[AudioDevice] = []
         deviceEnumerator = comtypes.CoCreateInstance(
             CLSID_MMDeviceEnumerator, IMMDeviceEnumerator, comtypes.CLSCTX_INPROC_SERVER
         )
@@ -316,11 +325,13 @@ class AudioUtilities:
         for i in range(count):
             dev = collection.Item(i)
             if dev is not None:
-                devices.append(AudioUtilities.CreateDevice(dev))
+                device = AudioUtilities.CreateDevice(dev)
+                if device is not None:
+                    devices.append(device)
         return devices
 
     @staticmethod
-    def GetDeviceEnumerator():
+    def GetDeviceEnumerator() -> Any:
         """
         Get an instance of IMMDeviceEnumerator.
         """
@@ -330,7 +341,19 @@ class AudioUtilities:
         return device_enumerator
 
     @staticmethod
-    def GetEndpointDataFlow(devId, outputType=0):
+    @overload
+    def GetEndpointDataFlow(devId: str, outputType: Literal[0] = 0) -> str: ...
+
+    @staticmethod
+    @overload
+    def GetEndpointDataFlow(devId: str, outputType: Literal[1]) -> int: ...
+
+    @staticmethod
+    @overload
+    def GetEndpointDataFlow(devId: str, outputType: int) -> str | int: ...
+
+    @staticmethod
+    def GetEndpointDataFlow(devId: str, outputType: int = 0) -> str | int:
         """
         Get data flow information of a given endpoint.
 
@@ -359,12 +382,12 @@ class AudioUtilities:
             return DataFlow[value]
 
     @staticmethod
-    def SetDefaultDevice(devId, roles=None):
+    def SetDefaultDevice(devId: str, roles: Iterable[ERole] | None = None) -> None:
         if roles is None:
             roles = [ERole.eConsole]
 
         # Try newer IPolicyConfig first, fall back to Vista interface if unavailable
-        policy_config = None
+        policy_config: Any = None
         try:
             policy_config = comtypes.CoCreateInstance(
                 CLSID_CPolicyConfigClient, IPolicyConfig, comtypes.CLSCTX_ALL

@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Add Mypy enforcement and initial annotations for constants and high-level utility wrappers
+
 ## [20260927]
 
 ### Fixed
