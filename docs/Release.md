@@ -5,11 +5,21 @@ This document describes the release process.
 
 ## Main branch & CHANGELOG.md
 
-Releases use calendar versions in `YYYYMMDD` format. Start from an up-to-date
+Releases use calendar versions in `YYYYMMDD` format. Define the version once for
+your shell:
+
+```bash
+VERSION=YYYYMMDD
+```
+
+```powershell
+$VERSION = "YYYYMMDD"
+```
+
+The remaining commands work in Bash and PowerShell. Start from an up-to-date
 `main` branch:
 
-```batch
-set VERSION=YYYYMMDD
+```console
 git switch main
 git pull --ff-only origin main
 ```
@@ -21,7 +31,7 @@ set `[project].version` in [pyproject.toml](/pyproject.toml) to the same value.
 
 Install the locked contributor environment, then run the test and lint checks:
 
-```batch
+```console
 uv lock
 uv sync --locked
 uv run tox
@@ -30,27 +40,27 @@ uv run tox -e lint-check
 
 Build and inspect the distributions with the locked release tools:
 
-```batch
+```console
 uv sync --locked --only-group release
 uv run --no-sync python -m build
 uv run --no-sync python -m twine check dist/*
-tar -tvf dist\pycaw-*.tar.gz
+tar -tvf dist/pycaw-*.tar.gz
 ```
 
 Commit and push the release preparation to `main`:
 
-```batch
+```console
 git add CHANGELOG.md pyproject.toml uv.lock
-git commit -m ":bookmark: v%VERSION%"
+git commit -m ":bookmark: v${VERSION}"
 git push origin main
 ```
 
 Wait for the `main` branch workflows to pass. Tag that verified commit with an
 annotated tag, then push only the new tag:
 
-```batch
-git tag -a v%VERSION% -m "v%VERSION%"
-git push origin v%VERSION%
+```console
+git tag -a "v${VERSION}" -m "v${VERSION}"
+git push origin "v${VERSION}"
 ```
 
 ## Publish to PyPI
@@ -87,10 +97,10 @@ release" field.
 
 ## Post release
 Add a new `[Unreleased]` section to [CHANGELOG.md](/CHANGELOG.md), update the
-`[project].version` in [pyproject.toml](/pyproject.toml) to `%VERSION%.dev0`,
+`[project].version` in [pyproject.toml](/pyproject.toml) to `${VERSION}.dev0`,
 then commit and push the next development version:
 
-```batch
+```console
 uv lock
 git add CHANGELOG.md pyproject.toml uv.lock
 git commit -m ":construction: Post release dev0"
