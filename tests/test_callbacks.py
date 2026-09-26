@@ -7,7 +7,11 @@ from pycaw.api.endpointvolume.depend import (
     AUDIO_VOLUME_NOTIFICATION_DATA,
     PAUDIO_VOLUME_NOTIFICATION_DATA,
 )
-from pycaw.callbacks import AudioEndpointVolumeCallback, AudioSessionEvents
+from pycaw.callbacks import (
+    AudioEndpointVolumeCallback,
+    AudioSessionEvents,
+    MMNotificationClient,
+)
 
 
 class RecordingEndpointVolumeCallback(AudioEndpointVolumeCallback):
@@ -31,6 +35,13 @@ class RecordingSessionEvents(AudioSessionEvents):
             changed_channel,
             event_context,
         )
+
+
+class RecordingNotificationClient(MMNotificationClient):
+    def on_default_device_changed(
+        self, flow, flow_id, role, role_id, default_device_id
+    ):
+        self.received = (flow, flow_id, role, role_id, default_device_id)
 
 
 @pytest.mark.parametrize("channel_count", [1, 2, 8, 9, 12, 17])
@@ -81,3 +92,11 @@ def test_session_callback_copies_reported_channel_volumes_to_list():
     assert channel_volumes == pytest.approx(expected_volumes)
     assert changed_channel == 11
     assert received_context is event_context
+
+
+def test_default_device_callback_allows_missing_device():
+    callback = RecordingNotificationClient()
+
+    callback.OnDefaultDeviceChanged(0, 1, None)
+
+    assert callback.received == ("eRender", 0, "eMultimedia", 1, None)

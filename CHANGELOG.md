@@ -5,6 +5,7 @@
 ### Added
 
 - Add Mypy enforcement and initial annotations for constants and high-level utility wrappers
+- Expand Mypy coverage to public callback adapters and subclass hooks
 
 ## [20260927]
 

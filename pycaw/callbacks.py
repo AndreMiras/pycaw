@@ -1,4 +1,5 @@
 from ctypes import addressof, c_float, pointer
+from typing import Any
 
 from comtypes import COMObject
 
@@ -8,8 +9,12 @@ from pycaw.api.audiopolicy import (
     IAudioSessionNotification,
 )
 from pycaw.api.endpointvolume import IAudioEndpointVolumeCallback
-from pycaw.api.endpointvolume.depend import AUDIO_VOLUME_NOTIFICATION_DATA
+from pycaw.api.endpointvolume.depend import (
+    AUDIO_VOLUME_NOTIFICATION_DATA,
+    PAUDIO_VOLUME_NOTIFICATION_DATA,
+)
 from pycaw.api.mmdeviceapi import IMMNotificationClient
+from pycaw.api.mmdeviceapi.depend import PROPERTYKEY
 from pycaw.utils import AudioSession
 
 
@@ -58,12 +63,12 @@ class AudioSessionNotification(COMObject):
 
     _com_interfaces_ = (IAudioSessionNotification,)
 
-    def OnSessionCreated(self, new_session):
+    def OnSessionCreated(self, new_session: Any) -> None:
         ctl2 = new_session.QueryInterface(IAudioSessionControl2)
         new_session = AudioSession(ctl2)
         self.on_session_created(new_session)
 
-    def on_session_created(self, new_session):
+    def on_session_created(self, new_session: AudioSession) -> None:
         """
         Called when a new audio session is created.
 
@@ -118,35 +123,45 @@ class AudioSessionEvents(COMObject):
         "ExclusiveModeOverride",
     )
 
-    def OnDisplayNameChanged(self, new_display_name, event_context):
+    def OnDisplayNameChanged(self, new_display_name: str, event_context: Any) -> None:
         self.on_display_name_changed(new_display_name, event_context)
 
-    def OnIconPathChanged(self, new_icon_path, event_context):
+    def OnIconPathChanged(self, new_icon_path: str, event_context: Any) -> None:
         self.on_icon_path_changed(new_icon_path, event_context)
 
-    def OnSimpleVolumeChanged(self, new_volume, new_mute, event_context):
+    def OnSimpleVolumeChanged(
+        self, new_volume: float, new_mute: int, event_context: Any
+    ) -> None:
         self.on_simple_volume_changed(new_volume, new_mute, event_context)
 
     def OnChannelVolumeChanged(
-        self, channel_count, new_channel_volume_array, changed_channel, event_context
-    ):
+        self,
+        channel_count: int,
+        new_channel_volume_array: Any,
+        changed_channel: int,
+        event_context: Any,
+    ) -> None:
         channel_volumes = list(new_channel_volume_array[:channel_count])
         self.on_channel_volume_changed(
             channel_count, channel_volumes, changed_channel, event_context
         )
 
-    def OnGroupingParamChanged(self, new_grouping_param, event_context):
+    def OnGroupingParamChanged(
+        self, new_grouping_param: Any, event_context: Any
+    ) -> None:
         self.on_grouping_param_changed(new_grouping_param, event_context)
 
-    def OnStateChanged(self, new_state_id):
+    def OnStateChanged(self, new_state_id: int) -> None:
         new_state = self.AudioSessionState[new_state_id]
         self.on_state_changed(new_state, new_state_id)
 
-    def OnSessionDisconnected(self, disconnect_reason_id):
+    def OnSessionDisconnected(self, disconnect_reason_id: int) -> None:
         disconnect_reason = self.AudioSessionDisconnectReason[disconnect_reason_id]
         self.on_session_disconnected(disconnect_reason, disconnect_reason_id)
 
-    def on_display_name_changed(self, new_display_name, event_context):
+    def on_display_name_changed(
+        self, new_display_name: str, event_context: Any
+    ) -> None:
         """
         Called when the audio session display name changes.
 
@@ -160,11 +175,13 @@ class AudioSessionEvents(COMObject):
         """
         pass
 
-    def on_icon_path_changed(self, new_icon_path, event_context):
+    def on_icon_path_changed(self, new_icon_path: str, event_context: Any) -> None:
         """pycaw user interface"""
         pass
 
-    def on_simple_volume_changed(self, new_volume, new_mute, event_context):
+    def on_simple_volume_changed(
+        self, new_volume: float, new_mute: int, event_context: Any
+    ) -> None:
         """
         Called when the audio session volume or mute state changes.
 
@@ -181,8 +198,12 @@ class AudioSessionEvents(COMObject):
         pass
 
     def on_channel_volume_changed(
-        self, channel_count, new_channel_volume_array, changed_channel, event_context
-    ):
+        self,
+        channel_count: int,
+        new_channel_volume_array: list[float],
+        changed_channel: int,
+        event_context: Any,
+    ) -> None:
         """
         Called when an audio session channel volume changes.
 
@@ -201,11 +222,13 @@ class AudioSessionEvents(COMObject):
         """
         pass
 
-    def on_grouping_param_changed(self, new_grouping_param, event_context):
+    def on_grouping_param_changed(
+        self, new_grouping_param: Any, event_context: Any
+    ) -> None:
         """pycaw user interface"""
         pass
 
-    def on_state_changed(self, new_state, new_state_id):
+    def on_state_changed(self, new_state: str, new_state_id: int) -> None:
         """
         Called when the audio session state changes.
 
@@ -218,7 +241,9 @@ class AudioSessionEvents(COMObject):
         """
         pass
 
-    def on_session_disconnected(self, disconnect_reason, disconnect_reason_id):
+    def on_session_disconnected(
+        self, disconnect_reason: str, disconnect_reason_id: int
+    ) -> None:
         """
         Called when the audio session is disconnected.
 
@@ -262,7 +287,7 @@ class AudioEndpointVolumeCallback(COMObject):
 
     _com_interfaces_ = (IAudioEndpointVolumeCallback,)
 
-    def OnNotify(self, pNotify):
+    def OnNotify(self, pNotify: PAUDIO_VOLUME_NOTIFICATION_DATA) -> None:
         """Fired by Windows, when the audio device volume/mute changed"""
 
         # get the data of the PAUDIO_VOLUME_NOTIFICATION_DATA Structure
@@ -285,7 +310,14 @@ class AudioEndpointVolumeCallback(COMObject):
             channel_volumes,
         )
 
-    def on_notify(self, new_volume, new_mute, event_context, channels, channel_volumes):
+    def on_notify(
+        self,
+        new_volume: float,
+        new_mute: int,
+        event_context: Any,
+        channels: int,
+        channel_volumes: list[float],
+    ) -> None:
         """
         Called when the audio endpoint volume or mute state changes.
 
@@ -347,29 +379,38 @@ class MMNotificationClient(COMObject):
     Roles = ["eConsole", "eMultimedia", "eCommunications", "ERole_enum_count"]
     DataFlow = ["eRender", "eCapture", "eAll", "EDataFlow_enum_count"]
 
-    def OnDefaultDeviceChanged(self, flow_id, role_id, default_device_id):
+    def OnDefaultDeviceChanged(
+        self, flow_id: int, role_id: int, default_device_id: str | None
+    ) -> None:
         flow = self.DataFlow[flow_id]
         role = self.Roles[role_id]
         self.on_default_device_changed(flow, flow_id, role, role_id, default_device_id)
 
-    def OnDeviceAdded(self, added_device_id):
+    def OnDeviceAdded(self, added_device_id: str) -> None:
         self.on_device_added(added_device_id)
 
-    def OnDeviceRemoved(self, removed_device_id):
+    def OnDeviceRemoved(self, removed_device_id: str) -> None:
         self.on_device_removed(removed_device_id)
 
-    def OnDeviceStateChanged(self, device_id, new_state_id):
+    def OnDeviceStateChanged(self, device_id: str, new_state_id: int) -> None:
         new_state = self.DeviceStates[new_state_id]
         self.on_device_state_changed(device_id, new_state, new_state_id)
 
-    def OnPropertyValueChanged(self, device_id, property_struct):
+    def OnPropertyValueChanged(
+        self, device_id: str, property_struct: PROPERTYKEY
+    ) -> None:
         fmtid = property_struct.fmtid
         pid = property_struct.pid
         self.on_property_value_changed(device_id, property_struct, fmtid, pid)
 
     def on_default_device_changed(
-        self, flow, flow_id, role, role_id, default_device_id
-    ):
+        self,
+        flow: str,
+        flow_id: int,
+        role: str,
+        role_id: int,
+        default_device_id: str | None,
+    ) -> None:
         """
         Called when the default audio device for a role changes.
 
@@ -383,12 +424,13 @@ class MMNotificationClient(COMObject):
             Device role as string (e.g., "eConsole", "eMultimedia")
         role_id : int
             Numeric role code
-        default_device_id : str
-            Device ID of the new default device
+        default_device_id : str or None
+            Device ID of the new default device, or None when no endpoint is
+            available for the role
         """
         pass
 
-    def on_device_added(self, added_device_id):
+    def on_device_added(self, added_device_id: str) -> None:
         """
         Called when a new audio endpoint device is added.
 
@@ -399,7 +441,7 @@ class MMNotificationClient(COMObject):
         """
         pass
 
-    def on_device_removed(self, removed_device_id):
+    def on_device_removed(self, removed_device_id: str) -> None:
         """
         Called when an audio endpoint device is removed.
 
@@ -410,7 +452,9 @@ class MMNotificationClient(COMObject):
         """
         pass
 
-    def on_device_state_changed(self, device_id, new_state, new_state_id):
+    def on_device_state_changed(
+        self, device_id: str, new_state: str, new_state_id: int
+    ) -> None:
         """
         Called when an audio endpoint device state changes.
 
@@ -425,7 +469,13 @@ class MMNotificationClient(COMObject):
         """
         pass
 
-    def on_property_value_changed(self, device_id, property_struct, fmtid, pid):
+    def on_property_value_changed(
+        self,
+        device_id: str,
+        property_struct: PROPERTYKEY,
+        fmtid: Any,
+        pid: int,
+    ) -> None:
         """
         Called when a device property value changes.
 
