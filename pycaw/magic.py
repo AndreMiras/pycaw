@@ -28,7 +28,6 @@ that to need to match the apartment to the component.
 But since we are only accessing COM components,
 it works using a MTA client to access both STA and MTA COM objects.
 
-isort:skip_file
 """
 
 import atexit
@@ -37,9 +36,8 @@ import sys
 import warnings
 
 # ____ COM WITH MULTITHREADED APARTMENT ____
-sys.coinit_flags = 0  # noqa: E402
+sys.coinit_flags = 0
 
-# flake8: noqa: E402
 import psutil
 
 from ctypes import pointer
@@ -319,8 +317,7 @@ class MagicManager(COMObject):
         while cls.expired_magic_root_sessions:
             to_remove = cls.expired_magic_root_sessions.pop()
             log.info(
-                ":: :: :: release <POINTER(IAudioSessionControl2)/> "
-                f"from {to_remove}"
+                f":: :: :: release <POINTER(IAudioSessionControl2)/> from {to_remove}"
             )
 
             # at this point it is already unregistered ...

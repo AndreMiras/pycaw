@@ -46,7 +46,7 @@ class Client(MMNotificationClient):
         value = self._find_property(device_id, fmtid, pid)
         print(
             f"on_property_value_changed: key={key} "
-            f"purpose=\"{known_keys.get(key, '?')}\" value={value}",
+            f'purpose="{known_keys.get(key, "?")}" value={value}',
         )
 
     def _find_property(self, device_id: str, fmtid: GUID, pid: int) -> str | None:
@@ -72,8 +72,7 @@ class Client(MMNotificationClient):
                 return value.GetValue()
             except COMError as exc:
                 print(
-                    f"COMError attempting to get property {j} "
-                    f"from device {dev}: {exc}"
+                    f"COMError attempting to get property {j} from device {dev}: {exc}"
                 )
                 continue
 

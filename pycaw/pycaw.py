@@ -5,7 +5,7 @@ Python wrapper around the Core Audio Windows API.
 # import here all newly split up modules,
 # to keep backwards compatibility
 
-# flake8: noqa
+# ruff: noqa: F401
 # yes, the imports are unused
 
 from pycaw.api.audioclient import IAudioClient, ISimpleAudioVolume

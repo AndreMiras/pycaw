@@ -41,9 +41,7 @@ class MyCustomCallback(AudioSessionEvents):
         )
 
     def on_state_changed(self, new_state, new_state_id):
-        print(
-            ":: OnStateChanged callback\n" f"new_state: {new_state}; id: {new_state_id}"
-        )
+        print(f":: OnStateChanged callback\nnew_state: {new_state}; id: {new_state_id}")
 
     def on_session_disconnected(self, disconnect_reason, disconnect_reason_id):
         print(

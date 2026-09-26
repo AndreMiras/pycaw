@@ -390,6 +390,5 @@ class AudioUtilities:
             hr = policy_config.SetDefaultEndpoint(devId, role.value)
             if hr != 0:
                 raise OSError(
-                    f"SetDefaultEndpoint failed for role {role} "
-                    f"with HRESULT {hr:#x}"
+                    f"SetDefaultEndpoint failed for role {role} with HRESULT {hr:#x}"
                 )
