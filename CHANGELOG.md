@@ -1,5 +1,8 @@
 # Change Log
 
+## [Unreleased]
+    - Keep installed-wheel smoke validation synchronized with project metadata (@AndreMiras)
+
 ## [20260926]
     - Drop Python 3.8 and 3.9, support Python 3.10-3.14, and declare tested comtypes 1.4.8 and psutil 5.9.0 minimum versions (@AndreMiras)
     - Modernize packaging and development with PEP 621, Ruff, locked uv/Tox tooling, installed-wheel validation, and PyPI Trusted Publishing (@AndreMiras)

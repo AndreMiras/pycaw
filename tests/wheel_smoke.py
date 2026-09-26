@@ -2,13 +2,18 @@ import importlib.metadata
 import pathlib
 import sys
 
+import tomllib
+
 import pycaw
 
 
 def main():
-    source_package = pathlib.Path(sys.argv[1], "pycaw").resolve()
+    source_root = pathlib.Path(sys.argv[1]).resolve()
+    source_package = source_root / "pycaw"
     installed_package = pathlib.Path(pycaw.__file__).resolve().parent
     metadata = importlib.metadata.metadata("pycaw")
+    with (source_root / "pyproject.toml").open("rb") as pyproject_file:
+        expected_version = tomllib.load(pyproject_file)["project"]["version"]
 
     assert installed_package != source_package
     assert not installed_package.is_relative_to(source_package)
@@ -21,7 +26,7 @@ def main():
     }
     assert installed_modules == source_modules
 
-    assert importlib.metadata.version("pycaw") == "20260921.dev0"
+    assert importlib.metadata.version("pycaw") == expected_version
     assert metadata["Requires-Python"] == ">=3.10"
     assert set(metadata.get_all("Requires-Dist")) == {
         "comtypes>=1.4.8",
