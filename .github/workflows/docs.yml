@@ -18,16 +18,16 @@ jobs:
         with:
           python-version: '3.14'
 
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          pip install -r docs-requirements.txt
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.2.0
+        with:
+          enable-cache: true
+
+      - name: Install locked documentation dependencies
+        run: uv sync --locked --no-default-groups --group docs --python 3.14
 
       - name: Build documentation
-        run: |
-          cd docs
-          make html
-        shell: bash
+        run: uv run --no-sync sphinx-build -M html docs/source docs/_build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

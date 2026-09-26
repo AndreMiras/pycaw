@@ -1,26 +1,69 @@
 name: PyPI release
 
-on: [push]
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
 
 jobs:
-  pypi:
+  build:
     runs-on: windows-2022
     steps:
-    - uses: actions/checkout@v7
-    - uses: actions/setup-python@v7
-      with:
-        python-version: '3.14'
-    - name: Install dependencies
-      run: python -m pip install --upgrade build twine
-    - name: Build
-      run: |
-        python -m build
-        python -m twine check dist/*
-    - name: Publish package
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        python -m pip install twine
-        python -m twine upload dist/*
+      - uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+
+      - name: Validate release tag and project version
+        run: >-
+          python -c "import os, re, tomllib;
+          tag = os.environ['GITHUB_REF_NAME'];
+          assert re.fullmatch(r'v[0-9]{8}', tag), f'invalid release tag: {tag}';
+          version = tomllib.load(open('pyproject.toml', 'rb'))['project']['version'];
+          assert version == tag[1:], f'tag {tag} does not match project version {version}'"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.2.0
+        with:
+          enable-cache: true
+
+      - name: Install locked release dependencies
+        run: uv sync --locked --only-group release --python 3.14
+
+      - name: Build and check distributions
+        run: |
+          uv run --no-sync python -m build
+          uv run --no-sync python -m twine check dist/*
+
+      - name: Upload distributions
+        uses: actions/upload-artifact@v6
+        with:
+          name: python-package-distributions
+          path: |
+            dist/*.whl
+            dist/*.tar.gz
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/pycaw
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v6
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Publish distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
