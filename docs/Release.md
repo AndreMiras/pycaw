@@ -15,22 +15,22 @@ git pull --ff-only origin main
 
 Make sure [CHANGELOG.md](/CHANGELOG.md) is up to date and follows the
 https://keepachangelog.com guidelines. Rename its `[Unreleased]` section to
-`[YYYYMMDD]`, then set the `version` string in [setup.py](/setup.py) to
-`YYYYMMDD`.
+`[YYYYMMDD]`, then set `[project].version` in
+[pyproject.toml](/pyproject.toml) to `YYYYMMDD`.
 
 Run the test, lint, and package checks before committing:
 
 ```batch
 tox
 tox -e lint-check
-python setup.py sdist bdist_wheel
+python -m build
 python -m twine check dist/*
 ```
 
 Commit and push the release preparation to `main`:
 
 ```batch
-git add CHANGELOG.md setup.py
+git add CHANGELOG.md pyproject.toml
 git commit -m ":bookmark: vYYYYMMDD"
 git push origin main
 ```
@@ -50,7 +50,7 @@ Confirm that its build, Twine check, and upload steps pass.
 If needed below are the instructions to perform it manually.
 Build it:
 ```batch
-python setup.py sdist bdist_wheel
+python -m build
 python -m twine check dist/*
 ```
 Check archive content:
@@ -71,11 +71,11 @@ release" field.
 
 ## Post release
 Add a new `[Unreleased]` section to [CHANGELOG.md](/CHANGELOG.md), update the
-[setup.py](/setup.py) version string to `YYYYMMDD.dev0`, then commit and push
-the next development version:
+`[project].version` in [pyproject.toml](/pyproject.toml) to `YYYYMMDD.dev0`,
+then commit and push the next development version:
 
 ```batch
-git add CHANGELOG.md setup.py
+git add CHANGELOG.md pyproject.toml
 git commit -m ":construction: Post release dev0"
 git push origin main
 ```

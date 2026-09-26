@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pycaw"
+version = "20260921.dev0"
+description = "Python Core Audio Windows Library"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Andre Miras" }]
+dependencies = [
+  "comtypes>=1.4.8",
+  "psutil>=5.9.0",
+]
+classifiers = [
+  "Operating System :: Microsoft :: Windows",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
+
+[project.urls]
+Homepage = "https://github.com/AndreMiras/pycaw"
+Documentation = "https://andremiras.github.io/pycaw/"
+Repository = "https://github.com/AndreMiras/pycaw.git"
+Issues = "https://github.com/AndreMiras/pycaw/issues"
+Changelog = "https://github.com/AndreMiras/pycaw/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+include = ["pycaw*"]

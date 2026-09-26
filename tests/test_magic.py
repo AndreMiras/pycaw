@@ -176,9 +176,10 @@ class TestMagicManager:
     def test_activate_magic(self):
         MagicManager.magic_activated = None
         app_execs = {"msedge.exe"}
-        with patch_atexit_register() as m_register, warnings.catch_warnings(
-            record=True
-        ) as w:
+        with (
+            patch_atexit_register() as m_register,
+            warnings.catch_warnings(record=True) as w,
+        ):
             MagicApp(app_execs)
         assert m_register.called
         assert len(w) == 1
