@@ -41,7 +41,7 @@ jobs:
           uv run --no-sync python -m twine check dist/*
 
       - name: Upload distributions
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: python-package-distributions
           path: |
