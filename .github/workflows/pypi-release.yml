@@ -28,7 +28,7 @@ jobs:
           assert version == tag[1:], f'tag {tag} does not match project version {version}'"
 
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.2.0
+        uses: astral-sh/setup-uv@v10.3.0
         with:
           enable-cache: true
 
