@@ -1,2 +1,2 @@
-comtypes==1.4.8
+comtypes==1.4.17
 psutil==5.9.0
