@@ -6,6 +6,7 @@
 
 - Add Mypy enforcement and initial annotations for constants and high-level utility wrappers
 - Expand Mypy coverage to public callback adapters and subclass hooks
+- Add AudioDevice.muted property for reading and setting the mute state as a bool (@ahmetberber)
 
 ## [20260927]
 
