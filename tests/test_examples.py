@@ -9,7 +9,6 @@ from examples import (
     simple_audio_volume_example,
     volume_by_process_example,
 )
-from pycaw.pycaw import AudioUtilities
 from tests.test_core import captured_output
 
 
@@ -50,14 +49,31 @@ class TestExamples:
         volume.SetMasterVolumeLevel.assert_called_once_with(-20.0, None)
 
     def test_simple_audio_volume_example(self):
-        with captured_output() as (out, err):
-            simple_audio_volume_example.main()
-        output = out.getvalue()
-        lines = output.strip().split("\n")
-        sessions = AudioUtilities.GetAllSessions()
-        assert len(lines) == len(sessions)
-        for line in lines:
-            assert "volume.GetMute(): 0" in line or "volume.GetMute(): 1" in line
+        unmuted_volume = mock.Mock(spec_set=["GetMute", "SetMute"])
+        unmuted_volume.GetMute.return_value = 0
+        unmuted = mock.Mock(spec_set=["SimpleAudioVolume"])
+        unmuted.SimpleAudioVolume = unmuted_volume
+
+        muted_volume = mock.Mock(spec_set=["GetMute", "SetMute"])
+        muted_volume.GetMute.return_value = 1
+        muted = mock.Mock(spec_set=["SimpleAudioVolume"])
+        muted.SimpleAudioVolume = muted_volume
+
+        with mock.patch.object(
+            simple_audio_volume_example.AudioUtilities,
+            "GetAllSessions",
+            return_value=[unmuted, muted],
+        ) as get_all_sessions:
+            with captured_output() as (out, err):
+                simple_audio_volume_example.main()
+
+        assert out.getvalue().splitlines() == [
+            "volume.GetMute(): 0",
+            "volume.GetMute(): 1",
+        ]
+        get_all_sessions.assert_called_once_with()
+        unmuted_volume.SetMute.assert_called_once_with(1, None)
+        muted_volume.SetMute.assert_called_once_with(1, None)
 
     def test_volume_by_process_example(self):
         chrome_volume = mock.Mock(spec_set=["SetMute"])

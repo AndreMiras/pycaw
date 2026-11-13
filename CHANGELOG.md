@@ -7,6 +7,10 @@
 - Add Mypy enforcement and initial annotations for constants and high-level utility wrappers
 - Expand Mypy coverage to public callback adapters and subclass hooks
 
+### Fixed
+
+- Stop the simple audio volume example test from muting every audio session on the host, refs #65 (@ahmetberber)
+
 ## [20260927]
 
 ### Fixed
