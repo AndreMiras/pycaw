@@ -295,6 +295,21 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">EndpointVolume</span><span class="o">.</span><span class="n">SetMasterVolumeLevelScalar</span><span class="p">(</span><span class="n">percent</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">muted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Whether this device is muted, as a plain `bool`.</span>
+
+<span class="sd">        Convenience wrapper around `GetMute()` / `SetMute()`, which work</span>
+<span class="sd">        with the Win32 `BOOL` integers 0 and 1. Muting leaves the volume</span>
+<span class="sd">        level untouched, so `volume_percent` reads the same before and after.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EndpointVolume</span><span class="o">.</span><span class="n">GetMute</span><span class="p">())</span>
+
+    <span class="nd">@muted</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">muted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">muted</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EndpointVolume</span><span class="o">.</span><span class="n">SetMute</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="n">muted</span><span class="p">)),</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">AudioSessionManager</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_audio_session_manager</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># win7+ only</span>

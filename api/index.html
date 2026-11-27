@@ -365,6 +365,15 @@ If outputType=1, returns the numeric value (0-3).</p>
 <dd></dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="pycaw.pycaw.AudioDevice.muted">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">muted</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><span class="pre">bool</span></a></span><a class="headerlink" href="#pycaw.pycaw.AudioDevice.muted" title="Link to this definition"></a></dt>
+<dd><p>Whether this device is muted, as a plain <cite>bool</cite>.</p>
+<p>Convenience wrapper around <cite>GetMute()</cite> / <cite>SetMute()</cite>, which work
+with the Win32 <cite>BOOL</cite> integers 0 and 1. Muting leaves the volume
+level untouched, so <cite>volume_percent</cite> reads the same before and after.</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="pycaw.pycaw.AudioDevice.volume_percent">
 <span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">volume_percent</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#pycaw.pycaw.AudioDevice.volume_percent" title="Link to this definition"></a></dt>
 <dd><p>Master volume of this device as a percentage (0.0-100.0), the same
