@@ -87,6 +87,25 @@ class TestCore:
         device.volume_percent = -10
         endpoint.SetMasterVolumeLevelScalar.assert_called_with(0.0, None)
 
+    def test_muted(self):
+        """
+        muted maps the endpoint's BOOL mute state (0/1) to a plain bool and
+        the setter accepts any truthy or falsy value.
+        """
+        device = AudioDevice("id", AudioDeviceState.Active, {}, mock.Mock())
+        endpoint = mock.Mock()
+        device._volume = endpoint
+        endpoint.GetMute = mock.Mock(return_value=0)
+        assert device.muted is False
+        endpoint.GetMute = mock.Mock(return_value=1)
+        assert device.muted is True
+        device.muted = True
+        endpoint.SetMute.assert_called_with(1, None)
+        device.muted = False
+        endpoint.SetMute.assert_called_with(0, None)
+        device.muted = 1
+        endpoint.SetMute.assert_called_with(1, None)
+
     def test_audio_session_notification_lifecycle(self):
         control = mock.Mock()
         session = AudioSession(control)

@@ -89,6 +89,21 @@ class AudioDevice:
         self.EndpointVolume.SetMasterVolumeLevelScalar(percent / 100, None)
 
     @property
+    def muted(self) -> bool:
+        """
+        Whether this device is muted, as a plain `bool`.
+
+        Convenience wrapper around `GetMute()` / `SetMute()`, which work
+        with the Win32 `BOOL` integers 0 and 1. Muting leaves the volume
+        level untouched, so `volume_percent` reads the same before and after.
+        """
+        return bool(self.EndpointVolume.GetMute())
+
+    @muted.setter
+    def muted(self, muted: bool) -> None:
+        self.EndpointVolume.SetMute(int(bool(muted)), None)
+
+    @property
     def AudioSessionManager(self) -> Any:
         if self._audio_session_manager is None:
             # win7+ only
